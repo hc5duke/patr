@@ -4,10 +4,10 @@ const API_KEY = "ea1d492fa9803aa760d8039ccb5f73ee";
 
 chrome.extension.onRequest.addListener(
 	function( request, sender, sendResponse) {
-	console.log("Got a request...");
-		console.log( sender.tab ?
-				"from a content script: " + sender.tab.url :
-				"from the extension");
+	//console.log("Got a request...");
+		//console.log( sender.tab ?
+				//"from a content script: " + sender.tab.url :
+				//"from the extension");
 
 	if( request.type == "getSizes"){
 		console.log("Got a request.type of 'getSizes'...\nRunning getSizes!");
