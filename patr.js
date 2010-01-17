@@ -2,35 +2,13 @@ var flickrPage = {};
 flickrPage.lbImage = new Image();
 flickrPage.lightbox = new Object();
 flickrPage.lbImage.onload = function() { flickrPage.lbImage.loaded = true; }
-var imgSrc;
 
-imgSrc = document.querySelector("link[rel='image_src']").href;
 flickrPage.image_src = document.querySelector("link[rel='image_src']").href;
 flickrPage.url = document.location;
 flickrPage.url = document.querySelector("link[rel='canonical']").href
 
-imgSrc = imgSrc.replace("_m", "_b");
-//alert( imgSrc );
 
-var lbImage = new Image();
-lbImage.src = imgSrc;
-//lbImage.src = getImageSrc();
-lbImage.id = 'lbImage';
-lbImage.style.webkitBoxShadow = '0px 0px 40px #000';
-lbImage.style.webkitTransform = 'rotate(10deg)';
-lbImage.style.webkitBorderRadius = '50px';
-lbImage.style.webkitTransform = 'scale(.5) rotate(25deg)';
-
-
-//document.body.appendChild( lbImage );
-// Need to run a check of available sizes.
-// Two ways to accomplish this:
-// 1. The correct way using the API
-// 2. The incorrect way scraping the page and testing results.
-// A combination of the two may be required,
-// as the API sometimes misses _o or _b sizes.
-
-//var tmp = flickrPage.url.pathname.split("/");
+// Find a more elegant way of determining current photo id...
 var tmp = flickrPage.url.split("/");
 flickrPage.photo_id = tmp[5];
 console.log( "flickrPage.photo_id: " + flickrPage.photo_id );
@@ -40,23 +18,8 @@ flickrPage.lightbox.bg = document.createElement('div');
 
 flickrPage.lightbox.div.setAttribute( 'class', 'pattr-lightbox');
 flickrPage.lightbox.bg.id = 'pattr-lightbox-bg';
-/*
-lb.style.position = 'fixed';
-lb.style.top = '0px';
-lb.style.backgroundColor = 'black';
-lb.style.left = '0px';
-lb.style.opacity = '0.1';
-lb.style.zIndex = '10001';
-lb.style.width = '100%';
-lb.innerHTML = 'This is a TEST';
-lb.innerHTML = 'clientHeight: ' + window.innerHeight;
-lb.style.webkitTransition = 'opacity 1s linear';
-//lb.style.height = window.innerHeight;
-lb.style.height = '100%';
-*/
 
-//document.body.appendChild( lb );
-
+// Handle keypress events
 function handleKey(e){
 	// charCode 108 = l
 	// charCode  76 = L
@@ -69,14 +32,6 @@ document.addEventListener('keypress', handleKey, false);
 
 getImageSrc();
 
-//lbImage.src = "http://farm5.static.flickr.com/4040/4275722084_bb29edcde5_b.jpg";
-//flickrPage.lbImage.style.webkitBorderRadius = '50px';
-//lbImage.style.webkitTransform = 'rotateY( 45deg )';
-//flickrPage.lbImage.style.opacity = '0.5';
-//flickrPage.lbImage.style.webkitTransform = 'scale(.25)';
-//document.body.appendChild( flickrPage.lbImage );
-//flickrPage.lbImage.style.webkitBoxShadow = '0px 0px 30px #000';
-//flickrPage.lbImage.style.marginTop = '50px';
 flickrPage.lbImage.id = "pattr-lightbox-image";
 
 function getImageSrc(){
@@ -101,7 +56,6 @@ function getImageSrc(){
 		console.log( flickrPage.lbImage.src );
 	}
 	)
-	//alert("Inside getImageSrc()!");
 }
 
 
@@ -115,7 +69,6 @@ function doLightBox() {
 	// Want to implement some checking here (is image loaded, etc...)
 	// If it's not loaded yet, use the medium sized version from the page itself, scaled.
 	console.log("Starting lightbox up...");
-	//alert( flickrPage.lbImage.loaded );
 
 	if( flickrPage.lbImage.height > window.innerHeight ){
 		flickrPage.lbImage.style.marginTop = '20px';
