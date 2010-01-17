@@ -1,4 +1,5 @@
 #summary Welcome
+#labels Featured
 
 = Patr - Pats Flickr extension =
 
