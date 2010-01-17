@@ -3,12 +3,8 @@
 
 = Introduction =
 
-Add your content here.
+Where we would like to go in the future, and improvements that are to be made.
 
+= Configuration =
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+I think it best to begin separating the lightbox functions out into their own object, as well as common page variables that might have to be accessed by multiple objects for later functionality.
