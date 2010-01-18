@@ -1,0 +1,1 @@
+// flickrpage.js
