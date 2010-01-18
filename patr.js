@@ -3,6 +3,7 @@ flickrPage.lbImage = new Image();
 flickrPage.lightbox = new Object();
 flickrPage.lbImage.onload = function() { flickrPage.lbImage.loaded = true; }
 
+
 flickrPage.image_src = document.querySelector("link[rel='image_src']").href;
 flickrPage.url = document.location;
 flickrPage.url = document.querySelector("link[rel='canonical']").href
