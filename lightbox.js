@@ -18,7 +18,11 @@ var lightbox = ( function(){
 // Instead, let's go about things this way:
 */
 
-var lightbox = {};
-lightbox.image = new Image();
-lightbox.bg = document.createElement('div');
-lightbox.bg.id = 'pattr-lightbox-bg';
+var lightBox = {};
+lightBox.image = new Image();
+lightBox.bg = document.createElement('div');
+lightBox.bg.id = 'pattr-lightbox-bg';
+
+console.log(" flickrPage.getID: " + flickrPage.getID() );
+console.log(" flickrPage.getURL: " + flickrPage.getURL() );
+console.log(" flickrPage.getImageURL: " + flickrPage.getImageURL() );

@@ -12,7 +12,7 @@ flickrPage.url = document.querySelector("link[rel='canonical']").href
 // Find a more elegant way of determining current photo id...
 var tmp = flickrPage.url.split("/");
 flickrPage.photo_id = tmp[5];
-console.log( "flickrPage.photo_id: " + flickrPage.photo_id );
+//console.log( "flickrPage.photo_id: " + flickrPage.photo_id );
 
 flickrPage.lightbox.div = document.createElement('div');
 flickrPage.lightbox.bg = document.createElement('div');

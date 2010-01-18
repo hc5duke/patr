@@ -6,7 +6,7 @@
 	"content_scripts": [
 		{
 			"matches": ["http://www.flickr.com/*"],
-			"js": ["lightbox.js", "patr.js"],
+			"js": ["flickrpage.js", "lightbox.js", "patr.js"],
 			"css": ["lightbox.css"]
 		}
 
