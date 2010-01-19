@@ -23,6 +23,18 @@ lightBox.image = new Image();
 lightBox.bg = document.createElement('div');
 lightBox.bg.id = 'pattr-lightbox-bg';
 
-console.log(" flickrPage.getID: " + flickrPage.getID() );
-console.log(" flickrPage.getURL: " + flickrPage.getURL() );
-console.log(" flickrPage.getImageURL: " + flickrPage.getImageURL() );
+// Pre-load the page image
+
+// Toggle the LB...
+lightBox.doLightBox = function() {
+	
+	if( lightBox.open ){ // If LB is already open, close it
+		document.body.removeChild( lightBox.bg );
+		lightBox.open = false ;
+		return lightBox.open ;
+	} else {
+		console.log("Starting up lightbox...");
+	}
+};
+
+lightBox.doLightBox();
