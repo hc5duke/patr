@@ -16,6 +16,13 @@ chrome.extension.onRequest.addListener(
 
 });
 
+// Generic Request function
+function sendRequest( type, params ){
+  var req = new XMLHttpRequest();
+  
+
+}
+
 function getSizes(photo_id){
 	console.log("in getSizes in background.html...\nTrying to perform XHR");
 

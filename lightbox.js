@@ -33,8 +33,7 @@ lightBox.doLightBox = function() {
 		lightBox.open = false ;
 		return lightBox.open ;
 	} else {
-		console.log("Starting up lightbox...");
+		console.log("[lightbox.js]: Starting up lightbox...");
 	}
 };
 
-lightBox.doLightBox();
