@@ -10,21 +10,49 @@ chrome.extension.onRequest.addListener(
 				//"from the extension");
 
 	if( request.type == "getSizes"){
-		console.log("Got a request.type of 'getSizes'...\nRunning getSizes!");
+		//console.log("Got a request.type of 'getSizes'...\nRunning getSizes!");
 		sendResponse( getSizes( request.photo_id ) );
 	}
+
+        if( request.type == "API" ){
+               console.log("Got an API request\nfn: " + request.fn );
+               sendResponse( sendRequest( request.fn, request.params ) );
+         }
+
 
 });
 
 // Generic Request function
 function sendRequest( type, params ){
+  var response;
   var req = new XMLHttpRequest();
-  
 
+  var URL = "http://api.flickr.com/services/rest/?" +
+            "method=flickr." + type +"&" +
+            "format=json&" +
+            "nojsoncallback=1&" +
+            "api_key=" + API_KEY;
+
+            for( var opt in params ){
+               URL += "&" + opt + "=" + params[opt] ;
+            }
+            console.log( "URL: " + URL );
+
+   req.onreadystatechange = function() {
+     if( req.readyState == 4 && req.status == 200 ){
+       response = JSON.parse( req.responseText );
+     }
+   }
+   
+   req.open( "GET", URL, false );
+   req.send(null);
+
+   return response;
 }
 
+
 function getSizes(photo_id){
-	console.log("in getSizes in background.html...\nTrying to perform XHR");
+	//console.log("in getSizes in background.html...\nTrying to perform XHR");
 
 	var finalSize;
 	var req = new XMLHttpRequest();
@@ -41,14 +69,14 @@ function getSizes(photo_id){
 	req.onreadystatechange = function() {
 		//alert("readyState: " + req.readyState );
 		if( req.readyState == 4 ){
-			console.log("req.onreadystatechange:: readyState = " + req.readyState );
+			//console.log("req.onreadystatechange:: readyState = " + req.readyState );
 			parseSizes();
 		}
 	}
 	req.send(null);
 
 	function parseSizes(){
-		console.log("Inside parseSizes()");
+		//console.log("Inside parseSizes()");
 		finalSize = "dummy-path-to-biggest-sized-image";
 		// deal with the list and return the path to the finalSize you want to use...
 		var res = req.responseXML.getElementsByTagName("size");
@@ -56,7 +84,7 @@ function getSizes(photo_id){
 		//alert( typeof( sizes ) );
 		sizes.rsp = req.responseXML.getElementsByTagName("rsp")[0].getAttribute("stat");
 		for ( var i = 0, sz; sz = res[i]; i++ ){
-			console.log("debug: " + i + " :: " + res[i].getAttribute("label") + " :: " + res[i].getAttribute("source") );
+			//console.log("debug: " + i + " :: " + res[i].getAttribute("label") + " :: " + res[i].getAttribute("source") );
 			sizes[ res[i].getAttribute("label") ] =  {
 						"width" : res[i].getAttribute("width"),
 						"height": res[i].getAttribute("height"),

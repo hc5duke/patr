@@ -25,13 +25,14 @@ function handleKey(e){
 	// charCode 108 = l
 	// charCode  76 = L
 	if( e.charCode == 108 ){ // If l is pressed...
-		doLightBox();
+		//doLightBox();
+                lightBox.doLightBox();
 	}
 }
 
 document.addEventListener('keypress', handleKey, false);
 
-getImageSrc();
+//getImageSrc();
 
 flickrPage.lbImage.id = "pattr-lightbox-image";
 
@@ -40,7 +41,7 @@ function getImageSrc(){
 	chrome.extension.sendRequest({ type: "getSizes", photo_id: flickrPage.photo_id }, function(response){
 		flickrPage.sizes = response; // ie: flickrPage.sizes.Large.source
 
-		console.log( "rsp stat: "+ flickrPage.sizes.rsp );
+		//console.log( "rsp stat: "+ flickrPage.sizes.rsp );
 		if( flickrPage.sizes.Large && flickrPage.sizes.rsp == 'ok' ){
 			flickrPage.lbImage.src = flickrPage.sizes.Large.source;
 		}else if( flickrPage.sizes.Original && flickrPage.sizes.rsp == 'ok'){
@@ -54,11 +55,10 @@ function getImageSrc(){
 			flickrPage.lbImage.src = flickrPage.image_src.replace("_m", "");
 			
 		}
-		console.log( flickrPage.lbImage.src );
+		//console.log( flickrPage.lbImage.src );
 	}
 	)
 }
-
 
 function doLightBox() {
 	if( flickrPage.lightbox.open ){  // Close open lightbox
