@@ -8,6 +8,7 @@ var flickrPage = {};
 flickrPage.isPhotoPage = 
    document.querySelector("link[rel='canonical']") ? true : false ;
 
+
 if( flickrPage.isPhotoPage ){
 
   flickrPage.photoID = document.location.href.split("/")[5] ;
@@ -32,6 +33,8 @@ if( flickrPage.isPhotoPage ){
                                        }else{
                                           flickrPage.lb_src =  flickrPage.image_src.replace( "_m", "" );
                                        }
+					//Now call function to preload image
+					lightBox.preLoad();
                                     }else{
                                        // Response not ok, so do something
                                     }
