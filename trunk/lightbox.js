@@ -24,7 +24,7 @@ lightBox.bg = document.createElement('div');
 lightBox.bg.id = 'pattr-lightbox-bg';
 
 // Pre-load the page image
-if( flickrPage.lb_src ){
+lightBox.preLoad = function(){
   console.log("[lightbox.js]: pre-loading image\n" + flickrPage.lb_src );
   lightBox.image.src = flickrPage.lb_src;
 }
@@ -37,9 +37,9 @@ lightBox.doLightBox = function() {
        lightBox.open = false ;
        return lightBox.open ;
 
-	} else { // LB not open, so open it
+	} 
+
        console.log("[lightbox.js]: Starting up lightbox...");
-       alert( lightBox.image.height );
-	}
+	console.log("lightbox.js]: " + lightBox.image.height );
 };
 
