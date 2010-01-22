@@ -1,23 +1,5 @@
 // Creating the lightbox object
 
-//var lightbox = ( function(){ } )();
-//
-/*
-
-var lightbox = ( function(){
-
-    var isOpen = true;
-
-
-    return isOpen;
-
-})();
-
-// There is a whole thing up there to deal with later...
-//========================================
-// Instead, let's go about things this way:
-*/
-
 var lightBox = {};
 
 lightBox.image = new Image();
@@ -25,13 +7,13 @@ lightBox.image = new Image();
 lightBox.bg = document.createElement('div');
 lightBox.bg.id = 'pattr-lightbox-bg';
 
-// Pre-load the page image
 lightBox.preLoad = function(){
   console.log("[lightbox.js]: pre-loading image:\n" + flickrPage.lb_src );
-  this.image.src = flickrPage.lb_src;
-    lightBox.bg.appendChild( lightBox.image );
-    document.body.appendChild( lightBox.bg );
-  //this.setOrigin(); // Pre-set the image overlayed on Flickr image
+	this.image.src = flickrPage.lb_src;
+	this.bg.appendChild( lightBox.image );
+	document.body.appendChild( lightBox.bg );
+	this.bg.style.visibility = 'hidden';
+	this.setOrigin(); // Pre-set the image overlayed on Flickr image
 }
 
 lightBox.doLightBox = function() {
@@ -46,6 +28,7 @@ lightBox.doLightBox = function() {
        console.log("got a lightBox.open: " + this.open );
        lightBox.open = false ;
        this.setOrigin();
+	   this.bg.style.visibility = 'hidden';
        return lightBox.open ;
 
 	} 
@@ -53,10 +36,12 @@ lightBox.doLightBox = function() {
     console.log("[lightbox.js]: Starting up lightbox...");
     //this.setOrigin();
 
+	//this.image.style.left = '400px';
+
     // Interesting: I can try setting the image over the default display on Flickr
     // So first position a copy over the page one, then trigger transforms
 
-
+/*
     this.image.id = 'pattr-lightbox-image';
     this.image.style.position = 'absolute';
     //this.image.style.left = document.querySelector("div[class='photoImgDiv']").offsetLeft ;
@@ -89,45 +74,43 @@ lightBox.doLightBox = function() {
 
     lightBox.image.style.top = 0;
 
+*/
+
+	this.setShow();
+	//lightBox.bg.style.visibility = 'visible';
+	//this.image.style.left = '100px';
 
     lightBox.open = true;
     console.log("getStyle: " + getStyle( this.image, 'margin-top' ) );
 };
 
-lightBox.goRight = function(){
-    lightBox.image.style.left = '400px';
-}
 
 lightBox.setOrigin = function() {
 
-    var tis = this.image.style;
-    var img = document.querySelector("img[class='reflect']");
-    img = document.querySelector("div[class='photoImgDiv']");
+    var tis = lightBox.image.style;
+    var img = document.querySelector("div[class='photoImgDiv']");
 
-    this.bg.style.visibility = 'hidden';
-    tis.position = 'absolute';
-    tis.left = img.offsetLeft;
-    tis.top = img.offsetTop;
-    tis.maxHeight = getStyle( img, 'height').replace("px", "") ;
-    tis.marginTop = 0;
-    this.image.id = 'pattr-lightbox-image';
+	tis.position = 'absolute';
+	tis.left = img.offsetLeft;
+	tis.top = img.offsetTop;
+	tis.maxHeight = document.querySelector("img[class='reflect']").height;
+	tis.opacity = '0';
+	tis.webkitTransition = '300ms';
+
+	this.bg.style.webkitTransition = '500ms';
+	this.bg.style.backgroundColor = 'rgba(0,0,0,0)';
 
 }
 
 lightBox.setShow = function() {
 
-    var tis = this.image.style;
+    var tis = lightBox.image.style;
 
-    this.bg.style.visibility = 'visible';
-    /*
-    tis.top = 0;
-    tis.marginTop = 20;
-    tis.maxHeight = window.innerHeight - 2*tis.marginTop.replace("px","");
-    */
-    tis.webkitBoxShadow = '0 0 30px #000';
-    //this.bg.style.backgroundColor = 'rgba(0,0,0,0.92)';
-    //alert( this.image.id );
+	tis.opacity = '1';
+	tis.webkitBoxShadow = '0 0 30px #000';
 
+	this.bg.style.visibility = 'visible';
+	this.bg.style.backgroundColor = 'rgba(0,0,0,0.92)';
 
 }
 
