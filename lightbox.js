@@ -75,6 +75,7 @@ lightBox.setShow = function() {
                 tis.margin.replace('px','');
         }
     }else{
+        console.log('naturalWidth > maxWidth');
         tis.left = 0;
     }
 
