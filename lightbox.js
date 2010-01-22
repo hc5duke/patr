@@ -77,11 +77,16 @@ lightBox.doLightBox = function() {
 */
 
 	this.setShow();
+        console.log("clientWidth: "+ document.body.clientWidth +
+                "\nnaturalWidth: " + this.image.naturalWidth +
+                "\noffsetWidth: " + this.image.offsetWidth +
+                "\noffsetLeft: " + this.image.offsetLeft +
+                "\nwidth: " + this.image.width +
+                "\ngetSTyle: " + getStyle( this.image, 'width') );
 	//lightBox.bg.style.visibility = 'visible';
 	//this.image.style.left = '100px';
 
     lightBox.open = true;
-    console.log("getStyle: " + getStyle( this.image, 'margin-top' ) );
 };
 
 
@@ -94,10 +99,11 @@ lightBox.setOrigin = function() {
 	tis.left = img.offsetLeft;
 	tis.top = img.offsetTop;
 	tis.maxHeight = document.querySelector("img[class='reflect']").height;
+    tis.maxWidth = document.querySelector("img[class='reflect']").width;
 	tis.opacity = '0';
 	tis.webkitTransition = '300ms';
 
-	this.bg.style.webkitTransition = '500ms';
+	this.bg.style.webkitTransition = '300ms';
 	this.bg.style.backgroundColor = 'rgba(0,0,0,0)';
 
 }
@@ -106,11 +112,37 @@ lightBox.setShow = function() {
 
     var tis = lightBox.image.style;
 
+    tis.margin = 20;
+    tis.maxHeight = document.body.clientHeight - 2*tis.margin.replace('px','');
+    tis.maxWidth = document.body.clientWidth - 2*tis.margin.replace('px','') ;
+    tis.top = 0;
+
+    /*
+    //tis.left = (this.image.naturalWidth < tis.maxWidth.replace("px","")) ?
+    //    ( document.body.clientWidth/2 - this.image.naturalWidth/2 ) : 0;
+    if( this.image.naturalWidth < tis.maxWidth.replace('px','') ){
+        console.log("clientWidth: "+ document.body.clientWidth +
+                "\nnaturalWidth: " + this.image.naturalWidth +
+                "\nwidth: " + this.image.width +
+                "\ngetSTyle: " + getStyle( this.image, 'width') );
+        tis.left = (document.body.clientWidth/2) - (this.image.naturalWidth/2);
+    }else{
+        tis.left = 0;
+    }
+    */
+
 	tis.opacity = '1';
 	tis.webkitBoxShadow = '0 0 30px #000';
 
 	this.bg.style.visibility = 'visible';
 	this.bg.style.backgroundColor = 'rgba(0,0,0,0.92)';
+
+        console.log("clientWidth: "+ document.body.clientWidth +
+                "\nnaturalWidth: " + this.image.naturalWidth +
+                "\noffsetWidth: " + this.image.offsetWidth +
+                "\noffsetLeft: " + this.image.offsetLeft +
+                "\nwidth: " + this.image.width +
+                "\ngetSTyle: " + getStyle( this.image, 'width') );
 
 }
 
