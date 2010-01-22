@@ -3,88 +3,32 @@
 var lightBox = {};
 
 lightBox.image = new Image();
-//lightBox.image.id = "pattr-lightbox-image";
 lightBox.bg = document.createElement('div');
 lightBox.bg.id = 'pattr-lightbox-bg';
 
 lightBox.preLoad = function(){
-  console.log("[lightbox.js]: pre-loading image:\n" + flickrPage.lb_src );
+  console.log("[lightbox]: Pre-loading image: " + flickrPage.lb_src );
 	this.image.src = flickrPage.lb_src;
+
 	this.bg.appendChild( lightBox.image );
 	document.body.appendChild( lightBox.bg );
+
 	this.bg.style.visibility = 'hidden';
-	this.setOrigin(); // Pre-set the image overlayed on Flickr image
+	this.setOrigin();
 }
 
 lightBox.doLightBox = function() {
-    // This should be re-worked to only setup the bg and image of the LB
-    // Then we can just toggle the visibility of the objects to turn them
-    // on and off.
 	
 	if( lightBox.open ){ // If LB is already open, close it
-       //document.body.removeChild( lightBox.bg );
-       //lightBox.image.id = "";
-       //this.bg.style.visibility = 'hidden';
-       console.log("got a lightBox.open: " + this.open );
        lightBox.open = false ;
        this.setOrigin();
-	   this.bg.style.visibility = 'hidden';
        return lightBox.open ;
 
 	} 
 
     console.log("[lightbox.js]: Starting up lightbox...");
-    //this.setOrigin();
-
-	//this.image.style.left = '400px';
-
-    // Interesting: I can try setting the image over the default display on Flickr
-    // So first position a copy over the page one, then trigger transforms
-
-/*
-    this.image.id = 'pattr-lightbox-image';
-    this.image.style.position = 'absolute';
-    //this.image.style.left = document.querySelector("div[class='photoImgDiv']").offsetLeft ;
-    this.goRight();
-    this.image.style.top = document.querySelector("div[class='photoImgDiv']").offsetTop ;
-    this.image.style.maxHeight = document.querySelector("img[class='reflect']").height ;
-    this.image.style.marginTop = 0;
-
-    this.bg.style.visibility = 'hidden';
-    //this.bg.style.backgroundColor = 'rgba(0,0,0,0)';
-
-
-
-    //lightBox.image.id = "pattr-lightbox-image";
-    //
-    lightBox.bg.style.visibility = 'visible';
-
-    //alert(" Just made it visible ");
-    // Handle image sizes vs. window sizes
-    //if( this.image.height > window.innerHeight || this.image.style.maxHeight ){
-        //console.log(" image.height > window.innerHeight!");
-    //this.image.style.top = 0;
-    //this.image.style.marginTop = 20;
-    //this.image.style.maxHeight = window.innerHeight - 2*this.image.style.marginTop.replace("px","") ;
-    this.image.style.webkitBoxShadow = '0 0 30px #000';
-    this.bg.style.backgroundColor = 'rgba(0,0,0,0.92)';
-    //this.image.style.maxHeight = ( window.innerHeight - 2*this.image.offsetTop ) ;
-    //this.image.style.maxHeight = ( window.innerHeight - 2*getStyle( this.image, 'margin-top').replace("px", "")  ) ;
-    //}
-
-    lightBox.image.style.top = 0;
-
-*/
 
 	this.setShow();
-        console.log("clientWidth: "+ document.body.clientWidth +
-                "\nnaturalWidth: " + this.image.naturalWidth +
-                "\noffsetWidth: " + this.image.offsetWidth +
-                "\noffsetLeft: " + this.image.offsetLeft +
-                "\nwidth: " + this.image.width +
-                "\ngetSTyle: " + getStyle( this.image, 'width') );
-	//lightBox.bg.style.visibility = 'visible';
-	//this.image.style.left = '100px';
 
     lightBox.open = true;
 };
@@ -95,41 +39,44 @@ lightBox.setOrigin = function() {
     var tis = lightBox.image.style;
     var img = document.querySelector("div[class='photoImgDiv']");
 
-	tis.position = 'absolute';
-	tis.left = img.offsetLeft;
-	tis.top = img.offsetTop;
+    tis.position = 'absolute';
+    tis.margin = 30;
+    tis.left = img.offsetLeft - tis.margin.replace('px','');
+	tis.top = img.offsetTop - tis.margin.replace('px','');
 	tis.maxHeight = document.querySelector("img[class='reflect']").height;
     tis.maxWidth = document.querySelector("img[class='reflect']").width;
 	tis.opacity = '0';
-	tis.webkitTransition = '300ms';
+    tis.webkitBoxShadow = '0 0 0px #000';
+	tis.webkitTransition = '400ms';
 
-	this.bg.style.webkitTransition = '300ms';
+	this.bg.style.webkitTransition = '400ms';
 	this.bg.style.backgroundColor = 'rgba(0,0,0,0)';
+	this.bg.style.visibility = 'hidden';
 
 }
 
 lightBox.setShow = function() {
+    console.log("[lightbox]: Showing lightbox.");
 
-    var tis = lightBox.image.style;
+    var tis = this.image.style;
+    var ti = this.image;
 
-    tis.margin = 20;
+
     tis.maxHeight = document.body.clientHeight - 2*tis.margin.replace('px','');
     tis.maxWidth = document.body.clientWidth - 2*tis.margin.replace('px','') ;
     tis.top = 0;
 
-    /*
-    //tis.left = (this.image.naturalWidth < tis.maxWidth.replace("px","")) ?
-    //    ( document.body.clientWidth/2 - this.image.naturalWidth/2 ) : 0;
-    if( this.image.naturalWidth < tis.maxWidth.replace('px','') ){
-        console.log("clientWidth: "+ document.body.clientWidth +
-                "\nnaturalWidth: " + this.image.naturalWidth +
-                "\nwidth: " + this.image.width +
-                "\ngetSTyle: " + getStyle( this.image, 'width') );
-        tis.left = (document.body.clientWidth/2) - (this.image.naturalWidth/2);
+    if( ti.naturalWidth < tis.maxWidth.replace('px','') ){
+        if( ti.naturalHeight < tis.maxHeight.replace('px','') ){
+            tis.left = (document.body.clientWidth/2) - (ti.naturalWidth/2) - tis.margin.replace('px','') ;
+        }else{
+            tis.left = (document.body.clientWidth/2) - 
+                (tis.maxHeight.replace('px',''))*(ti.naturalWidth/ti.naturalHeight)/2 -
+                tis.margin.replace('px','');
+        }
     }else{
         tis.left = 0;
     }
-    */
 
 	tis.opacity = '1';
 	tis.webkitBoxShadow = '0 0 30px #000';
@@ -137,12 +84,6 @@ lightBox.setShow = function() {
 	this.bg.style.visibility = 'visible';
 	this.bg.style.backgroundColor = 'rgba(0,0,0,0.92)';
 
-        console.log("clientWidth: "+ document.body.clientWidth +
-                "\nnaturalWidth: " + this.image.naturalWidth +
-                "\noffsetWidth: " + this.image.offsetWidth +
-                "\noffsetLeft: " + this.image.offsetLeft +
-                "\nwidth: " + this.image.width +
-                "\ngetSTyle: " + getStyle( this.image, 'width') );
 
 }
 
