@@ -41,9 +41,5 @@ if( flickrPage.isPhotoPage ){
     } 
   );
 
-
-if( flickrPage.lb_src ){ console.log("got lb_src: " + flickrPage.lb_src ); };
-if( ! flickrPage.lb_src ){ console.log("Don't have lb_src yet!"); };
-
 }
 
