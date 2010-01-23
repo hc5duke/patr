@@ -14,7 +14,13 @@ if( flickrPage.isPhotoPage ){
   flickrPage.photoID = document.location.href.split("/")[5] ;
   flickrPage.url = document.querySelector("link[rel='canonical']").href ;
   flickrPage.image_src = document.querySelector("link[rel='image_src']").href ;
+  flickrPage.reflect = document.querySelector("img[class='reflect']");
+  flickrPage.spaceball = document.querySelector("div.photoImgDiv > img[src*='spaceball.gif']");
+  flickrPage.dragproxy = document.getElementById('photo-drag-proxy');
   flickrPage.ICBM = document.querySelector("meta[name='ICBM']") ? document.querySelector("meta[name='ICBM']").content : false;
+
+	if( flickrPage.spaceball ) flickrPage.spaceball.offsetParent.removeChild( flickrPage.spaceball );
+	if( flickrPage.dragproxy ) flickrPage.dragproxy.style.visibility = 'hidden';
 
   // Make API request to fill out photo sizes available
   chrome.extension.sendRequest( { type: "API", fn: "photos.GetSizes", params: { photo_id: flickrPage.photoID } },
