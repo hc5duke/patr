@@ -58,32 +58,25 @@ lightBox.setShow = function() {
     tis.maxHeight = document.body.clientHeight - 2*tis.margin.replace('px','');
     tis.maxWidth = document.body.clientWidth - 2*tis.margin.replace('px','') ;
     tis.top = 0;
+	var natHW = ti.naturalHeight / ti.naturalWidth;
 
 	//There has got to be a better way to set these dimensions...
     if( ti.naturalWidth < tis.maxWidth.replace('px','') ){
         if( ti.naturalHeight < tis.maxHeight.replace('px','') ){
-			console.log('natW: '+ ti.naturalWidth +
-						'\nmaxW: '+ tis.maxWidth +
-						'\nnatH: '+ ti.naturalHeight +
-						'\nmaxH: '+ tis.maxHeight );
             tis.left = (document.body.clientWidth/2) - (ti.naturalWidth/2) - tis.margin.replace('px','') ;
         }else{
             tis.left = (document.body.clientWidth/2) - 
                 (tis.maxHeight.replace('px',''))*(ti.naturalWidth/ti.naturalHeight)/2 -
                 tis.margin.replace('px','');
         }
-    }else{
-        tis.left = 0;
-		console.log('natHeight: '+ ti.naturalHeight +'\nmaxHeight:'+ tis.maxHeight);
+    }else{ // naturalWidth > maxWidth
 		if( ti.naturalHeight > tis.maxHeight.replace('px','') ){
-			console.log(' naturalHeight > maxHeight');
-            tis.left = (document.body.clientWidth/2) - 
-                (tis.maxWidth.replace('px',''))*(ti.naturalHeigh/ti.naturalWidth)/2 -
-                tis.margin.replace('px','');
+            tis.left = (document.body.clientWidth/2) - (tis.maxHeight.replace('px','') ) * ( (1/natHW)/2 ) - 
+				tis.margin.replace('px','');
+			tis.left = (tis.left.replace('px','') < 0) ? 0 : tis.left;
 		}else{
-			console.log('natHeight < maxHeight');
+			tis.left = 0;
 		}
-		console.log('at end of test, tis.left = '+ tis.left);
     }
 
 	tis.opacity = '1';
