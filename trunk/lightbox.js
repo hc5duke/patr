@@ -53,7 +53,8 @@ lightBox.setShow = function() {
 
     var tis = this.image.style;
     var ti = this.image;
-	if( ti.naturalWidth == 0 ) return;
+    if( ti.naturalWidth == 0 ) return;
+
 
     tis.maxHeight = document.body.clientHeight - 2*tis.margin.replace('px','');
     tis.maxWidth = document.body.clientWidth - 2*tis.margin.replace('px','') ;

@@ -9,7 +9,7 @@
 		{
 			"matches": ["http://www.flickr.com/*"],
 			"js": ["flickrpage.js", "lightbox.js", "patr.js"],
-			"css": ["lightbox.css"]
+			"css": ["lightbox.css", "flickrpage.css"]
 		}
 
 	],
