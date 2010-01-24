@@ -1,0 +1,23 @@
+
+#sendToSetDialogDiv, #sendToGroupDialogDiv, #addToGalleryDialogDiv, #sendToBlogDialogDiv {
+	-webkit-box-shadow: 10px 10px 30px #000;
+	-webkit-border-bottom-left-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	-webkit-border-top-right-radius: 10px;
+}
+
+#sendToSetDialogDiv > div[style*='height:1px'] {
+	visibility: hidden;
+}
+
+#sendToGroupDialogDiv > div[style*='height:1px'] {
+	visibility: hidden;
+}
+
+#addToGalleryDialogDiv > div[style*='height:1px'] {
+	visibility: hidden;
+}
+
+#sendToBlogDialogDiv > div[style*='height:1px'] {
+	visibility: hidden;
+}
