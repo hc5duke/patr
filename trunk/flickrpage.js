@@ -18,6 +18,7 @@ if( flickrPage.isPhotoPage ){
   flickrPage.spaceball = document.querySelector("div.photoImgDiv > img[src*='spaceball.gif']");
   flickrPage.dragproxy = document.getElementById('photo-drag-proxy');
   flickrPage.ICBM = document.querySelector("meta[name='ICBM']") ? document.querySelector("meta[name='ICBM']").content : false;
+  alert( window.history.previous );
 
 	if( flickrPage.spaceball ) flickrPage.spaceball.offsetParent.removeChild( flickrPage.spaceball );
 	if( flickrPage.dragproxy ) flickrPage.dragproxy.style.visibility = 'hidden';
