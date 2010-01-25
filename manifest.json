@@ -5,6 +5,7 @@
 	"icons": { "48": "logo48.png",
 			"128": "logo128.png" },
 	"background_page": "background.html",
+    "options_page": "options.html",
 	"content_scripts": [
 		{
 			"matches": ["http://www.flickr.com/*"],

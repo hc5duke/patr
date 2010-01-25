@@ -28,17 +28,23 @@ chrome.extension.onRequest.addListener(
 		//console.log( sender.tab ?
 				//"from a content script: " + sender.tab.url :
 				//"from the extension");
-
+/*
 	if( request.type == "getSizes"){
-		//console.log("Got a request.type of 'getSizes'...\nRunning getSizes!");
+		console.log("Got a request.type of 'getSizes'...\nRunning getSizes!");
 		sendResponse( getSizes( request.photo_id ) );
 	}
-
+*/
         if( request.type == "API" ){
                console.log("Got an API request\nfn: " + request.fn );
                sendResponse( sendRequest( request.fn, request.params ) );
          }
-
+    if( request.type == "localStorage" ){
+        console.log("Got a local storage request! " + request.param);
+        console.log("localStorage response: " + localStorage[ request.param ] );
+        var param = request.param;
+        var value = localStorage[ request.param ];
+        sendResponse( value );
+    }
 
 });
 
