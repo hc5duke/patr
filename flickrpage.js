@@ -80,13 +80,21 @@ flickrPage.preSizes = function(){
 		var a = document.createElement('a');
 		a.setAttribute('href', flickrPage.sizes[ key ].source );
 		a.setAttribute('class', 'plain');
-		//a.style.float = 'right';
+        a.setAttribute('onmouseover', 'document.querySelector("span#sizebox").firstChild.nodeValue = "('+
+                    flickrPage.sizes[ key ].width +' x '+ flickrPage.sizes[ key ].height +')"');
+        a.setAttribute('onmouseout', 'document.querySelector("span#sizebox").firstChild.nodeValue = ""');
 		a.appendChild( document.createTextNode( key.slice(0, 2) + " "  ) );
 		d.appendChild( a );
-		//document.querySelector("div.Widget").appendChild( a );
 	}
 	d.style.marginTop = 3;
 	d.style.marginLeft = 28;
+    d.id = 'sizes';
+    var ds = document.createElement('span');
+    ds.id = 'sizebox';
+    //ds.style.float = 'right';
+    ds.style.marginLeft = '5px';
+    ds.appendChild( document.createTextNode('') );
+    d.appendChild( ds );
 
 	document.querySelector("div.Widget").appendChild( d );
 }
