@@ -22,7 +22,7 @@
 
 {
 	"name": "Patr",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Pats Flickr App",
 	"icons": { "48": "logo48.png",
 			"128": "logo128.png" },
