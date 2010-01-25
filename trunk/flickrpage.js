@@ -87,5 +87,6 @@ flickrPage.preSizes = function(){
 	}
 	d.style.marginTop = 3;
 	d.style.marginLeft = 28;
+
 	document.querySelector("div.Widget").appendChild( d );
 }
