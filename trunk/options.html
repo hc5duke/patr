@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <title>Patr Options Page</title>
+    </head>
+
+    <script type="text/javascript">
+
+        function save_options(){
+            var select = document.getElementById("color");
+            var color = select.children[ select.selectedIndex].value
+            localStorage["background"] = color;
+
+            var status = document.getElementById("status");
+            status.innerHTML = "Options Saved";
+            setTimeout( function() {
+                    status.innerHTML = "";
+            }, 750);
+        }
+
+        function restore_options() {
+            var background = localStorage["background"];
+            if (!background){
+                return;
+            }
+            var select = document.getElementById("color");
+            for( var i = 0; i < select.children.length; i++ ){
+                var child = select.children[i];
+                if( child.value == background ){
+                    child.selected = 'true';
+                    break;
+                }
+            }
+        }
+
+    </script>
+
+<body onload="restore_options()">
+
+    Background Color:
+    <select id="color">
+        <option value="black">black</options>
+        <option value="grey">grey</options>
+        <option value="white">white</options>
+    </select>
+
+<br>
+<button onclick="save_options()">Save</button>
+</body>
+</html>

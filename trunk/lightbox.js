@@ -29,6 +29,10 @@ lightBox.bg = document.createElement('div');
 lightBox.bg.id = 'pattr-lightbox-bg';
 
 lightBox.preLoad = function(){
+    chrome.extension.sendRequest( {type:"localStorage", param:"background"},
+            function( response ){
+                console.log( response );
+                });
 	this.image.src = flickrPage.lb_src;
 
 	this.bg.appendChild( lightBox.image );
