@@ -24,33 +24,22 @@ const API_KEY = "ea1d492fa9803aa760d8039ccb5f73ee";
 
 chrome.extension.onRequest.addListener(
 	function( request, sender, sendResponse) {
-	//console.log("Got a request...");
-		//console.log( sender.tab ?
-				//"from a content script: " + sender.tab.url :
-				//"from the extension");
-/*
 	if( request.type == "getSizes"){
-		console.log("Got a request.type of 'getSizes'...\nRunning getSizes!");
 		sendResponse( getSizes( request.photo_id ) );
 	}
-*/
         if( request.type == "API" ){
-               console.log("Got an API request\nfn: " + request.fn );
                sendResponse( sendRequest( request.fn, request.params ) );
          }
     if( request.type == "localStorage" ){
-        console.log("Got a local storage request! " + request.param);
         var param = request.param;
         if( typeof param == 'object' ){
             var value = {};
-            console.log('typeof param: '+ typeof param );
             for( var key in param ){
                 value[ param[key] ] = localStorage[ param[key] ];
             }
 
         }else{
             var value = localStorage[ request.param ];
-            console.log("localStorage response: " + localStorage[ request.param ] );
         }
         sendResponse( value );
     }
@@ -71,7 +60,6 @@ function sendRequest( type, params ){
             for( var opt in params ){
                URL += "&" + opt + "=" + params[opt] ;
             }
-            console.log( "URL: " + URL );
 
    req.onreadystatechange = function() {
      if( req.readyState == 4 && req.status == 200 ){
@@ -87,7 +75,6 @@ function sendRequest( type, params ){
 
 
 function getSizes(photo_id){
-	//console.log("in getSizes in background.html...\nTrying to perform XHR");
 
 	var finalSize;
 	var req = new XMLHttpRequest();
@@ -104,14 +91,12 @@ function getSizes(photo_id){
 	req.onreadystatechange = function() {
 		//alert("readyState: " + req.readyState );
 		if( req.readyState == 4 ){
-			//console.log("req.onreadystatechange:: readyState = " + req.readyState );
 			parseSizes();
 		}
 	}
 	req.send(null);
 
 	function parseSizes(){
-		//console.log("Inside parseSizes()");
 		finalSize = "dummy-path-to-biggest-sized-image";
 		// deal with the list and return the path to the finalSize you want to use...
 		var res = req.responseXML.getElementsByTagName("size");
@@ -119,23 +104,25 @@ function getSizes(photo_id){
 		//alert( typeof( sizes ) );
 		sizes.rsp = req.responseXML.getElementsByTagName("rsp")[0].getAttribute("stat");
 		for ( var i = 0, sz; sz = res[i]; i++ ){
-			//console.log("debug: " + i + " :: " + res[i].getAttribute("label") + " :: " + res[i].getAttribute("source") );
 			sizes[ res[i].getAttribute("label") ] =  {
 						"width" : res[i].getAttribute("width"),
 						"height": res[i].getAttribute("height"),
 						"source": res[i].getAttribute("source")
 						} ;
 		}
-		//console.log( req.responseXML.querySelector("size[label='Large']").getAttribute("width") );
-		//var sizes = req.responseXML;
-		//console.log( "\nbefore JSON.stringify I have: " + sizes.Square.source );
-		//var jsonSizes = JSON.stringify( sizes );
-		//console.log( jsonSizes );
-		//var jsonObj = JSON.parse( jsonSizes );
-		//console.log( "testing something: " + jsonObj.Square.width );
 		finalSize = sizes;
 	}
 	return finalSize;
 }
 
 </script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-5296386-3");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
