@@ -35,7 +35,9 @@ if( flickrPage.isPhotoPage ){
             function( response ){
                 if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                 if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
+                flickrPage.hideContext();
             } );
+
 
   flickrPage.photoID = document.location.href.split("/")[5] ;
   flickrPage.url = document.querySelector("link[rel='canonical']").href ;
@@ -153,4 +155,33 @@ flickrPage.makeRound = function(){
 	cssref.setAttribute('type', 'text/css');
 	cssref.setAttribute('href',  filename);
 	document.getElementsByTagName('head')[0].appendChild( cssref );
+}
+
+flickrPage.hideContext = function(){
+    var other = document.getElementById('otherContexts_div');
+    var pools = document.querySelectorAll("div.contextDiv[id*='_pool'] tr[id^='nextprev_tr_pool'][style='display:none;']");
+    var sets = document.querySelectorAll("div.contextDiv[id*='_set'] tr[id^='nextprev_tr_set'][style='display:none;']");
+    var num_pools = pools.length;
+    var num_sets = sets.length;
+    console.log('pools.length: '+ pools.length +'\nsets.length: '+ sets.length);
+    console.log( sets );
+    for( var key in pools ){
+        if( parseInt(key+1) ){
+            pools[key].parentNode.parentNode.parentNode.style.display = 'none';
+        }
+    }
+    for( var key in sets ){
+        if( parseInt(key+1) ){
+            sets[key].parentNode.parentNode.parentNode.style.display = 'none';
+        }
+    }
+    var newTotal = document.createElement('div');
+    newTotal.innerHTML = num_sets +" sets and "+ num_pools +" pools";
+    newTotal.style.fontWeight = 'bold';
+    newTotal.style.fontSize = '17px';
+    newTotal.style.color = '#C3BEBD';
+    newTotal.style.color = '#ADADAD';
+    //newTotal.style.color = '#666';
+    newTotal.style.fontFamily = 'Arial';
+    other.appendChild( newTotal );
 }
