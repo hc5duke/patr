@@ -1,3 +1,7 @@
+body {
+	font-family: Lucida Sans Unicode, Lucida Grande, Lucida Sans, Lucida;
+}
+
 #preview {
     position: relative;
     visibility: hidden;
@@ -6,6 +10,15 @@
     top: 0px;
     margin-left: 50px;
     -webkit-transition: 500ms;
+}
+
+.ecOpt {
+	cursor: pointer;
+	font-size: 1.25em;
+}
+
+.ecOpt > input {
+	cursor: pointer;
 }
 
 #pre_fg {

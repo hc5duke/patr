@@ -30,16 +30,11 @@ flickrPage.isPhotoPage =
 
 
 if( flickrPage.isPhotoPage ){
-    var styleSheetList = document.styleSheets;
-    console.log( styleSheetList );
+
     chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound'] },
             function( response ){
-                if( response.ecShadow == 'true' ){ // turn on shadows
-                    flickrPage.makeShadows();
-                } 
-                if( response.ec.Round ){
-                    flickrPage.makeRound();
-                }
+                if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
+                if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
             } );
 
   flickrPage.photoID = document.location.href.split("/")[5] ;
@@ -77,13 +72,13 @@ if( flickrPage.isPhotoPage ){
                 lightBox.preLoad();
 
                 flickrPage.preFlic(); 
+
         }else{
-            // Response not ok, so do something
+
 			flickrPage.lb_src = flickrPage.image_src.replace("_m", "");
         }
     } 
   );
-  // Dress up some quick links...
 }
 
 flickrPage.preSizes = function(){
@@ -130,9 +125,7 @@ flickrPage.preFlic = function(){
 }
 
 flickrPage.flic_kr = function(photoID){
-    if( typeof photoID !== 'number' ){
-        photoID = parseInt( photoID );
-    }
+    if( typeof photoID !== 'number' ){ photoID = parseInt( photoID ); }
     var enc = '', alpha='123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
     var div = photoID, mod;
     while( photoID >= 58 ){
@@ -145,11 +138,19 @@ flickrPage.flic_kr = function(photoID){
 }
 
 flickrPage.makeShadows = function(){
-    styleSheetList[0].insertRule( "#sendToSetDialogDiv { -webkit-box-shadow: 10px 10px 30px #000; }", 0 );
-    styleSheetList[0].insertRule( "#sendToGroupDialogDiv { -webkit-box-shadow: 10px 10px 30px #000; }", 0 );
-    styleSheetList[0].insertRule( "#sendToGalleryDialogDiv { -webkit-box-shadow: 10px 10px 30px #000; }", 0 );
-    styleSheetList[0].insertRule( "#sendToBlogDialogDiv { -webkit-box-shadow: 10px 10px 30px #000; }", 0 );
+	var filename = chrome.extension.getURL('flickrpage_shadow.css');
+	var cssref = document.createElement('link');
+	cssref.setAttribute('rel', 'stylesheet');
+	cssref.setAttribute('type', 'text/css');
+	cssref.setAttribute('href', filename);
+	document.getElementsByTagName('head')[0].appendChild( cssref );
 }
 
 flickrPage.makeRound = function(){
+	var filename = chrome.extension.getURL('flickrpage.css');
+	var cssref = document.createElement('link');
+	cssref.setAttribute('rel', 'stylesheet');
+	cssref.setAttribute('type', 'text/css');
+	cssref.setAttribute('href',  filename);
+	document.getElementsByTagName('head')[0].appendChild( cssref );
 }
