@@ -17,9 +17,14 @@
             document.getElementById('preview').appendChild( pre_bg );
             document.getElementById('preview').appendChild( pre_fg );
 
-            alert("you should have a shadow");
             pre_fg.className = pre_fg.className.replace(' fgShadow','');
             pre_fg.className = pre_fg.className.replace(' fgCorners','');
+
+			for( var key in localStorage ){
+				document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
+				if( key == 'ecRound' ){ apply( 'fgCorners', document.getElementById( key ).checked ); }
+				if( key == 'ecShadow' ){ apply( 'fgShadow', document.getElementById( key ).checked ); }
+			}
         }
 
         function doAllEC( clicked ){
@@ -44,15 +49,23 @@
 
         function doMe( el ){
             localStorage[ el.name ] = el.checked;
+			if( el.checked == false ){ 
+				localStorage['ecAll'] = false;
+				document.getElementById('ecAll').checked = false;
+			}
             if( el.name == 'ecRound' ){ 
-                var img = document.getElementById('pre_fg');
-                img.className = el.checked ? img.className += ' fgCorners' : img.className = img.className.replace(' fgCorners','');
+				apply( 'fgCorners', el.checked );
             }
             if( el.name == 'ecShadow' ){
-                var img = document.getElementById('pre_fg');
-                img.className = el.checked ? img.className += ' fgShadow' : img.className = img.className.replace(' fgShadow','');
+				apply( 'fgShadow', el.checked );
             }
         }
+		
+		function apply( cname, applyit){
+			var img = document.getElementById('pre_fg');
+			img.className = applyit ?
+				img.className += ' '+cname : img.className = img.className.replace(' '+cname, '');
+		}
 
         function showPreview(){
             document.getElementById('preview').style.opacity = 1;
@@ -70,16 +83,17 @@
 <body onload="load_options()"
     <h1>Patr Options</h1>
     <span style='float: left;' onmouseout="hidePreview()" onmouseover="showPreview()" >
-        <div style='font-size: 2em;'>Eye Candy</div>
+        <div style='font-size: 2em; border-bottom: solid 1px gray;'>Eye Candy</div>
 
-    <input onclick="doAllEC('input');" type="checkbox" name="ecAll" value="ecAll" />
-    <span onclick="doAllEC( 'span' );" style='display: inline;'>All Eye Candy</span>
+    <input onclick="doAllEC('input');" type="checkbox" name="ecAll" id="ecAll" value="ecAll" />
+    <span onclick="doAllEC( 'span' );" class='ecOpt' style='display: inline;'>All Effects</span>
     <br />
-    <div onclick="this.firstElementChild.checked = !this.firstElementChild.checked;doMe( this.firstElementChild );">
-        <input onclick="this.checked = !this.checked;" type="checkbox" name="ecRound" value="ecRound" />
+    <div class='ecOpt' onclick="this.firstElementChild.checked = !this.firstElementChild.checked;doMe( this.firstElementChild );">
+        <input onclick="this.checked = !this.checked;" type="checkbox" name="ecRound" id="ecRound" value="ecRound" />
         Rounded Corners</div>
-    <div onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
-        <input onclick="this.checked = !this.checked;" type="checkbox" name="ecShadow" value="ecShadow" />
+
+    <div class='ecOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
+        <input onclick="this.checked = !this.checked;" type="checkbox" name="ecShadow" id="ecShadow" value="ecShadow" />
         Drop Shadows</div>
     
     </span>
