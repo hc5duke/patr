@@ -30,6 +30,17 @@ flickrPage.isPhotoPage =
 
 
 if( flickrPage.isPhotoPage ){
+    var styleSheetList = document.styleSheets;
+    console.log( styleSheetList );
+    chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound'] },
+            function( response ){
+                if( response.ecShadow == 'true' ){ // turn on shadows
+                    flickrPage.makeShadows();
+                } 
+                if( response.ec.Round ){
+                    flickrPage.makeRound();
+                }
+            } );
 
   flickrPage.photoID = document.location.href.split("/")[5] ;
   flickrPage.url = document.querySelector("link[rel='canonical']").href ;
@@ -131,4 +142,14 @@ flickrPage.flic_kr = function(photoID){
         photoID = Math.floor(div);
     }
     return "http://flic.kr/p/" + ( div ? '' + alpha.substr(div, 1) + enc : enc );
+}
+
+flickrPage.makeShadows = function(){
+    styleSheetList[0].insertRule( "#sendToSetDialogDiv { -webkit-box-shadow: 10px 10px 30px #000; }", 0 );
+    styleSheetList[0].insertRule( "#sendToGroupDialogDiv { -webkit-box-shadow: 10px 10px 30px #000; }", 0 );
+    styleSheetList[0].insertRule( "#sendToGalleryDialogDiv { -webkit-box-shadow: 10px 10px 30px #000; }", 0 );
+    styleSheetList[0].insertRule( "#sendToBlogDialogDiv { -webkit-box-shadow: 10px 10px 30px #000; }", 0 );
+}
+
+flickrPage.makeRound = function(){
 }

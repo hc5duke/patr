@@ -40,9 +40,18 @@ chrome.extension.onRequest.addListener(
          }
     if( request.type == "localStorage" ){
         console.log("Got a local storage request! " + request.param);
-        console.log("localStorage response: " + localStorage[ request.param ] );
         var param = request.param;
-        var value = localStorage[ request.param ];
+        if( typeof param == 'object' ){
+            var value = {};
+            console.log('typeof param: '+ typeof param );
+            for( var key in param ){
+                value[ param[key] ] = localStorage[ param[key] ];
+            }
+
+        }else{
+            var value = localStorage[ request.param ];
+            console.log("localStorage response: " + localStorage[ request.param ] );
+        }
         sendResponse( value );
     }
 

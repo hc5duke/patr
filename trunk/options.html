@@ -1,49 +1,90 @@
 <html>
     <head>
         <title>Patr Options Page</title>
-    </head>
-
+        <link rel=StyleSheet href="options.css" type='text/css'>
     <script type="text/javascript">
 
-        function save_options(){
-            var select = document.getElementById("color");
-            var color = select.children[ select.selectedIndex].value
-            localStorage["background"] = color;
+        function load_options(){
+            var pre_bg = new Image();
+            var pre_fg = new Image();
+            pre_fg.id = 'pre_fg';
+            pre_bg.src = chrome.extension.getURL("images/ecBG.png");
+            pre_fg.src = chrome.extension.getURL("images/ecFG.png");
 
-            var status = document.getElementById("status");
-            status.innerHTML = "Options Saved";
-            setTimeout( function() {
-                    status.innerHTML = "";
-            }, 750);
+            pre_fg.className = ' fgShadow';
+            pre_fg.className += ' fgCorners';
+
+            document.getElementById('preview').appendChild( pre_bg );
+            document.getElementById('preview').appendChild( pre_fg );
+
+            alert("you should have a shadow");
+            pre_fg.className = pre_fg.className.replace(' fgShadow','');
+            pre_fg.className = pre_fg.className.replace(' fgCorners','');
         }
 
-        function restore_options() {
-            var background = localStorage["background"];
-            if (!background){
-                return;
-            }
-            var select = document.getElementById("color");
-            for( var i = 0; i < select.children.length; i++ ){
-                var child = select.children[i];
-                if( child.value == background ){
-                    child.selected = 'true';
-                    break;
+        function doAllEC( clicked ){
+            var inputs = document.querySelectorAll("input[name^='ec']");
+            var alreadyChecked = document.querySelector("input[name='ecAll']").checked;
+            if( clicked == 'input' ){ alreadyChecked = !alreadyChecked; }
+            console.log( alreadyChecked );
+            for( key in inputs ){
+                if( parseInt(key+1) ){
+                    inputs[key].checked = alreadyChecked ? false : true;
+                    localStorage[ inputs[key].name ] = inputs[key].checked;
                 }
             }
+            if( alreadyChecked ){
+                var img = document.getElementById('pre_fg');
+                img.className = '';
+            }else{
+                var img = document.getElementById('pre_fg');
+                img.className = ' fgShadow fgCorners';
+            }
         }
 
+        function doMe( el ){
+            localStorage[ el.name ] = el.checked;
+            if( el.name == 'ecRound' ){ 
+                var img = document.getElementById('pre_fg');
+                img.className = el.checked ? img.className += ' fgCorners' : img.className = img.className.replace(' fgCorners','');
+            }
+            if( el.name == 'ecShadow' ){
+                var img = document.getElementById('pre_fg');
+                img.className = el.checked ? img.className += ' fgShadow' : img.className = img.className.replace(' fgShadow','');
+            }
+        }
+
+        function showPreview(){
+            document.getElementById('preview').style.opacity = 1;
+            document.getElementById('preview').style.visibility = 'visible';
+        }
+        function hidePreview(){
+            document.getElementById('preview').style.opacity = 0;
+            document.getElementById('preview').style.visibility = 'hidden';
+        }
     </script>
 
-<body onload="restore_options()">
+    </head>
 
-    Background Color:
-    <select id="color">
-        <option value="black">black</options>
-        <option value="grey">grey</options>
-        <option value="white">white</options>
-    </select>
 
-<br>
-<button onclick="save_options()">Save</button>
+<body onload="load_options()"
+    <h1>Patr Options</h1>
+    <span style='float: left;' onmouseout="hidePreview()" onmouseover="showPreview()" >
+        <div style='font-size: 2em;'>Eye Candy</div>
+
+    <input onclick="doAllEC('input');" type="checkbox" name="ecAll" value="ecAll" />
+    <span onclick="doAllEC( 'span' );" style='display: inline;'>All Eye Candy</span>
+    <br />
+    <div onclick="this.firstElementChild.checked = !this.firstElementChild.checked;doMe( this.firstElementChild );">
+        <input onclick="this.checked = !this.checked;" type="checkbox" name="ecRound" value="ecRound" />
+        Rounded Corners</div>
+    <div onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
+        <input onclick="this.checked = !this.checked;" type="checkbox" name="ecShadow" value="ecShadow" />
+        Drop Shadows</div>
+    
+    </span>
+    <div id='preview' ></div>
+
+
 </body>
 </html>

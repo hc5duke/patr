@@ -1,0 +1,25 @@
+#preview {
+    position: relative;
+    visibility: hidden;
+    opacity: 0;
+    float: left;
+    top: 0px;
+    margin-left: 50px;
+    -webkit-transition: 500ms;
+}
+
+#pre_fg {
+    border: solid 1px gray;
+    position: absolute;
+    left: 28px;
+    top: 23px;
+}
+
+.fgShadow {
+    border: 3px solid red;
+    -webkit-box-shadow: 10px 10px 30px #000;
+}
+
+.fgCorners {
+    -webkit-border-radius: 10px;
+}
