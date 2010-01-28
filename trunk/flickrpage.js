@@ -203,16 +203,7 @@ flickrPage.hideContext = function(){
     newTotal.style.color = '#ADADAD';
     //newTotal.style.color = '#666';
     newTotal.style.fontFamily = 'Arial';
-	newTotal.setAttribute('onmouseover', 'javsacript: showContext();');
 
     other.appendChild( newTotal );
 }
 
-function showContext(){
-	var hid = document.querySelectorAll("[name='hContext']");
-	for( var key in hid ){
-		if( parseInt(key+1) ){
-			hid[key].display = 'inline';
-		}
-	}
-}
