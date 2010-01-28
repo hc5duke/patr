@@ -1,4 +1,4 @@
-<! --
+<!--
 	Patr - Pats Flickr Extension
     Copyright (C) 2010  Patrick David
 
@@ -37,7 +37,6 @@ chrome.extension.onRequest.addListener(
             for( var key in param ){
                 value[ param[key] ] = localStorage[ param[key] ];
             }
-
         }else{
             var value = localStorage[ request.param ];
         }
@@ -60,10 +59,17 @@ function sendRequest( type, params ){
             for( var opt in params ){
                URL += "&" + opt + "=" + params[opt] ;
             }
+            console.log( 'params: ');
+            console.log( params );
 
    req.onreadystatechange = function() {
      if( req.readyState == 4 && req.status == 200 ){
-       response = JSON.parse( req.responseText );
+         console.log( 'req.responseText: ');
+         console.log( req.responseText );
+         response = JSON.parse( req.responseText );
+
+     }else{
+         response = JSON.parse( req.responseText );
      }
    }
    
@@ -116,13 +122,3 @@ function getSizes(photo_id){
 }
 
 </script>
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-5296386-3");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-
