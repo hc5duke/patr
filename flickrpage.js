@@ -203,5 +203,6 @@ flickrPage.hideContext = function(){
     newTotal.style.color = '#ADADAD';
     //newTotal.style.color = '#666';
     newTotal.style.fontFamily = 'Arial';
+
     other.appendChild( newTotal );
 }
