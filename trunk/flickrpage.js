@@ -169,20 +169,20 @@ flickrPage.hideContext = function(){
     for( var key in pools ){
         if( parseInt(key+1) ){
             pools[key].parentNode.parentNode.parentNode.style.display = 'none';
+            pools[key].parentNode.parentNode.parentNode.name = 'hContext';
         }
     }
     for( var key in sets ){
         if( parseInt(key+1) ){
             sets[key].parentNode.parentNode.parentNode.style.display = 'none';
+            sets[key].parentNode.parentNode.parentNode.name = 'hContext';
         }
     }
     var newTotal = document.createElement('div');
 	var nset = document.createElement('span');
 	var npool = document.createElement('span');
 	nset.innerHTML = num_sets;
-	console.log( num_pools );
 	npool.innerHTML = parseInt( num_pools );
-	console.log( parseInt(num_pools) );
 	if( num_pools !== 0 || num_sets !== 0 ){
 		newTotal.innerHTML = open ? '... and ' : '';
 	}
@@ -203,6 +203,16 @@ flickrPage.hideContext = function(){
     newTotal.style.color = '#ADADAD';
     //newTotal.style.color = '#666';
     newTotal.style.fontFamily = 'Arial';
+	newTotal.setAttribute('onmouseover', 'javsacript: showContext();');
 
     other.appendChild( newTotal );
+}
+
+function showContext(){
+	var hid = document.querySelectorAll("[name='hContext']");
+	for( var key in hid ){
+		if( parseInt(key+1) ){
+			hid[key].display = 'inline';
+		}
+	}
 }
