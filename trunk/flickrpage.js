@@ -161,10 +161,11 @@ flickrPage.hideContext = function(){
     var other = document.getElementById('otherContexts_div');
     var pools = document.querySelectorAll("div.contextDiv[id*='_pool'] tr[id^='nextprev_tr_pool'][style='display:none;']");
     var sets = document.querySelectorAll("div.contextDiv[id*='_set'] tr[id^='nextprev_tr_set'][style='display:none;']");
+	var open = other.querySelector("h3.contextTitleOpen") || false;
     var num_pools = pools.length;
     var num_sets = sets.length;
-    console.log('pools.length: '+ pools.length +'\nsets.length: '+ sets.length);
-    console.log( sets );
+    //console.log('pools.length: '+ pools.length +'\nsets.length: '+ sets.length);
+    //console.log( sets );
     for( var key in pools ){
         if( parseInt(key+1) ){
             pools[key].parentNode.parentNode.parentNode.style.display = 'none';
@@ -176,7 +177,26 @@ flickrPage.hideContext = function(){
         }
     }
     var newTotal = document.createElement('div');
-    newTotal.innerHTML = num_sets +" sets and "+ num_pools +" pools";
+	var nset = document.createElement('span');
+	var npool = document.createElement('span');
+	nset.innerHTML = num_sets;
+	console.log( num_pools );
+	npool.innerHTML = parseInt( num_pools );
+	console.log( parseInt(num_pools) );
+	if( num_pools !== 0 || num_sets !== 0 ){
+		newTotal.innerHTML = open ? '... and ' : '';
+	}
+	if( num_sets > 0 ) { newTotal.appendChild( nset ); }
+	newTotal.innerHTML += num_sets > 1 ? ' sets' : num_sets > 0 ? ' set' : '';
+	if( num_sets !== 0 ){
+		newTotal.innerHTML += ' and ';
+	}
+	if( num_pools > 0 ){ newTotal.appendChild( npool ); }
+	newTotal.innerHTML += num_pools > 1 ? ' pools' : num_pools > 0 ? ' pool' : '';
+
+    //newTotal.innerHTML = num_sets +" sets and "+ num_pools +" pools";
+	newTotal.style.marginTop = '10px';
+	newTotal.style.marginLeft = '10px';
     newTotal.style.fontWeight = 'bold';
     newTotal.style.fontSize = '17px';
     newTotal.style.color = '#C3BEBD';
