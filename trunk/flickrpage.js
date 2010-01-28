@@ -35,7 +35,7 @@ if( flickrPage.isPhotoPage ){
             function( response ){
                 if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                 if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
-                flickrPage.hideContext();
+                //flickrPage.hideContext();
             } );
 
 
@@ -47,6 +47,8 @@ if( flickrPage.isPhotoPage ){
   flickrPage.dragproxy = document.getElementById('photo-drag-proxy');
   flickrPage.ICBM = document.querySelector("meta[name='ICBM']") || false;
   flickrPage.flic = document.querySelector("link[rev='canonical']") || false;
+
+  preFlic();
 
     if( flickrPage.spaceball ) flickrPage.spaceball.offsetParent.removeChild( flickrPage.spaceball );
 	if( flickrPage.dragproxy ) flickrPage.dragproxy.style.visibility = 'hidden';
@@ -73,11 +75,58 @@ if( flickrPage.isPhotoPage ){
 				flickrPage.preSizes();
                 lightBox.preLoad();
 
-                flickrPage.preFlic(); 
+        }else if( document.getElementById('photo_gne_button_zoom') ){
+            // We failed getting photo info, let's try another method...
+            console.log( "Failed getting API info, trying workaround..." );
+            var req = new XMLHttpRequest();
+            var rText = document.createElement('div');
+            var sizeObj = {};
+            req.onreadystatechange=function(){
+                if( req.readyState == 4 && req.status == 200 ){
+                    rText.innerHTML = req.responseText;
+                    var nodes = rText.querySelectorAll("div.DownloadThis td");
 
-        }else{
+                    sizeObj.Square = {};
+                    sizeObj.Square.height = sizeObj.Square.width = '75';
+                    sizeObj.Square.source = rText.querySelector("p > img").src;
+                    sizeObj.Square.url = location.href + 'sizes/sq/';
+                    
+                    for( var i = 2; i < nodes.length - 1; i++){
+                        var a = nodes[i].querySelector('a');
+                        var s = nodes[i].querySelector('span').innerText.split(' x ');
 
-			flickrPage.lb_src = flickrPage.image_src.replace("_m", "");
+                        sName = a.innerText;
+                        sizeObj[ sName ] = {};
+                        sizeObj[ sName ]['url'] = a.href;
+                        sizeObj[ sName ]['width'] = s[0].substring(1);
+                        sizeObj[ sName ]['height'] = s[1].substring(0, s[1].length - 1);
+                        s = a.href.charAt( a.href.length - 2);
+
+                        sizeObj[ sName ]['source'] = s != 'o' ?
+                            sizeObj['Square'].source.replace("_s", '_'+s) : 
+                            doOrig( a.href );
+                    }
+                    flickrPage.sizes = sizeObj;
+                    if( flickrPage.sizes.Large ){
+                        flickrPage.lb_src = flickrPage.sizes.Large.source;
+                    }else if( flickrPage.sizes.Original ){
+                        flickrPage.lb_src = flickrPage.sizes.Large.source;
+                    }else{
+                        flickrPage.lb_src = flickrPage.image_src.replace("_m", "");
+                    }
+
+                    flickrPage.preSizes();
+                    lightBox.preLoad();
+                }
+
+            }
+            req.open("GET", 'http://www.flickr.com/photos/iphoneavhell/2736104721/sizes/sq/', true);
+            req.send(null);
+
+        }else{ // Everything else failed, so just use the img on the page...
+            console.log("Failed getting API info, and no zoom, so ...");
+            flickrPage.lb_src = flickrPage.reflect.src;
+            lightBox.preLoad();
         }
     } 
   );
@@ -107,9 +156,9 @@ flickrPage.preSizes = function(){
 	document.querySelector("div.Widget").appendChild( d );
 }
 
-flickrPage.preFlic = function(){
+function preFlic(){
 
-    var shortURL = flickrPage.flic ? flickrPage.flic.href : flickrPage.flic_kr( flickrPage.photoID );
+    var shortURL = flickrPage.flic ? flickrPage.flic.href : flic_kr( flickrPage.photoID );
 
         var ul = document.querySelector("ul > li[class='Stats']").parentNode;
         var li = document.createElement('li');
@@ -126,7 +175,7 @@ flickrPage.preFlic = function(){
 
 }
 
-flickrPage.flic_kr = function(photoID){
+function flic_kr(photoID){
     if( typeof photoID !== 'number' ){ photoID = parseInt( photoID ); }
     var enc = '', alpha='123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';
     var div = photoID, mod;
@@ -207,3 +256,17 @@ flickrPage.hideContext = function(){
     other.appendChild( newTotal );
 }
 
+function doOrig( url ){
+    var xhr = new XMLHttpRequest();
+    var re = /http.*static\.flickr\.com.*o\.jpg/i;
+    var otxt;
+    xhr.onreadystatechange=function()    {
+        if( xhr.readyState == 4 && xhr.status == 200 ){
+            otxt = re.exec( xhr.responseText );
+        }
+    }
+    xhr.open("GET", url, false);
+    xhr.send(null);
+    console.log('after .send');
+    return otxt;
+}
