@@ -33,7 +33,6 @@ if( discuss ){
 		var txt = document.querySelector("textarea[name='message']");
         for( var key in peeps ){
             if( parseInt(key+1) ){
-                console.log( 'key: '+ key +' peeps[key]: '+ peeps[key] );
                 var respond = document.createElement('div');
                 var rImage = document.createElement('a');
                 var rName = document.createElement('a');
