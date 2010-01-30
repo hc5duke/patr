@@ -26,12 +26,11 @@ var discuss = (document.getElementsByName('message').length > 0 );
 
 if( discuss ){
 
-    var txtarea = document.getElementsByName('message')[0];
-    console.log( txtarea );
     addReplies();
 
     function addReplies(){
         var peeps = document.querySelectorAll("h4 > a[href^='/photos/']");
+		var txt = document.querySelector("textarea[name='message']");
         for( var key in peeps ){
             if( parseInt(key+1) ){
                 console.log( 'key: '+ key +' peeps[key]: '+ peeps[key] );
@@ -39,23 +38,43 @@ if( discuss ){
                 var rImage = document.createElement('a');
                 var rName = document.createElement('a');
                 var r = document.createElement('small');
-                respond.style.display = 'inline';
-                r.innerHTML = ' respond by';
-                rImage.innerHTML = " <small>Image</small>";
-                rName.innerHTML = " <small>Name</small>";
-                rImage.setAttribute('onclick', '');
+
+                r.innerHTML = ' reply by ';
+                rImage.innerHTML = "<small>Image</small>";
+                rName.innerHTML = "<small>Name</small>";
+				rImage.link = '['+ peeps[key].href +']'; 
+				rName.link = peeps[key].innerHTML;
+				rImage.href = 'javascript:;';
+				rName.href = 'javascript:;';
+
                 respond.appendChild( r );
                 respond.appendChild( rName );
+				respond.appendChild( document.createTextNode(' ') );
                 respond.appendChild( rImage );
-                respond.style.backgroundColor = 'blue';
-                respond.style.webkitTransform = 'rotate(30deg)';
                 peeps[key].parentNode.insertBefore( respond, peeps[key].nextSibling );
-                //peeps[key].parentNode.insertBefore( rImage, peeps[key].nextSibling);
-                //peeps[key].parentNode.insertBefore( rName, rImage );
-                //peeps[key].parentNode.insertBefore( r, rName );
+
+				respond.className = 'responseDiv';
+				respond.style.left = respond.offsetLeft - peeps[key].offsetWidth;
+				respond.style.top = respond.offsetTop + peeps[key].offsetHeight - 1;
+
+				peeps[key].parentNode.onmouseover = function () { this.querySelector("div").style.webkitTransform = 'scaleY(1)'; }
+				peeps[key].parentNode.onmouseout = function () { this.querySelector("div").style.webkitTransform = 'scaleY(0)'; }
+				rImage.onmousedown = pasteLink;
+				rName.onmousedown = pasteLink;
+
+
+				function pasteLink(){
+					var start = txt.selectionStart;
+					var end = txt.selectionEnd;
+					txt.value = txt.value.substring(0, start)
+						+ this.link
+						+ txt.value.substring(end, txt.value.length);
+					return false;
+				}
             }
         }
     }
-    
+
+
 
 }
