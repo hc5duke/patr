@@ -1,0 +1,12 @@
+.responseDiv {
+	-webkit-transition: 250ms;
+	-webkit-transform-origin: 0 0;
+	position: absolute;
+	-webkit-transform: scaleY(0);
+	padding-bottom: 10px;
+	display: inline;
+}
+
+div.responseDiv a {
+	text-decoration: none;
+}
