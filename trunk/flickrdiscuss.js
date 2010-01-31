@@ -26,39 +26,73 @@ var discuss = (document.getElementsByName('message').length > 0 );
 
 if( discuss ){
 
-    addReplies();
+	var type = 'foot';
+	
+    addReplies( type );
 
-    function addReplies(){
+    function addReplies( type ){
+
         var peeps = document.querySelectorAll("h4 > a[href^='/photos/']");
 		var txt = document.querySelector("textarea[name='message']");
         for( var key in peeps ){
             if( parseInt(key+1) ){
                 var respond = document.createElement('div');
-                var rImage = document.createElement('a');
+                var rImage = document.createElement('a');	
+				var rImageSmall = document.createElement('a');
                 var rName = document.createElement('a');
                 var r = document.createElement('small');
 
                 r.innerHTML = ' reply by ';
                 rImage.innerHTML = "<small>Image</small>";
+				rImageSmall.innerHTML = "<small>&frac12; Image</small>";
                 rName.innerHTML = "<small>Name</small>";
 				rImage.link = '['+ peeps[key].href +']'; 
+				rImageSmall.link = "<img src='"
+						+ peeps[key].parentNode.parentNode.previousElementSibling.querySelector("img").src
+						+ "' width='24' height='24'>";
 				rName.link = peeps[key].innerHTML;
 				rImage.href = 'javascript:;';
+				rImageSmall.href = 'javascript:;';
 				rName.href = 'javascript:;';
 
                 respond.appendChild( r );
                 respond.appendChild( rName );
 				respond.appendChild( document.createTextNode(' ') );
                 respond.appendChild( rImage );
-                peeps[key].parentNode.insertBefore( respond, peeps[key].nextSibling );
+				respond.appendChild( document.createTextNode(' ') );
+				respond.appendChild( rImageSmall );
 
-				respond.className = 'responseDiv';
-				respond.style.left = respond.offsetLeft - peeps[key].offsetWidth;
-				respond.style.top = respond.offsetTop + peeps[key].offsetHeight - 1;
+				if( type == 'under' ){
+					peeps[key].parentNode.insertBefore( respond, peeps[key].nextSibling );
 
-				peeps[key].parentNode.onmouseover = function () { this.querySelector("div").style.webkitTransform = 'scaleY(1)'; }
-				peeps[key].parentNode.onmouseout = function () { this.querySelector("div").style.webkitTransform = 'scaleY(0)'; }
+					respond.className = 'responseDiv';
+					respond.style.left = respond.offsetLeft - peeps[key].offsetWidth;
+					respond.style.top = respond.offsetTop + peeps[key].offsetHeight - 1;
+
+					peeps[key].parentNode.onmouseover = function () { this.querySelector("div").style.webkitTransform = 'scaleY(1)'; }
+					peeps[key].parentNode.onmouseout = function () { this.querySelector("div").style.webkitTransform = 'scaleY(0)'; }
+				}else if( type == 'foot' ){
+					var p = peeps[key].parentNode.nextElementSibling.querySelector("small");
+					var a = p.querySelectorAll("a");
+					var last = a[a.length-1].nextSibling;
+					rImage.className = rName.className = rImageSmall.className = 'Plain';
+					rImage.innerHTML = "icon";
+					rImageSmall.innerHTML = "&frac12; icon";
+					rName.innerHTML = "name";
+
+					var res = document.createElement('span')
+					res.appendChild( document.createTextNode(' | ') , last);
+					res.appendChild( rName, last );
+					res.appendChild( document.createTextNode(' | ') , last);
+					res.appendChild( rImage, last );
+					res.appendChild( document.createTextNode(' | ') , last);
+					res.appendChild( rImageSmall, last );
+					p.insertBefore( res, last );
+				}
+
+
 				rImage.onmousedown = pasteLink;
+				rImageSmall.onmousedown = pasteLink;
 				rName.onmousedown = pasteLink;
 
 
