@@ -1,5 +1,5 @@
-#summary Welcome to Pats Flickr extension!
 #labels Featured
+kj#summary Welcome to Pats Flickr extension!
 
 = Patr - Pats Flickr extension =
 
@@ -17,3 +17,33 @@ Lightbox can be triggered using either the "L" key on the keyboard, or clicking 
 = Sizes =
 
 Added direct links to each of the available sizes for a photo.
+
+= Updates =
+
+* Update (2010.02.01) - v.0.1.9 * - 
+Options page now available for buddy icon reply!  You can choose where the buddy options show up on a post (under name or in the message footer), as well as set a custom size for small icons.  Also, a [b]old option for replying by name alone.
+
+* Update (2010.01.31) - v.0.1.8 * - 
+Fixed bug where buddy icon replies not working on multi-paged discussions.
+
+* Update (2010.01.31) - v.0.1.7 * - 
+Added option for quick reply (buddy icons) to show up in the footer of topic replies, instead of dropping down.  Options page on the way to control this behaviour.
+Third option for buddy reply icons now ½ icon size!
+
+* Update (2010.01.30) - v.0.1.6 * - 
+Added a quick reply by name or image on discussion pages and photo comments.  Just hover over a username in a comment or discussion!
+The image size links work on video!  You can get direct links to each of the video shot sizes, full size link to the video itself, and download links for the video in .mp4 format!
+
+* Update (2010.01.28) - v.0.1.5 * - 
+Now works on private photos as well!  Returns direct size links and lightbox functionality for images marked private (that you can see).
+
+* Update (2010.01.26) - v.0.1.3 * - 
+Added short Flic.kr link to "Additional Information" for all photos
+Added options page to toggle eye candy effects (drop shadows & round corners)
+
+* Update (2010.01.25) - v.0.1.2 * - 
+Added size information next to available sizes when hovering over links.
+
+* Update * - 
+Added drop shadow eye candy to image button popups (Send to Group, Add to Set, Blog This).
+Added available image sizes direct links under the Uploaded info (Square, Thumbnail, Small, Medium, Large, Original).
