@@ -9,15 +9,17 @@ body {
     float: left;
     top: 0px;
     margin-left: 50px;
-    -webkit-transition: 500ms;
+    -webkit-transition-property: opacity, visibility;
+	-webkit-transition-duration: 500ms;
+	display: block;
 }
 
-.ecOpt {
+.ecOpt, .briOpt{
 	cursor: pointer;
-	font-size: 1.25em;
+	font-size: 1em;
 }
 
-.ecOpt > input {
+.ecOpt > input , briOpt > input {
 	cursor: pointer;
 }
 

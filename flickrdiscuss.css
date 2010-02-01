@@ -5,6 +5,7 @@
 	-webkit-transform: scaleY(0);
 	padding-bottom: 10px;
 	display: inline;
+	color: #999;
 }
 
 div.responseDiv a {

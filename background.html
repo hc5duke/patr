@@ -21,6 +21,10 @@
 <script>
 const API_KEY = "ea1d492fa9803aa760d8039ccb5f73ee";
 
+if( localStorage['ecRound'] == undefined ){ localStorage['ecRound'] = true; }
+if( localStorage['ecShadow'] == undefined ){ localStorage['ecShadow'] = true; }
+if( localStorage['briFooter'] == undefined ){ localStorage['briFooter'] = true; localStorage['briUnder'] = false; }
+if( localStorage['iconSmallSize'] == undefined ){ localStorage['iconSmallSize'] = 24; }
 
 chrome.extension.onRequest.addListener(
 	function( request, sender, sendResponse) {
@@ -79,7 +83,7 @@ function sendRequest( type, params ){
    return response;
 }
 
-
+/*
 function getSizes(photo_id){
 
 	var finalSize;
@@ -120,5 +124,6 @@ function getSizes(photo_id){
 	}
 	return finalSize;
 }
+*/
 
 </script>
