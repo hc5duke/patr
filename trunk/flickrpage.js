@@ -28,15 +28,15 @@ var flickrPage = {};
 flickrPage.isPhotoPage = 
    document.querySelector("link[rel='canonical']") ? true : false ;
 
-
-if( flickrPage.isPhotoPage ){
-
     chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound'] },
             function( response ){
                 if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                 if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
                 //flickrPage.hideContext();
             } );
+
+if( flickrPage.isPhotoPage ){
+
 
 
   flickrPage.photoID = document.location.href.split("/")[5] ;
