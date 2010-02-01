@@ -21,9 +21,16 @@
             pre_fg.className = pre_fg.className.replace(' fgCorners','');
 
 			for( var key in localStorage ){
-				document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
-				if( key == 'ecRound' ){ apply( 'fgCorners', document.getElementById( key ).checked ); }
-				if( key == 'ecShadow' ){ apply( 'fgShadow', document.getElementById( key ).checked ); }
+				if( key.indexOf('ec') != -1 ){
+					document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
+					if( key == 'ecRound' ){ apply( 'fgCorners', document.getElementById( key ).checked ); }
+					if( key == 'ecShadow' ){ apply( 'fgShadow', document.getElementById( key ).checked ); }
+				}else if( key.indexOf('bri') != -1 ){
+					console.log("loading, indexOf('bri'): "+ key +" value: "+ localStorage[key]);
+					document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
+				}else if( key == 'iconSmallSize' ){
+					document.getElementById( key ).value = localStorage[key];
+				}
 			}
         }
 
@@ -35,7 +42,7 @@
             for( key in inputs ){
                 if( parseInt(key+1) ){
                     inputs[key].checked = alreadyChecked ? false : true;
-                    localStorage[ inputs[key].name ] = inputs[key].checked;
+                    localStorage[ inputs[key].value ] = inputs[key].checked;
                 }
             }
             if( alreadyChecked ){
@@ -48,17 +55,32 @@
         }
 
         function doMe( el ){
-            localStorage[ el.name ] = el.checked;
-			if( el.checked == false ){ 
-				localStorage['ecAll'] = false;
-				document.getElementById('ecAll').checked = false;
+			if( el.type == 'checkbox' ){
+				console.log('doMe - checkbox: '+ el.value +' el.checked:'+ el.checked );
+				localStorage[ el.value ] = el.checked;
+				console.log('localStorage[ el.value ] = '+ localStorage[el.value] );
+				if( el.checked == false && el.value.indexOf('ec') != -1 ){ 
+					localStorage['ecAll'] = false;
+					document.getElementById('ecAll').checked = false;
+				}
+				if( el.value == 'ecRound' ){ 
+					apply( 'fgCorners', el.checked );
+				}else if( el.value == 'ecShadow' ){
+					apply( 'fgShadow', el.checked );
+				}else if( el.value == 'briUnder' ){
+				}
+			}else if( el.type == 'radio' ){
+				localStorage[ el.value ] = el.checked;
+				if( el.value == 'briUnder' ){ 
+					localStorage['briFooter'] = !el.checked; 
+				}else{
+					localStorage['briUnder'] = !el.checked;
+				}
+			}else if( el.type == 'text' ){
+				localStorage['iconSmallSize'] = el.value;
+				el.style.backgroundColor = '#c1ffc1';
 			}
-            if( el.name == 'ecRound' ){ 
-				apply( 'fgCorners', el.checked );
-            }
-            if( el.name == 'ecShadow' ){
-				apply( 'fgShadow', el.checked );
-            }
+				
         }
 		
 		function apply( cname, applyit){
@@ -81,8 +103,10 @@
 
 
 <body onload="load_options()"
-    <h1>Patr Options</h1>
-    <span style='float: left;' onmouseout="hidePreview()" onmouseover="showPreview()" >
+    <h1><img src="logo48.png"/> Patr Options</h1>
+
+    <span style='float: left;' >
+	<div onmouseout="hidePreview()" onmouseover="showPreview()" >
         <div style='font-size: 2em; border-bottom: solid 1px gray;'>Eye Candy</div>
 
     <input onclick="doAllEC('input');" type="checkbox" name="ecAll" id="ecAll" value="ecAll" />
@@ -96,8 +120,23 @@
         <input onclick="this.checked = !this.checked;" type="checkbox" name="ecShadow" id="ecShadow" value="ecShadow" />
         Drop Shadows</div>
     
+	</div>
+	<br/>
+		<div style='font-size: 2em; border-bottom: solid 1px gray;'>Buddy Reply Icons</div>
+		<div class='briOpt' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
+			<input onclick="this.checked = !this.checked;" type='radio' name='briLoc' id='briUnder' value='briUnder' />
+			Buddy reply under name</div>
+
+		<div class='briOpt' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
+			<input onclick="this.checkbox = !this.checked;" type='radio' name='briLoc' id='briFooter' value='briFooter' />
+			Buddy reply in post footer</div>
+
+		<div class='briOpt'>
+			Small icon size: <input onBlur=' doMe(this);' type='text' name='iconSmallSize' id='iconSmallSize' style='width: 40; font-size: 1em; font-weight: bold;' onFocus='this.style.backgroundColor = "#FFc1c1"' /> px. square
+			</div>
+
     </span>
-    <div id='preview' ></div>
+    <div id='preview' style='visibility: hidden;'></div>
 
 
 </body>
