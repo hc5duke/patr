@@ -1,5 +1,5 @@
+#summary Welcome to Pats Flickr extension!
 #labels Featured
-kj#summary Welcome to Pats Flickr extension!
 
 = Patr - Pats Flickr extension =
 
