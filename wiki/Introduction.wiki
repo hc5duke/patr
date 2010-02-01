@@ -8,7 +8,8 @@ Implementing various tweaks to add to the functionality and usefulness of Flickr
 
 = Lightbox =
 
-At the moment all I have implemented is a lightbox function.  This will simply display a larger view of the current image on a darkened background (by using the "L" key).
+~~At the moment all I have implemented is a lightbox function.~~
+This will simply display a larger view of the current image on a darkened background (by using the "L" key, or by clicking on a photo in a photo page).
 
 I have now incorporated some webkit css transition goodness to the lightbox.
 
