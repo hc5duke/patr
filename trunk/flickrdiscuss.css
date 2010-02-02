@@ -10,4 +10,7 @@
 
 div.responseDiv a {
 	text-decoration: none;
+    text-decoration: underline;
 }
+
+body { background-color: red; }

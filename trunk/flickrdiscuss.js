@@ -22,111 +22,104 @@
 //
 // flickrDiscuss contains functions for dealing with discussion page parameters
 
-var discuss = (document.getElementsByName('message').length > 0 ); 
-var txt = document.querySelector("textarea[name='message']");
+function doDiscuss(){
 
-if( discuss && txt ){
+    var discuss = (document.getElementsByName('message').length > 0 ); 
+    var txt = document.querySelector("textarea[name='message']");
 
-	
-    chrome.extension.sendRequest( {type:"localStorage", param:['briFooter', 'briUnder', 'iconSmallSize'] },
-		function( response ){
-			//alert( 'footer: '+ response.briFooter +'\nunder: '+ response.briUnder );
+    if( discuss && txt ){
 
-			var type = (response.briFooter == 'true') ? 'foot' : 'under';
-    		addReplies( type , response.iconSmallSize);
-		});
+        
+        chrome.extension.sendRequest( {type:"localStorage", param:['briFooter', 'briUnder', 'iconSmallSize'] },
+            function( response ){
+                var type = (response.briFooter == 'true') ? 'foot' : 'under';
+                addReplies( type , response.iconSmallSize);
+            });
 
-    function addReplies( type , sSize ){
-		//alert('type: '+ type );
-        var peeps = document.querySelectorAll("h4 > a[href^='/photos/']");
+        function addReplies( type , sSize ){
+            var peeps = document.querySelectorAll("h4 > a[href^='/photos/']");
 
-        for( var key in peeps ){
-            if( parseInt(key+1) ){
-                var respond = document.createElement('div');
-                var rImage = document.createElement('a');	
-				var rImageSmall = document.createElement('a');
-                var rName = document.createElement('a');
-				var rNameB = document.createElement('a');
-                var r = document.createElement('small');
+            for( var key in peeps ){
+                if( parseInt(key+1) ){
+                    var respond = document.createElement('div');
+                    var rImage = document.createElement('a');	
+                    var rImageSmall = document.createElement('a');
+                    var rName = document.createElement('a');
+                    var rNameB = document.createElement('a');
+                    var r = document.createElement('small');
 
-                r.innerHTML = ' reply by ';
-                rImage.innerHTML = "<small>Image</small>";
-				rImageSmall.innerHTML = "<small> [&frac12;]</small>";
-                rName.innerHTML = "<small>Name</small>";
-				rNameB.innerHTML = '<small> [b]</small>';
-				rImage.link = '['+ peeps[key].href +']'; 
-				rImageSmall.link = "<img src='"
-						+ peeps[key].parentNode.parentNode.previousElementSibling.querySelector("img").src
-						+ "' width='" + sSize + "' height='" + sSize + "'>";
-				rName.link = peeps[key].innerHTML;
-				rNameB.link = "<b>"+ rName.link +"</b>";
-				rImage.href = 'javascript:;';
-				rImageSmall.href = 'javascript:;';
-				rName.href = 'javascript:;';
-				rNameB.href = 'javascript:;';
+                    r.innerHTML = ' reply by ';
+                    rImage.innerHTML = "<small>Image</small>";
+                    rImageSmall.innerHTML = "<small> [&frac12;]</small>";
+                    rName.innerHTML = "<small>Name</small>";
+                    rNameB.innerHTML = '<small> [b]</small>';
+                    rImage.link = '['+ peeps[key].href +']'; 
+                    rImageSmall.link = "<img src='"
+                            + peeps[key].parentNode.parentNode.previousElementSibling.querySelector("img").src
+                            + "' width='" + sSize + "' height='" + sSize + "'>";
+                    rName.link = peeps[key].innerHTML;
+                    rNameB.link = "<b>"+ rName.link +"</b>";
+                    rImage.href = rImageSmall.href = rName.href = rNameB.href = 'javascript:;';
+                    rImageSmall.href = 'javascript:;';
+                    rName.href = 'javascript:;';
+                    rNameB.href = 'javascript:;';
 
-				if( type == 'under' ){
+                    if( type == 'under' ){
 
-					respond.appendChild( r );
-					respond.appendChild( rName );
-					respond.appendChild( rNameB );
-					respond.appendChild( document.createTextNode(' ') );
-					respond.appendChild( rImage );
-					respond.appendChild( rImageSmall );
+                        respond.appendChild( r );
+                        respond.appendChild( rName );
+                        respond.appendChild( rNameB );
+                        respond.appendChild( document.createTextNode(' ') );
+                        respond.appendChild( rImage );
+                        respond.appendChild( rImageSmall );
 
-					peeps[key].parentNode.insertBefore( respond, peeps[key].nextSibling );
+                        peeps[key].parentNode.insertBefore( respond, peeps[key].nextSibling );
 
-					respond.className = 'responseDiv';
-					respond.style.left = respond.offsetLeft - peeps[key].offsetWidth;
-					respond.style.top = respond.offsetTop + peeps[key].offsetHeight - 1;
+                        respond.className = 'responseDiv';
+                        respond.style.left = respond.offsetLeft - peeps[key].offsetWidth;
+                        respond.style.top = respond.offsetTop + peeps[key].offsetHeight - 1;
 
-					peeps[key].parentNode.onmouseover = function () { this.querySelector("div").style.webkitTransform = 'scaleY(1)'; }
-					peeps[key].parentNode.onmouseout = function () { this.querySelector("div").style.webkitTransform = 'scaleY(0)'; }
+                        peeps[key].parentNode.onmouseover = function () { this.querySelector("div").style.webkitTransform = 'scaleY(1)'; }
+                        peeps[key].parentNode.onmouseout = function () { this.querySelector("div").style.webkitTransform = 'scaleY(0)'; }
 
-				}else if( type == 'foot' ){
-					
-					var p = peeps[key].parentNode.parentNode.querySelector("small");
+                    }else if( type == 'foot' ){
+                        
+                        var p = peeps[key].parentNode.parentNode.querySelector("small");
 
-					var a = p.querySelectorAll("a");
-					var last = a[a.length-1].nextSibling;
-					rImage.className = rNameB.className = rName.className = rImageSmall.className = 'Plain';
-					rImage.innerHTML = "icon";
-					rImageSmall.innerHTML = " [&frac12;]";
-					rName.innerHTML = "name";
-					rNameB.innerHTML = ' [b]';
+                        var a = p.querySelectorAll("a");
+                        var last = a[a.length-1].nextSibling;
+                        rImage.className = rNameB.className = rName.className = rImageSmall.className = 'Plain';
+                        rImage.innerHTML = "icon";
+                        rImageSmall.innerHTML = " [&frac12;]";
+                        rName.innerHTML = "name";
+                        rNameB.innerHTML = ' [b]';
 
-					var res = document.createElement('span')
-					res.appendChild( document.createTextNode(' | ') );
-					res.appendChild( rName );
-					//res.appendChild( document.createTextNode('[') );
-					res.appendChild( rNameB );
-					//res.appendChild( document.createTextNode(']') );
-					res.appendChild( document.createTextNode(' | ') );
-					res.appendChild( rImage );
-					//res.appendChild( document.createTextNode('[') );
-					res.appendChild( rImageSmall );
-					//res.appendChild( document.createTextNode(']') );
+                        var res = document.createElement('span')
+                        res.appendChild( document.createTextNode(' | ') );
+                        res.appendChild( rName );
+                        res.appendChild( rNameB );
+                        res.appendChild( document.createTextNode(' | ') );
+                        res.appendChild( rImage );
+                        res.appendChild( rImageSmall );
 
-					p.insertBefore( res, last );
-				}
+                        p.insertBefore( res, last );
+                    }
 
-				rImage.onmousedown = pasteLink;
-				rImageSmall.onmousedown = pasteLink;
-				rName.onmousedown = pasteLink;
-				rNameB.onmousedown = pasteLink;
+                    rImage.onmousedown = pasteLink;
+                    rImageSmall.onmousedown = pasteLink;
+                    rName.onmousedown = pasteLink;
+                    rNameB.onmousedown = pasteLink;
 
-				function pasteLink(){
-					var start = txt.selectionStart;
-					var end = txt.selectionEnd;
-					txt.value = txt.value.substring(0, start)
-						+ this.link
-						+ txt.value.substring(end, txt.value.length);
-					return false;
-				}
+                    function pasteLink(){
+                        var start = txt.selectionStart;
+                        var end = txt.selectionEnd;
+                        txt.value = txt.value.substring(0, start)
+                            + this.link
+                            + txt.value.substring(end, txt.value.length);
+                        return false;
+                    }
+                }
             }
         }
     }
-
-
-
 }
