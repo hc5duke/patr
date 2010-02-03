@@ -46,7 +46,6 @@ chrome.extension.onRequest.addListener(
         }
         sendResponse( value );
     }
-
 });
 
 // Generic Request function
@@ -99,21 +98,20 @@ function sendDirty( type, params ){
                 for( var opt in params ){
                URL += "&" + opt + "=" + params[opt] ;
             }
-    console.log( URL );
-    console.log( cookie );
 
-    //req.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
-    //req.setRequestHeader("Connection", "close");
+    // Don't set header data on the call, it will throw an XHR exception...
     req.onreadystatechange = function(){
         if( req.readyState == 4 && req.status == 200 ){
-            alert( req.responseText );
+            console.log( 'req.responseText' );
+            console.log( req.responseText );
+            response = JSON.parse( req.responseText );
         }
     }
     
     req.open("POST", URL, false);
     req.send( cookie );
 
-
+    return response;
 }
 
 /*
