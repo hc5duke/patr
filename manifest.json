@@ -17,6 +17,7 @@
 	],
 	"permissions": [
 		"tabs",
-		"http://api.flickr.com/*"
+		"http://api.flickr.com/*",
+        "http://www.flickr.com/*"
 	]
 }
