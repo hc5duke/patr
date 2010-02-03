@@ -24,12 +24,15 @@
 
 // insert custom css styles before page load (to avoid flicker if possible!)
 var st = document.createElement("style");
-/*
-st.innerText=" body{ background-color: black ! important; color: white ! important; } "
+
+st.innerText=" body{ background-color: black ! important; color: #d9d9d9 ! important; } "
                 + "td.SetsColumn { background-color: #1C1C1C; }"
                 + "div[id*='description']:hover { background-color: #1c1c1c ! important; }"
+				+ "ul.site_nav_menu_buttons > li { border: 1px solid black; }"
+				+ "li > span { border-right: 1px solid black !important; }"
+				+ "div.contextDiv tr.contextThumbsRow td > div { background-color: #333333; }"
+				+ "span[id^='notes_text'] { color: black; }"
                 + "td { color: #CCC ! important; }";
-*/
 
 document.documentElement.insertBefore( st );
 
