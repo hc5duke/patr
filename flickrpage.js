@@ -32,6 +32,8 @@ chrome.extension.sendRequest( {type: "cAPI", fn: "photos.getSizes", params: { ph
         });
 */
 
+console.log( location.href );
+
 // insert custom css styles before page load (to avoid flicker if possible!)
 var st = document.createElement("style");
 
