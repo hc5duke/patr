@@ -22,6 +22,16 @@
 //
 // flickrPage contains functions for dealing with page parameters
 
+// Holy crap this works
+/*
+chrome.extension.sendRequest( {type: "cAPI", fn: "photos.getSizes", params: { photo_id: "2736104721", api_key: "01553a1d97d491278aa94867350ad427", auth_hash: "8c3bf0bc28a0481ce3079049e0445817", auth_token: "", src: "js", cookie: document.cookie } },
+        function( response ){
+            if( response.stat == "ok" ){
+                console.log( response );
+            }
+        });
+*/
+
 // insert custom css styles before page load (to avoid flicker if possible!)
 var st = document.createElement("style");
 
@@ -98,53 +108,37 @@ function doFlickrPage() {
                     flickrPage.preSizes();
                     lightBox.preLoad();
 
-            }else if( document.getElementById('photo_gne_button_zoom') ){
+            }else if( /*document.getElementById('photo_gne_button_zoom') */ true ){
                 // We failed getting photo info, let's try another method...
                 console.log( "Failed getting API info, trying workaround..." );
-                var req = new XMLHttpRequest();
-                var rText = document.createElement('div');
-                var sizeObj = {};
-                req.onreadystatechange=function(){
-                    if( req.readyState == 4 && req.status == 200 ){
-                        rText.innerHTML = req.responseText;
-                        var nodes = rText.querySelectorAll("div.DownloadThis td");
 
-                        sizeObj.Square = {};
-                        sizeObj.Square.height = sizeObj.Square.width = '75';
-                        sizeObj.Square.source = rText.querySelector("p > img").src;
-                        sizeObj.Square.url = location.href + 'sizes/sq/';
-                        
-                        for( var i = 2; i < nodes.length - 1; i++){
-                            var a = nodes[i].querySelector('a');
-                            var s = nodes[i].querySelector('span').innerText.split(' x ');
+                var ftxt = document.head.querySelector("script").innerHTML; 
+                var farray = ftxt.match( /'\w+'/g );
+                var api_key = farray[0].substring( 1, farray[0].length - 1 );
+                var auth_hash = farray[1].substring( 1, farray[1].length -1 );
+                var cookie = document.cookie;
 
-                            sName = a.innerText;
-                            sizeObj[ sName ] = {};
-                            sizeObj[ sName ]['url'] = a.href;
-                            sizeObj[ sName ]['width'] = s[0].substring(1);
-                            sizeObj[ sName ]['height'] = s[1].substring(0, s[1].length - 1);
-                            s = a.href.charAt( a.href.length - 2);
+                chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getSizes', params: { photo_id: flickrPage.photoID, api_key: api_key, auth_hash: auth_hash, auth_token: '', src: 'js' } },
+                        function( response ){
+                            if( response.stat == 'ok' ){
+                                var rss = response.sizes.size;
+                                var sizes = {};
+                                for( var sz in rss ){
+                                    sizes[ rss[sz].label ] = rss[sz];
+                                }
+                                flickrPage.sizes = sizes;
+                                if( flickrPage.sizes.Large ){
+                                      flickrPage.lb_src =  flickrPage.sizes.Large.source;
+                                }else if( flickrPage.sizes.Original ){
+                                      flickrPage.lb_src =  flickrPage.sizes.Original.source;
+                                }else{
+                                      flickrPage.lb_src =  flickrPage.image_src.replace( "_m", "" );
+                                }
 
-                            sizeObj[ sName ]['source'] = s != 'o' ?
-                                sizeObj['Square'].source.replace("_s", '_'+s) : 
-                                doOrig( a.href );
-                        }
-                        flickrPage.sizes = sizeObj;
-                        if( flickrPage.sizes.Large ){
-                            flickrPage.lb_src = flickrPage.sizes.Large.source;
-                        }else if( flickrPage.sizes.Original ){
-                            flickrPage.lb_src = flickrPage.sizes.Large.source;
-                        }else{
-                            flickrPage.lb_src = flickrPage.image_src.replace("_m", "");
-                        }
-
-                        flickrPage.preSizes();
-                        lightBox.preLoad();
-                    }
-
-                }
-                req.open("GET", 'http://www.flickr.com/photos/iphoneavhell/2736104721/sizes/sq/', true);
-                req.send(null);
+                                flickrPage.preSizes();
+                                lightBox.preLoad();
+                            }
+                        });
 
             }else{ // Everything else failed, so just use the img on the page...
                 console.log("Failed getting API info, and no zoom, so ...");
