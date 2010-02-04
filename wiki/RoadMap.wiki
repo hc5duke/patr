@@ -5,6 +5,6 @@
 
 Where we would like to go in the future, and improvements that are to be made.
 
-= Configuration =
+== Ideas ==
 
-I think it best to begin separating the lightbox functions out into their own object, as well as common page variables that might have to be accessed by multiple objects for later functionality.
+I am thinking of adding the ability to click on any username (or an icon next to the name), and to allow a popup/popover that shows the last n number of photos from that person!
