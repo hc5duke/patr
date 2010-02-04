@@ -7,4 +7,6 @@ Where we would like to go in the future, and improvements that are to be made.
 
 == Ideas ==
 
-I am thinking of adding the ability to click on any username (or an icon next to the name), and to allow a popup/popover that shows the last n number of photos from that person!
+* I am thinking of adding the ability to click on any username (or an icon next to the name), and to allow a popup/popover that shows the last n number of photos from that person!
+
+* Multi-group sender - this one has been on my todo list from day one.  Desperately need a better way to send to multiple groups at once (better than default and organizr imo).
