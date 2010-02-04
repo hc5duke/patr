@@ -1,13 +1,15 @@
 #summary One-sentence summary of this page.
 
-= Introduction =
+= Support =
 
-Add your content here.
+The extension should be fairly self-explanatory!
 
+*Lightbox* can be activated using either the "L" key on the keyboard, or by clicking on a photo on its photo page.
 
-= Details =
+*All Sizes* will automatically appear under the upload information for any photo.
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+*Flic.kr* short links will be under "Additional Information" for a photo on the bottom right.
+
+In discussions/comments, any previous posts by people will show the ability to automatically *respond by their name* (or in `[b]`old), or *by icon* (or in a 1/2 size).
+
+There is an *options* page to customize all of these additions as well!
