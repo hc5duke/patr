@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Support page listing options and how-tos.
 
 = Support =
 
