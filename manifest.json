@@ -1,7 +1,7 @@
 {
 	"name": "Patr",
 	"version": "0.1.9",
-	"description": "Pats Flickr App",
+	"description": "Pats Flickr App - Improve your Flickr browsing experience with these bundled tweaks, including a lightbox, custom sizes, flic.kr shortened links, buddy reply icons, and more!",
 	"icons": { "48": "logo48.png",
 			"128": "logo128.png" },
 	"background_page": "background.html",

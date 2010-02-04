@@ -19,7 +19,7 @@
 */
 
 // lightbox.js
-
+//
 // Creating the lightbox object
 
 var lightBox = {};
