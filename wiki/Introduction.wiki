@@ -1,23 +1,34 @@
 #summary Welcome to Pats Flickr extension!
 #labels Featured
 
-= Patr - Pats Flickr extension =
+An extension for the Google Chrome browser that aims to extend the functionality of [http://www.flickr.com Flickr].
 
-Implementing various tweaks to add to the functionality and usefulness of Flickr.
+=Introduction=
+My goal is to implement features that will best take advantage of features on Flickr that would make the experience even better.  See the [Introduction] page for more information.
 
+At the moment this is just a lightbox extension, but more features are planned.
 
-= Lightbox =
+  * Multiple group select and submits
+  * Better lightbox functionality
+  * Set/Group browsing enhancements
+  * and more...
 
-~~At the moment all I have implemented is a lightbox function.~~
-This will simply display a larger view of the current image on a darkened background (by using the "L" key, or by clicking on a photo in a photo page).
+== Lightbox ==
 
-I have now incorporated some webkit css transition goodness to the lightbox.
+Lightbox can be toggled on/off by using either the keyboard (L), or by clicking on a photo on it's photo page.  Lightbox has been updated since v0.1.5 to also work for photos marked private, but still viewable by you!
 
-Lightbox can be triggered using either the "L" key on the keyboard, or clicking on the photo in it's photo page.
+http://farm5.static.flickr.com/4004/4298924747_f3256fb0be.jpg
 
-= Sizes =
+== Sizes ==
+Links to all of the available sizes of a photo are now embedded just below the upload information on a photo page.
 
-Added direct links to each of the available sizes for a photo.
+http://farm3.static.flickr.com/2789/4300734107_8b7d415e4f_o.png
+
+== Eye Candy ==
+Various little tweaks to the UI of Flickr. These will be made optional shortly.
+
+http://farm5.static.flickr.com/4061/4301480988_e0c10543cc.jpg
+
 
 = Updates =
 
