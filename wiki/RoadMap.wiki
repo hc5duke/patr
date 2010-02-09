@@ -16,3 +16,5 @@ Where we would like to go in the future, and improvements that are to be made.
   * Customized "from your contacts" page, arranged by contact, as stacks of their latest photos.
 
   * Tag auto-completion to auto complete your most popoular tags.
+
+  * ~~Add larger preview size images in group pools. ~~
