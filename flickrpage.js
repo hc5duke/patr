@@ -22,30 +22,13 @@
 //
 // flickrPage contains functions for dealing with page parameters
 
-// Holy crap this works
-/*
-chrome.extension.sendRequest( {type: "cAPI", fn: "photos.getSizes", params: { photo_id: "2736104721", api_key: "01553a1d97d491278aa94867350ad427", auth_hash: "8c3bf0bc28a0481ce3079049e0445817", auth_token: "", src: "js", cookie: document.cookie } },
-        function( response ){
-            if( response.stat == "ok" ){
-                console.log( response );
-            }
-        });
-*/
 
-console.log( location.href );
+var flickrPage = {};
+
 
 // insert custom css styles before page load (to avoid flicker if possible!)
 var st = document.createElement("style");
-/*
-st.innerText=" body{ background-color: black ! important; color: #d9d9d9 ! important; } "
-                + "td.SetsColumn { background-color: #1C1C1C; }"
-                //+ "div[id*='description']:hover { background-color: #1c1c1c ! important; }"
-				+ "ul.site_nav_menu_buttons > li { border: 1px solid black; }"
-				+ "li > span { border-right: 1px solid black !important; }"
-				+ "div.contextDiv tr.contextThumbsRow td > div { background-color: #333333; }"
-				+ "span[id^='notes_text'] { color: black; }"
-                + "td { color: #CCC ! important; background-color: black !important;}";
-*/
+
 st.innerText=" body{ background-color: black ! important; }"
                 + "td { background-color: black ! important; }"
                 + "table { color: white ! important; }"
@@ -56,19 +39,22 @@ st.innerText=" body{ background-color: black ! important; }"
 
 //document.documentElement.insertBefore( st );
 
+flickrPage.isPoolPage = ( location.href.search(/\/pool\//) == -1 ) ? false : true;
+
 // Wait till the DOM is done to call these guys...
 var _startPage = setInterval( function(){
         if( /loaded|complete/.test(document.readyState) ){
             clearInterval( _startPage );
             flickrPage.isPhotoPage = document.querySelector("link[rel='canonical']") ? true : false ;
 
-            chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound'] },
+            chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound', 'bigPool'] },
                     function( response ){
                         if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                         if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
-                        //flickrPage.hideContext();
+						if( response.bigPool == 'true' && flickrPage.isPoolPage ){ doBigPool(); }
                     } );
 
+			//if( flickrPage.isPoolPage ){ doBigPool(); }
             doFlickrPage();
             doDiscuss();
         }
@@ -76,7 +62,6 @@ var _startPage = setInterval( function(){
 
 
 
-var flickrPage = {};
 
 function doFlickrPage() {
 
@@ -299,4 +284,18 @@ function doOrig( url ){
     xhr.send(null);
     console.log('after .send');
     return otxt;
+}
+
+function doBigPool(){
+
+	var imgs = document.querySelectorAll("img.pc_img");
+	for( var key = 0; key < imgs.length; key++ ){
+		var img = imgs[key];
+		img.src = img.src.replace('_t','_m');
+		img.width = img.height = null;
+		img.style.width = img.style.height = 'auto';
+		var p = img.parentNode.parentNode.parentNode;
+		p.style.width = p.style.height = 240;
+	}
+	
 }
