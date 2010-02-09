@@ -31,6 +31,8 @@ http://farm5.static.flickr.com/4061/4301480988_e0c10543cc.jpg
 
 
 = Updates =
+* Update (2010.02.09) - v.0.1.92 -
+Added larger sized thumbnail views when viewing photo group pools.
 
 * Update (2010.02.01) - v.0.1.9 * - 
 Options page now available for buddy icon reply!  You can choose where the buddy options show up on a post (under name or in the message footer), as well as set a custom size for small icons.  Also, a [b]old option for replying by name alone.
