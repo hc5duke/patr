@@ -25,6 +25,7 @@ if( localStorage['ecRound'] == undefined ){ localStorage['ecRound'] = true; }
 if( localStorage['ecShadow'] == undefined ){ localStorage['ecShadow'] = true; }
 if( localStorage['briFooter'] == undefined ){ localStorage['briFooter'] = true; localStorage['briUnder'] = false; }
 if( localStorage['iconSmallSize'] == undefined ){ localStorage['iconSmallSize'] = 24; }
+if( localStorage['bigPool'] == undefined ){ localStorage['bigPool'] = false; }
 
 chrome.extension.onRequest.addListener(
 	function( request, sender, sendResponse) {

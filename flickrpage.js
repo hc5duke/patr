@@ -51,7 +51,7 @@ var _startPage = setInterval( function(){
                     function( response ){
                         if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                         if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
-						if( response.bigPool == 'true' && flickrPage.isPoolPage ){ doBigPool(); }
+			if( response.bigPool == 'true' && flickrPage.isPoolPage ){ doBigPool(); }
                     } );
 
 			//if( flickrPage.isPoolPage ){ doBigPool(); }
