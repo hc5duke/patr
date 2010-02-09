@@ -109,7 +109,7 @@
 
     <span style='float: left;' >
 	<div onmouseout="hidePreview()" onmouseover="showPreview()" >
-        <div style='font-size: 2em; border-bottom: solid 1px gray;'>Eye Candy</div>
+        <div style='font-size: 2em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Eye Candy</div>
 
     <input onclick="doAllEC('input');" type="checkbox" name="ecAll" id="ecAll" value="ecAll" />
     <span onclick="doAllEC( 'span' );" class='ecOpt' style='display: inline;'>All Effects</span>
@@ -124,7 +124,7 @@
     
 	</div>
 	<br/>
-		<div style='font-size: 2em; border-bottom: solid 1px gray;'>Buddy Reply Icons</div>
+		<div style='font-size: 2em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Buddy Reply Icons</div>
 		<div class='briOpt' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
 			<input onclick="this.checked = !this.checked;" type='radio' name='briLoc' id='briUnder' value='briUnder' />
 			Buddy reply under name</div>
@@ -137,10 +137,14 @@
 			Small icon size: <input onBlur=' doMe(this);' type='text' name='iconSmallSize' id='iconSmallSize' style='width: 40; font-size: 1em; font-weight: bold;' onFocus='this.style.backgroundColor = "#FFc1c1"' /> px. square</div>
 
 	<br />
-	<div style='font-size: 1.8em; border-bottom: solid 1px gray;'>Bigger Pool Preview</div>
+	<div style='font-size: 1.8em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Bigger Pool Preview</div>
     	<div class='ecOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
 	<input onclick="this.checked = !this.checked;" type='checkbox' name='bigPool' id='bigPool' value='bigPool' />
 	Use bigger pool previews</div>
+	<div style='width: 250px; font-size: 0.75em; margin-top: 0.5em;'>
+		Remember, bigger preview image sizes will take a little longer to download!
+		I've left the original sizes as placeholders in case it takes a moment.
+	</div>
 
     </span>
     <div id='preview' style='visibility: hidden;'></div>
