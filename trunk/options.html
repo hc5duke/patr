@@ -28,6 +28,8 @@
 				}else if( key.indexOf('bri') != -1 ){
 					console.log("loading, indexOf('bri'): "+ key +" value: "+ localStorage[key]);
 					document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
+				}else if( key == 'bigPool' ){
+					document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
 				}else if( key == 'iconSmallSize' ){
 					document.getElementById( key ).value = localStorage[key];
 				}
@@ -134,11 +136,11 @@
 		<div class='briOpt'>
 			Small icon size: <input onBlur=' doMe(this);' type='text' name='iconSmallSize' id='iconSmallSize' style='width: 40; font-size: 1em; font-weight: bold;' onFocus='this.style.backgroundColor = "#FFc1c1"' /> px. square</div>
 
-		<br />
-		<div style='font-size: 1.8em; border-bottom: solid 1px gray;'>Bigger Pool Preview</div>
-		<div class='bigOpt' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
-			<input onclick="this.checkbox = !this.checked;" type='radio' name='bigOpt' id='bigPool' value='bigPool' />
-			Use bigger pool previews</div>
+	<br />
+	<div style='font-size: 1.8em; border-bottom: solid 1px gray;'>Bigger Pool Preview</div>
+    	<div class='ecOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
+	<input onclick="this.checked = !this.checked;" type='checkbox' name='bigPool' id='bigPool' value='bigPool' />
+	Use bigger pool previews</div>
 
     </span>
     <div id='preview' style='visibility: hidden;'></div>
