@@ -4,7 +4,7 @@
 An extension for the Google Chrome browser that aims to extend the functionality of [http://www.flickr.com Flickr].
 
 =Introduction=
-My goal is to implement features that will best take advantage of features on Flickr that would make the experience even better.  See the [Introduction] page for more information.
+My goal is to implement features that will best take advantage of features on Flickr that would make the experience even better!
 
 At the moment this is just a lightbox extension, but more features are planned.
 
