@@ -40,6 +40,7 @@ st.innerText=" body{ background-color: black ! important; }"
 //document.documentElement.insertBefore( st );
 
 flickrPage.isPoolPage = ( location.href.search(/\/pool\//) == -1 ) ? false : true;
+flickrPage.isFriendPage = ( location.href.search(/\/friends\//) == -1 ) ? false : true;
 
 // Wait till the DOM is done to call these guys...
 var _startPage = setInterval( function(){
@@ -51,7 +52,7 @@ var _startPage = setInterval( function(){
                     function( response ){
                         if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                         if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
-			if( response.bigPool == 'true' && flickrPage.isPoolPage ){ doBigPool(); }
+			if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage ) ){ doBigPool(); }
                     } );
 
 			//if( flickrPage.isPoolPage ){ doBigPool(); }
@@ -296,6 +297,7 @@ function doBigPool(){
 		img.style.width = img.style.height = 'auto';
 		var p = img.parentNode.parentNode.parentNode;
 		p.style.width = p.style.height = 240;
+        p.style.marginBottom = '2em';
 	}
 	
 }
