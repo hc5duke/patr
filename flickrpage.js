@@ -85,7 +85,7 @@ function doFlickrPage() {
       // Make API request to fill out photo sizes available
       chrome.extension.sendRequest( { type: "API", fn: "photos.GetSizes", params: { photo_id: flickrPage.photoID } },
         function( response ){ 
-            if( response.stat == "ok" ){
+            if( false /*response.stat == "ok" */ ){ // Skip this section for now, and just use dirtyAPI
                     var rss = response.sizes.size;
                     var sizes = {};
                     for( var sz in rss ){
