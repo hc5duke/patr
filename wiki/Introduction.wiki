@@ -29,6 +29,9 @@ Now you can opt to move the "Additional Information" for a photo further up the 
 
 http://farm3.static.flickr.com/2722/4369162630_6d552f3411_o.png
 
+== Flic.kr short URLs ==
+Shortened Flic.kr URLs are now available directly in the "Additional Information" list.  You can just right-click on the URL and copy the address for pasting into other services like Twitter, or to email or IM.
+
 == Big Group Previews ==
 There is now an option to see a much larger sized preview of images in groups and your contacts.  The old version had smaller images, this one uses the medium sized images instead.
 
