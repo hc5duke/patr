@@ -14,12 +14,12 @@ body {
 	display: block;
 }
 
-.ecOpt, .briOpt{
+.ecOpt, .briOpt, .moveOpt{
 	cursor: pointer;
 	font-size: 1em;
 }
 
-.ecOpt > input , briOpt > input {
+.ecOpt > input , briOpt > input, moveOpt > input {
 	cursor: pointer;
 }
 

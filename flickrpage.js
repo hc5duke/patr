@@ -48,16 +48,18 @@ var _startPage = setInterval( function(){
             clearInterval( _startPage );
             flickrPage.isPhotoPage = document.querySelector("link[rel='canonical']") ? true : false ;
 
-            chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound', 'bigPool'] },
+            chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound', 'bigPool', 'moveInfo'] },
                     function( response ){
                         if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                         if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
-			if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage ) ){ doBigPool(); }
+			            if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage ) ){ doBigPool(); }
+                        if( response.moveInfo == 'true' ){ flickrPage.moveInfo(); }
+
                     } );
 
-			//if( flickrPage.isPoolPage ){ doBigPool(); }
             doFlickrPage();
             doDiscuss();
+            //flickrPage.moveInfo();
         }
     }, 10 );
 
@@ -81,6 +83,8 @@ function doFlickrPage() {
 
         if( flickrPage.spaceball ) flickrPage.spaceball.offsetParent.removeChild( flickrPage.spaceball );
         if( flickrPage.dragproxy ) flickrPage.dragproxy.style.visibility = 'hidden';
+
+        
 
       // Make API request to fill out photo sizes available
       chrome.extension.sendRequest( { type: "API", fn: "photos.GetSizes", params: { photo_id: flickrPage.photoID } },
@@ -288,7 +292,6 @@ function doOrig( url ){
 }
 
 function doBigPool(){
-
 	var imgs = document.querySelectorAll("img.pc_img");
 	for( var key = 0; key < imgs.length; key++ ){
 		var img = imgs[key];
@@ -299,5 +302,17 @@ function doBigPool(){
 		p.style.width = p.style.height = 240;
         p.style.marginBottom = '2em';
 	}
-	
+}
+
+flickrPage.moveInfo = function(){
+    var td = document.querySelector("td.RHS");
+    var before = document.getElementById('otherContexts_div');
+    var move = document.querySelectorAll("td.RHS > h4:last-of-type, p.Privacy, p.Privacy ~ ul, div#upload_form_container, span#upload_uploading_container");
+    var i = 0;
+
+    while( i < move.length ){
+        td.insertBefore( td.removeChild( move[i] ), before );
+        i++;
+    }
+
 }
