@@ -6,13 +6,15 @@ An extension for the Google Chrome browser that aims to extend the functionality
 =Introduction=
 My goal is to implement features that will best take advantage of features on Flickr that would make the experience even better!
 
-At the moment this is just a lightbox extension, but more features are planned.
+At the moment I have currently implemented these fantastic features!
   * [Introduction#Lightbox Lightbox (image on a dark background)]
   * [Introduction#Sizes All Sizes Links] for direct access to all available image sizes
   * [Introduction#Move_Additional_Information Move Additional Information] higher on the page
   * [Introduction#Flic.kr_short_URLs Flic.kr Short URLs]
   * [Introduction#Big_Group_Previews Big Group Previews] instead of wimpy, small thumbnails
   * [Introduction#Eye_Candy Eye Candy] enhancements to the look and feel of Flickr
+
+Hopefully to come before too long:
   * Multiple group select and submits
   * Better lightbox functionality
   * Set/Group browsing enhancements
