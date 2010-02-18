@@ -10,6 +10,9 @@ At the moment this is just a lightbox extension, but more features are planned.
   * [Introduction#Lightbox Lightbox (image on a dark background)]
   * [Introduction#Sizes All Sizes Links] for direct access to all available image sizes
   * [Introduction#Move_Additional_Information Move Additional Information] higher on the page
+  * [Introduction#Flic.kr_short_URLs Flic.kr Short URLs]
+  * [Introduction#Big_Group_Previews Big Group Previews] instead of wimpy, small thumbnails
+  * [Introduction#Eye_Candy Eye Candy] enhancements to the look and feel of Flickr
   * Multiple group select and submits
   * Better lightbox functionality
   * Set/Group browsing enhancements
@@ -26,7 +29,7 @@ Links to all of the available sizes of a photo are now embedded just below the u
 
 http://farm3.static.flickr.com/2789/4300734107_8b7d415e4f_o.png
 
-== Move "Additional Information" ==
+== Move Additional Information ==
 Now you can opt to move the "Additional Information" for a photo further up the right sidebar of the to be more prominent when viewing a photo.  No longer will you have to scroll through a large list of set/pools that the photo also belongs in to see this information!
 
 http://farm3.static.flickr.com/2722/4369162630_6d552f3411_o.png
