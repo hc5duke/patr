@@ -7,7 +7,7 @@ An extension for the Google Chrome browser that aims to extend the functionality
 My goal is to implement features that will best take advantage of features on Flickr that would make the experience even better!
 
 At the moment this is just a lightbox extension, but more features are planned.
-
+  * [Introduction#Lightbox]
   * Multiple group select and submits
   * Better lightbox functionality
   * Set/Group browsing enhancements
