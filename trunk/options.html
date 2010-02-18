@@ -32,7 +32,10 @@
 					document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
 				}else if( key == 'iconSmallSize' ){
 					document.getElementById( key ).value = localStorage[key];
-				}
+                }else if( key == 'moveInfo' ){
+                    console.log("loading, moveInfo: "+ localStorage[key] +" "+ key);
+                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
+                }
 			}
         }
 
@@ -58,6 +61,7 @@
 
         function doMe( el ){
 			if( el.type == 'checkbox' ){
+                console.log('doMe - checkbox - el.value: '+ el.value +' el.id: '+ el.id );
 				console.log('doMe - checkbox: '+ el.value +' el.checked:'+ el.checked );
 				localStorage[ el.value ] = el.checked;
 				console.log('localStorage[ el.value ] = '+ localStorage[el.value] );
@@ -121,8 +125,8 @@
     <div class='ecOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
         <input onclick="this.checked = !this.checked;" type="checkbox" name="ecShadow" id="ecShadow" value="ecShadow" />
         Drop Shadows</div>
-    
 	</div>
+
 	<br/>
 		<div style='font-size: 2em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Buddy Reply Icons</div>
 		<div class='briOpt' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
@@ -144,6 +148,16 @@
 	<div style='width: 250px; font-size: 0.75em; margin-top: 0.5em;'>
 		Remember, bigger preview image sizes will take a little longer to download!
 		I've left the original sizes as placeholders in case it takes a moment.
+	</div>
+
+	<br />
+	<div style='font-size: 1.8em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Move Additional Info</div>
+    	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
+	<input onclick="this.checked = !this.checked;" type='checkbox' name='moveInfo' id='moveInfo' value='moveInfo' />
+	Move Additional Information</div>
+	<div style='width: 250px; font-size: 0.75em; margin-top: 0.5em;'>
+        This will move the "Additional Information" for the image
+        above the "This photo also belongs to:" section on the right sidebar.
 	</div>
 
     </span>

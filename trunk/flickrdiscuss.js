@@ -37,7 +37,7 @@ function doDiscuss(){
             });
 
         function addReplies( type , sSize ){
-            var peeps = document.querySelectorAll("h4 > a[href^='/photos/']");
+            var peeps = document.querySelectorAll("td.Said > h4 > a[href^='/photos/']");
 
             for( var key in peeps ){
                 if( parseInt(key+1) ){
