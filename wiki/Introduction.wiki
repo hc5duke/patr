@@ -32,6 +32,9 @@ http://farm5.static.flickr.com/4061/4301480988_e0c10543cc.jpg
 
 = Updates =
 * Update (2010.02.09) - v.0.1.92 * -
+Added the feature to move the "Additional Information" on a photo page up further on the right sidebar, just above the big list of other sets/pools that the photo belongs to.
+
+* Update (2010.02.09) - v.0.1.92 * -
 Added larger sized thumbnail views when viewing photo group pools.
 
 * Update (2010.02.01) - v.0.1.9 * - 
