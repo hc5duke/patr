@@ -53,13 +53,12 @@ var _startPage = setInterval( function(){
                         if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                         if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
 			            if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage ) ){ doBigPool(); }
-                        if( response.moveInfo == 'true' ){ flickrPage.moveInfo(); }
+                        if( response.moveInfo == 'true' && flickrPage.isPhotoPage ){ flickrPage.moveInfo(); }
 
                     } );
 
             doFlickrPage();
             doDiscuss();
-            //flickrPage.moveInfo();
         }
     }, 10 );
 
@@ -79,12 +78,12 @@ function doFlickrPage() {
       flickrPage.ICBM = document.querySelector("meta[name='ICBM']") || false;
       flickrPage.flic = document.querySelector("link[rev='canonical']") || false;
 
+      flickrPage.exif = {};
+
       preFlic();
 
         if( flickrPage.spaceball ) flickrPage.spaceball.offsetParent.removeChild( flickrPage.spaceball );
         if( flickrPage.dragproxy ) flickrPage.dragproxy.style.visibility = 'hidden';
-
-        
 
       // Make API request to fill out photo sizes available
       chrome.extension.sendRequest( { type: "API", fn: "photos.GetSizes", params: { photo_id: flickrPage.photoID } },
@@ -110,13 +109,55 @@ function doFlickrPage() {
 
             }else if( /*document.getElementById('photo_gne_button_zoom') */ true ){
                 // We failed getting photo info, let's try another method...
-                console.log( "Failed getting API info, trying workaround..." );
+                //console.log( "Failed getting API info, trying workaround..." );
 
                 var ftxt = document.head.querySelector("script").innerHTML; 
                 var farray = ftxt.match( /'\w+'/g );
                 var api_key = farray[0].substring( 1, farray[0].length - 1 );
                 var auth_hash = farray[1].substring( 1, farray[1].length -1 );
                 var cookie = document.cookie;
+
+                //TEMPORARY - MOVE ME - Getting EXIF data
+                chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getExif', params: { photo_id: flickrPage.photoID, api_key: api_key, auth_hash: auth_hash, auth_token: '', src: 'js' } },
+                        function( response ){
+                            if( response.stat == 'ok' ){
+                                //console.log( response );
+                                var rpe = response.photo.exif;
+                                var values = {'ExposureTime':{}, 'Aperture':{}, 'FocalLength':{}, 'ISO':{},
+                                                'ExposureCompensation':{}, 'Flash':{}, 'Lens':{} };
+                                for(var i = 0; i < rpe.length; i++){
+                                    if( rpe[i].tag in values && !( values[ rpe[i].tag ].value ) ){
+                                        values[ rpe[i].tag ].label = rpe[i].label;
+                                        if( rpe[i].clean ){
+                                            values[ rpe[i].tag ].value = rpe[i].clean._content;
+                                        }else{
+                                            values[ rpe[i].tag ].value = rpe[i].raw._content;
+                                        }
+                                    }
+                                }
+                                // We have EXIF values, now push them into the page
+                                var newul = document.createElement('ul');
+                                values.Aperture.value = 'f/'+values.Aperture.value;
+                                for( var key in values ){
+                                    if( values[key].value ){
+                                        var li = document.createElement('li');
+                                        li.innerHTML = values[key].label +': '+values[key].value;
+                                        li.setAttribute('class', 'Stats');
+                                        li.style.listStyleType = 'square';
+                                        li.style.color = '#5e5e5e';
+                                        li.style.fontSize = '100%';
+                                        newul.appendChild( li );
+                                    }
+                                }
+                                var mp = document.querySelector("td.RHS>ul>li.Stats a[data-ywa-name*='More']").previousElementSibling;
+                                if( mp ){
+                                    newul.querySelector("li:last-child").appendChild( document.createElement('br') );
+                                    newul.querySelector("li:last-child").appendChild(mp.parentNode.removeChild(mp.nextElementSibling));
+                                    mp.parentNode.insertBefore( newul, mp );
+                                    mp.parentNode.removeChild( mp );
+                                }
+                            }
+                        });
 
                 chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getSizes', params: { photo_id: flickrPage.photoID, api_key: api_key, auth_hash: auth_hash, auth_token: '', src: 'js' } },
                         function( response ){
