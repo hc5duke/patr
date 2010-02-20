@@ -26,6 +26,9 @@ Lightbox can be toggled on/off by using either the keyboard (L), or by clicking 
 
 http://farm5.static.flickr.com/4004/4298924747_f3256fb0be.jpg
 
+== EXIF Data ==
+_*Finally*_ added EXIF data on the photo page.  It's currently located under "Additional Information" (near the link to get to the exif data originally).  This works well with Move "Additional Information"...
+
 == Sizes ==
 Links to all of the available sizes of a photo are now embedded just below the upload information on a photo page.
 
