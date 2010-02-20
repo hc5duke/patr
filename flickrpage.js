@@ -144,7 +144,7 @@ function doFlickrPage() {
                                         li.innerHTML = values[key].label +': '+values[key].value;
                                         li.setAttribute('class', 'Stats');
                                         li.style.listStyleType = 'square';
-                                        li.style.color = '#5e5e5e';
+                                        li.style.color = 'rgb(125,125,125)';
                                         li.style.fontSize = '100%';
                                         newul.appendChild( li );
                                     }
