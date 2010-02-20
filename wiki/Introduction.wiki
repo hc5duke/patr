@@ -8,6 +8,7 @@ My goal is to implement features that will best take advantage of features on Fl
 
 At the moment I have currently implemented these fantastic features!
   * [Introduction#Lightbox Lightbox (image on a dark background)]
+  * [Introduction#EXIF_Data EXIF Data] directly on photo page under "Additional Information
   * [Introduction#Sizes All Sizes Links] for direct access to all available image sizes
   * [Introduction#Move_Additional_Information Move Additional Information] higher on the page
   * [Introduction#Flic.kr_short_URLs Flic.kr Short URLs]
