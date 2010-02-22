@@ -28,7 +28,6 @@ function doDiscuss(){
     var txt = document.querySelector("textarea[name='message']");
 
     if( discuss && txt ){
-
         
         chrome.extension.sendRequest( {type:"localStorage", param:['briFooter', 'briUnder', 'iconSmallSize'] },
             function( response ){
@@ -37,7 +36,9 @@ function doDiscuss(){
             });
 
         function addReplies( type , sSize ){
+
             var peeps = document.querySelectorAll("td.Said > h4 > a[href^='/photos/']");
+            peeps = peeps.length != 0 ? peeps : document.querySelectorAll('a[data-ywa-name^="Commenter"]');
 
             for( var key in peeps ){
                 if( parseInt(key+1) ){
