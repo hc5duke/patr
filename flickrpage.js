@@ -29,15 +29,41 @@ var flickrPage = {};
 // insert custom css styles before page load (to avoid flicker if possible!)
 var st = document.createElement("style");
 
-st.innerText=" body{ background-color: black ! important; }"
+st.innerText=" body{ background-color: black ! important; color: white !important; }"
                 + "td { background-color: black ! important; }"
                 + "table { color: white ! important; }"
+                + "td.Section { color: white !important; }"
+                // Sets Column
+                + "td.SetsColumn { background-color: #0F0F0F !important; }"
+                + "p.Focus { background-color: #0F0F0F !important; }"
+                + "p#TagCloud { background-color: #0F0F0F !important; }"
+                // Button bar at top
+                + "li.menu_li, li.no_menu_li, li>span { border-color: #0F0F0F !important; }"
+                + "#TopBar > table { border-color: #0F0F0F !important; }"
+                + "div#SSButtonHugger > span > a, em[data-ywa-name] { border-color: #0F0F0F !important; }"
+                + "#ShareMenu { background-color: #999 !important; border-color: #999 !important;}"
+                // Photo Page Stuff
+                + "h3.contextTitleOpen, h3.contextTitleClosed { border-color: #0F0F0F !important; }"
+                // Group listing
+                + "div.Editorial td { color: white !important; }"
+                + "td.EachGroup { color: white !important; }"
+                + "td.OtherBits { color: white !important; }"
+                + "ul[id$='_ul'] { color: white !important; }"
+                // Contact list
+                + "td[class^='contact-list'] { color: white !important; }"
+                // This is for group front pages
+                + "table.TopicListing td[style*='text-align: center'] { color: white !important; }"
+                + "#addInfo { color: white; }"
+                + "#group-info td>p { color: white !important; }"
+                + "div.Preview { color: white !important; background-color: #0F0F0F !important; }"
+                + ".Here { color: white !important; }"
                 + ".paginator > *{ background-color: black ! important; color: white ; }"
-                + ".comment-content { color: white ! important }"
+                + ".comment-content { color: white ! important; }"
                 + "*[id^='title'], *[id^='desc'] { color: white ! important; }"
+                + "td.Said > h4 ~ p { color: white !important; }"
                 + ".act-content, h2 { color: white !important; }";
 
-//document.documentElement.insertBefore( st );
+document.documentElement.insertBefore( st );
 
 flickrPage.isPoolPage = ( location.href.search(/\/pool\//) == -1 ) ? false : true;
 flickrPage.isFriendPage = ( location.href.search(/\/friends\//) == -1 ) ? false : true;
