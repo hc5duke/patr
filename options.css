@@ -1,6 +1,13 @@
 body {
 	font-family: Lucida Sans Unicode, Lucida Grande, Lucida Sans, Lucida;
     background-color: #AAAAAA;
+    /*
+    background: -webkit-gradient( linear, right top, left top, from(#000000), to(#AAA), color-stop(.5, #000000));
+    */
+}
+
+.linear {
+    background: -webkit-gradient( linear, left top, right top, from(#000000), to(#AAA));
 }
 
 #preview {
