@@ -99,8 +99,14 @@ div[id^='description_div'] { background-color: black !important; }
 .even td { background-color: transparent !important; }
 .even { background-color: #0F0F0F !important; }
 
+/* Sets */
+#gray_set_button_bar { background-image: none !important; }
+
 /* Search Page */
 #SearchFormStrip { background-color: #0F0F0F !important; background-image: none;}
+
+/* Organizer */
+.top_form_tip_txt, .tree_coll_title_div, #collections_instructions_top_p { color: black !important; }
 
 /* fixing icons where possible */
 a[href='/mail/'], a[href='/cart/'] { background-color: transparent !important; }
