@@ -35,6 +35,9 @@
                 }else if( key == 'moveInfo' ){
                     console.log("loading, moveInfo: "+ localStorage[key] +" "+ key);
                     document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
+                }else if( key == 'darkr' ){
+                    console.log("loading, darkr: " + localStorage[key] +" "+ key);
+                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
                 }
 			}
         }
@@ -158,6 +161,17 @@
 	<div style='width: 250px; font-size: 0.75em; margin-top: 0.5em;'>
         This will move the "Additional Information" for the image
         above the "This photo also belongs to:" section on the right sidebar.
+	</div>
+
+	<br />
+	<div style='font-size: 1.8em; border-bottom: solid 1px gray; margin-bottom: 0.2em; color: white; background-color: black;'>Darkr Flickr</div>
+    	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
+	<input onclick="this.checked = !this.checked;" type='checkbox' name='darkr' id='darkr' value='darkr' />
+	Darkr Flickr</div>
+	<div style='width: 250px; font-size: 0.75em; margin-top: 0.5em;'>
+        Darkr Flickr will turn on a "dark" theme for Flickr, where
+        the page will have a black background, and all the elements
+        are changed to coincide with a "dark" theme.
 	</div>
 
     </span>
