@@ -28,11 +28,23 @@ var flickrPage = {};
 
 // insert custom css styles before page load (to avoid flicker if possible!)
 var st = document.createElement("style");
+var st2 = document.createElement("style");
 
 st.innerText=" body{ background-color: black ! important; color: white !important; }"
-                + "td { background-color: black ! important; }"
-                + "table { color: white ! important; }"
-                + "td.Section { color: white !important; }"
+                + "td { background-color: black !important; }"
+                + "img#FlickrLogo { visibility: hidden; }"
+                + "table { color: white !important; }";
+
+document.documentElement.insertBefore( st );
+
+st2.innerText = "td.Section { color: white !important; }"
+                // Home
+                + "p#tt-do-more-promo-blurb { background-color: #0F0F0F !important; }"
+                + "li.act-item:hover { background-color: #0F0F0F !important; }"
+                + "#activity-settings { background-color: #0F0F0F !important; }"
+                + ".tt-stats-list a { color: white !important; }"
+                + "h4.main a { color: white !important; }"
+                + "#y-stats { background-color: #0F0F0F !important; }"
                 // Sets Column
                 + "td.SetsColumn { background-color: #0F0F0F !important; }"
                 + "p.Focus { background-color: #0F0F0F !important; }"
@@ -44,6 +56,23 @@ st.innerText=" body{ background-color: black ! important; color: white !importan
                 + "#ShareMenu { background-color: #999 !important; border-color: #999 !important;}"
                 // Photo Page Stuff
                 + "h3.contextTitleOpen, h3.contextTitleClosed { border-color: #0F0F0F !important; }"
+                + "ul#ShareOptions li { background-color: #0F0F0F !important; }"
+                + "div.sharing_options_header_open { color: white !important; }"
+                + "div.sharing_options_header_open { background-image: url("+ chrome.extension.getURL('images/sharing_sprite.png') +") !important; }"
+                // This is to make description/titles legible when on own page...
+                + "[title='Click to edit']:hover { -webkit-transition: color 0s; color: black !important; background-color: gray !important; }"
+                + "[title='Click to edit'] { color: white !important; background-color: black !important; -webkit-transition: background-color,color 1.5s,1.5s; }"
+                + "textarea[name='content'], input[name='content'] { background-color: #DDDDDD !important; }"
+                + "p { color: white !important; }"
+                // Archives
+                + "table.YearListing td { color: white !important; }"
+                // Popular
+                + "table.PopularPic h4 { color: white !important; }"
+                // Apps
+                + "#ag-user-promo { background-color: #0F0F0F !important; }"
+                // Profile
+                + "#manage { background-color: #0F0F0F !important; }"
+                + ".profile-section h3 { color: white !important; }"
                 // Group listing
                 + "div.Editorial td { color: white !important; }"
                 + "td.EachGroup { color: white !important; }"
@@ -51,6 +80,11 @@ st.innerText=" body{ background-color: black ! important; color: white !importan
                 + "ul[id$='_ul'] { color: white !important; }"
                 // Contact list
                 + "td[class^='contact-list'] { color: white !important; }"
+                + "th[class$='contact-list-sorted'] a { color: #555555 !important; }"
+                + "div.contact-list-header { background-color: #0F0F0F !important; }"
+                + "div.InvitePreview { background-color: #0F0F0F !important; }"
+                // Photostream
+                + "td { color: white !important; }"
                 // This is for group front pages
                 + "table.TopicListing td[style*='text-align: center'] { color: white !important; }"
                 + "#addInfo { color: white; }"
@@ -61,30 +95,44 @@ st.innerText=" body{ background-color: black ! important; color: white !importan
                 + ".comment-content { color: white ! important; }"
                 + "*[id^='title'], *[id^='desc'] { color: white ! important; }"
                 + "td.Said > h4 ~ p { color: white !important; }"
+                // Search Page
+                + "#SearchFormStrip { background-color: #0F0F0F !important; background-image: url();}"
+                // fixing icons where possible
+                + "a[href='/mail/'], a[href='/cart/'] { background-color: transparent !important; }"
+                + "a#SlideShowButton, a[data-ywa-name='Share'] { background-image: url('" + chrome.extension.getURL('images/sharing_sprite.png') +"') !important; }"
                 + ".act-content, h2 { color: white !important; }";
 
-document.documentElement.insertBefore( st );
+document.documentElement.insertBefore( st2 );
 
 flickrPage.isPoolPage = ( location.href.search(/\/pool\//) == -1 ) ? false : true;
 flickrPage.isFriendPage = ( location.href.search(/\/friends\//) == -1 ) ? false : true;
+flickrPage.isPhotosOf = ( location.href.search(/\/photosof\//) == -1 ) ? false : true;
 
 // Wait till the DOM is done to call these guys...
 var _startPage = setInterval( function(){
         if( /loaded|complete/.test(document.readyState) ){
             clearInterval( _startPage );
+            // replacing badges & images
+            var pro = document.getElementsByClassName('Pro');
+            for(i = 0; i < pro.length; i++){ pro[i].src = chrome.extension.getURL('images/badge_pro.gif.v2'); }
+            document.getElementById('FlickrLogo').style.visibility = 'visible';
+
             flickrPage.isPhotoPage = document.querySelector("link[rel='canonical']") ? true : false ;
 
             chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound', 'bigPool', 'moveInfo'] },
                     function( response ){
                         if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                         if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
-			            if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage ) ){ doBigPool(); }
+			            if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage || flickrPage.isPhotosOf) ){ doBigPool(); }
                         if( response.moveInfo == 'true' && flickrPage.isPhotoPage ){ flickrPage.moveInfo(); }
 
                     } );
 
             doFlickrPage();
             doDiscuss();
+        }
+        if( document.getElementById('FlickrLogo') ){
+            document.getElementById('FlickrLogo').src = chrome.extension.getURL('images/flickr-yahoo-logo.png.v2');
         }
     }, 10 );
 
