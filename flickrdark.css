@@ -77,8 +77,9 @@ th[class$='contact-list-sorted'] a { color: #555555 !important; }
 div.contact-list-header { background-color: #0F0F0F !important; }
 div.InvitePreview { background-color: #0F0F0F !important; }
 
-/* Photostream */
+/* Photostream 
 td { color: white !important; }
+*/
 
 /* This is for group front pages */
 table.TopicListing td[style*='text-align: center'] { color: white !important; }
@@ -113,10 +114,10 @@ div[id^='description_div'] { background-color: black !important; }
 .photo_title > input, .photo_description > textarea { color: black !important; }
 
 /* Add to Group */
-[id$='DialogListDiv'] td { background-color: transparent !important; color: #0063DC !important; }
-[id$='DialogListDiv'] td:hover { color: white !important;}
-#sendToGroupDialogHeaderDiv { color: black !important; }
+[id$='DialogListDiv'] td { background-color: transparent !important; /*color: #0063DC !important;*/ }
 [id$='DialogHeaderDiv'] { color: black !important; }
+.td_white { color: black; background-color: white !important; }
+.shadow_table { display: none; }
 
 /* fixing icons where possible */
 a[href='/mail/'], a[href='/cart/'] { background-color: transparent !important; }
