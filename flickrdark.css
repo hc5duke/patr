@@ -99,6 +99,13 @@ div[id^='description_div'] { background-color: black !important; }
 .name > a:hover { color: #0063DC !important; }
 .even td { background-color: transparent !important; }
 .even { background-color: #0F0F0F !important; }
+.views, #refs td, #breakdown td { color: #888 !important; background-color: inherit; }
+[id^='bubb-'] { color: black !important; }
+.yesterday > div > a, .alltime>div>a { color: #AAAAAA !important; }
+.yesterday > div > a:hover, .alltime>div>a:hover { color: white !important; background-color: #0063DC !important; }
+#snapshot td { color: inherit; background-color: inherit !important; }
+#snapshot .odd:hover, .even:hover { background-color: #FFFFD1 !important; color: black; }
+.num { background-color: transparent !important; }
 
 /* Sets */
 #gray_set_button_bar { background-image: none !important; }
