@@ -139,5 +139,9 @@ div[id^='description_div'] { background-color: black !important; }
 
 /* fixing icons where possible */
 a[href='/mail/'], a[href='/cart/'] { background-color: transparent !important; }
-.act-content, h2 { color: white !important; }";
+.act-content, h2 { color: white !important; }
+
+/* API pages */
+pre { background-color: #0F0F0F; }
+#Explorer td { color: white; }
 
