@@ -24,6 +24,7 @@
 
 
 var flickrPage = {};
+var multiGroup = {};
 
 var black = document.createElement("style");
 black.innerText = "html { background-color: black !important; } body { background-color: black !important; } #flickrLogo{ opacity: 0; -webkit-transition: opacity 150ms; }";
@@ -37,7 +38,8 @@ st3.href = chrome.extension.getURL("flickrdark.css");
 st3.rel = 'stylesheet';
 st3.type = 'text/css';
 
- st.innerText="html { background-color: black !important; }"
+st.innerText="html { background-color: black !important; }"
+                //+" #sendToGroupDialogDiv { display: none !important; }"
                 +" body{ background-color: black ! important; color: white !important; }";
 
 st2.innerText = "div.sharing_options_header_open { background-image: url("+ chrome.extension.getURL('images/sharing_sprite.png') +") !important; }"
@@ -111,8 +113,16 @@ function doFlickrPage() {
 
       preFlic();
 
+      // Clear some crud off the image itself in the page.
         if( flickrPage.spaceball ) flickrPage.spaceball.offsetParent.removeChild( flickrPage.spaceball );
         if( flickrPage.dragproxy ) flickrPage.dragproxy.style.visibility = 'hidden';
+
+        var ftxt = document.head.querySelector("script").innerHTML; 
+        var farray = ftxt.match( /'\w+'/g );
+        flickrPage.api_key = farray[0].substring( 1, farray[0].length - 1 );
+        flickrPage.auth_hash = farray[1].substring( 1, farray[1].length -1 );
+        var cookie = document.cookie;
+
 
       // Make API request to fill out photo sizes available
       chrome.extension.sendRequest( { type: "API", fn: "photos.GetSizes", params: { photo_id: flickrPage.photoID } },
@@ -140,14 +150,9 @@ function doFlickrPage() {
                 // We failed getting photo info, let's try another method...
                 //console.log( "Failed getting API info, trying workaround..." );
 
-                var ftxt = document.head.querySelector("script").innerHTML; 
-                var farray = ftxt.match( /'\w+'/g );
-                var api_key = farray[0].substring( 1, farray[0].length - 1 );
-                var auth_hash = farray[1].substring( 1, farray[1].length -1 );
-                var cookie = document.cookie;
-
+                
                 //TEMPORARY - MOVE ME - Getting EXIF data
-                chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getExif', params: { photo_id: flickrPage.photoID, api_key: api_key, auth_hash: auth_hash, auth_token: '', src: 'js' } },
+                chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getExif', params: { photo_id: flickrPage.photoID, api_key: flickrPage.api_key, auth_hash: flickrPage.auth_hash, auth_token: '', src: 'js' } },
                         function( response ){
                             if( response.stat == 'ok' ){
                                 //console.log( response );
@@ -188,7 +193,7 @@ function doFlickrPage() {
                             }
                         });
 
-                chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getSizes', params: { photo_id: flickrPage.photoID, api_key: api_key, auth_hash: auth_hash, auth_token: '', src: 'js' } },
+                chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getSizes', params: { photo_id: flickrPage.photoID, api_key: flickrPage.api_key, auth_hash: flickrPage.auth_hash, auth_token: '', src: 'js' } },
                         function( response ){
                             if( response.stat == 'ok' ){
                                 var rss = response.sizes.size;
@@ -217,7 +222,8 @@ function doFlickrPage() {
             }
         } 
       );
-}
+      multiGroup.preLoad();
+    }
 }
 
 flickrPage.preSizes = function(){
