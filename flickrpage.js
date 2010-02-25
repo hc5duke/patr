@@ -26,7 +26,7 @@
 var flickrPage = {};
 
 var black = document.createElement("style");
-black.innerText = "html { background-color: black !important; } body { background-color: black !important; } #flickrLogo{ opacity: 0; -webkit-transition: opacity 200ms linear; }";
+black.innerText = "html { background-color: black !important; } body { background-color: black !important; } #flickrLogo{ opacity: 0; -webkit-transition: opacity 150ms; }";
 if( /darkr=1/.test( document.cookie ) ){ document.documentElement.insertBefore( black );  }
 
 // insert custom css styles before page load (to avoid flicker if possible!)

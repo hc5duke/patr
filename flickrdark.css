@@ -75,7 +75,7 @@ td.OtherBits { color: white !important; }
 ul[id$='_ul'] { color: white !important; }
 
 /* Contact list */
-td[class^='contact-list'] { color: white !important; }
+td[class^='contact-list'] { color: white !important; background-color: transparent !important; }
 th[class$='contact-list-sorted'] a { color: #555555 !important; }
 div.contact-list-header { background-color: #0F0F0F !important; }
 div.InvitePreview { background-color: #0F0F0F !important; }
