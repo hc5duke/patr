@@ -38,6 +38,9 @@
                 }else if( key == 'darkr' ){
                     console.log("loading, darkr: " + localStorage[key] +" "+ key);
                     document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
+                }else if( key == 'nLogo' ){
+                    console.log("loading, nLogo: " + localStorage[key] +" "+ key);
+                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
                 }
 			}
         }
@@ -184,6 +187,20 @@
         I even re-worked alot of the stock images by hand to make 
         them more compatible with a dark theme!
         </p>
+	</div>
+
+    <br />
+    <div style='font-size: 1.8em; border-bottom: solid 1px gray; margin-bottom: 0.2em; color: white;'>
+        <img src="images/flickr-yahoo-logo.png.v2" /></div>
+    	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
+	<input onclick="this.checked = !this.checked;" type='checkbox' name='nLogo' id='nLogo' value='nLogo' />
+	Use New Logo</div>
+	<div style='width: 250px; font-size: 0.75em; margin-top: 0.5em;'>
+        <p>
+        The original logo had no alpha channel, and looked <em>horrible</em> on black.  
+        So I made this one which does have an alpha channel.  If you prefer the original 
+        Flickr logo, then uncheck this option!
+        <p/>
 	</div>
 
     </span>
