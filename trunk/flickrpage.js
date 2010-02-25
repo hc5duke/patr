@@ -39,7 +39,7 @@ st3.type = 'text/css';
 
 st.innerText=" body{ background-color: black ! important; color: white !important; }"
                 + "html { background-color: black !important; }"
-                + "td { background-color: black !important; }"
+                /* + "td { background-color: black !important; }" */
                 + "img#FlickrLogo { visibility: hidden; }"
                 + "table { color: white !important; }";
 

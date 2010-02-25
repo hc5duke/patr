@@ -7,6 +7,8 @@ li.act-item:hover { background-color: #0F0F0F !important; }
 .tt-stats-list a { color: white !important; }
 h4.main a { color: white !important; }
 #y-stats { background-color: #0F0F0F !important; }
+.launchHead>tbody>tr>td { color: white; }
+.tt-link-active { color: gray !important; }
 
 /* Sets Column */
 td.SetsColumn { background-color: #0F0F0F !important; }
@@ -45,10 +47,11 @@ p { color: white !important; }
 .SortOptions { color: white !important; }
 
 /* Archives */
-table.YearListing td { color: white !important; }
+table.YearListing td, .Separated>tbody>tr>td { color: white !important; }
 
 /* Popular */
 table.PopularPic h4 { color: white !important; }
+.Tab { color: #FF0084 !important; }
 
 /* Apps */
 #ag-user-promo { background-color: #0F0F0F !important; }
