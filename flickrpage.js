@@ -35,15 +35,12 @@ var st3 = document.createElement("LINK");
 st3.href = chrome.extension.getURL("flickrdark.css");
 st3.rel = 'stylesheet';
 st3.type = 'text/css';
-//document.documentElement.insertBefore( st3 );
 
-st.innerText=" body{ background-color: black ! important; color: white !important; }"
-                + "html { background-color: black !important; }"
-                /* + "td { background-color: black !important; }" */
+ st.innerText="html { background-color: black !important; }"
+                +" body{ background-color: black ! important; color: white !important; }"
                 + "img#FlickrLogo { visibility: hidden; }"
                 + "table { color: white !important; }";
 
-//document.documentElement.insertBefore( st );
 /*
 st2.innerText = "td.Section { color: white !important; }"
                 // Home
@@ -140,7 +137,6 @@ st2.innerText = "div.sharing_options_header_open { background-image: url("+ chro
                 + "[id^='photo_gne_button'] { background-image: url("+ chrome.extension.getURL('images/photo-button-bar-sprite5.png') +") !important; }"
                 + "a#SlideShowButton, a[data-ywa-name='Share'] { background-image: url('" + chrome.extension.getURL('images/sharing_sprite.png') +"') !important; }";
 
-//document.documentElement.insertBefore( st2 );
 chrome.extension.sendRequest( { type: "localStorage", param:['darkr'] },
         function(response){
             if( response.darkr == 'true' ){

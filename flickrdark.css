@@ -83,6 +83,7 @@ div.InvitePreview { background-color: #0F0F0F !important; }
 /* Photostream 
 td { color: white !important; }
 */
+td { color: white !important; }
 
 /* This is for group front pages */
 table.TopicListing td[style*='text-align: center'] { color: white !important; }
@@ -100,8 +101,9 @@ div[id^='description_div'] { background-color: black !important; }
 /* Stats */
 .name > a { color: #AAA !important; }
 .name > a:hover { color: #0063DC !important; }
-.even td { background-color: transparent !important; }
+.even td, .odd td { background-color: inherit !important;}
 .even { background-color: #0F0F0F !important; }
+.odd>th { background-color: inherit !important; }
 .views, #refs td, #breakdown td { color: #888 !important; background-color: inherit; }
 [id^='bubb-'] { color: black !important; }
 .yesterday > div > a, .alltime>div>a { color: #AAAAAA !important; }
