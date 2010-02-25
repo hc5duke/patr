@@ -10,6 +10,7 @@ My goal is to implement features that will best take advantage of features on Fl
 
 At the moment I have currently implemented these fantastic features!
   * [Introduction#Lightbox Lightbox (image on a dark background)]
+  * [Introduction#Darkr Darkr Flickr] is a nice dark version of Flickr instead of white
   * [Introduction#EXIF_Data EXIF Data] directly on photo page under "Additional Information
   * [Introduction#Sizes All Sizes Links] for direct access to all available image sizes
   * [Introduction#Move_Additional_Information Move Additional Information] higher on the page
@@ -28,6 +29,12 @@ Hopefully to come before too long:
 Lightbox can be toggled on/off by using either the keyboard (L), or by clicking on a photo on it's photo page.  Lightbox has been updated since v0.1.5 to also work for photos marked private, but still viewable by you!
 
 http://farm5.static.flickr.com/4004/4298924747_f3256fb0be.jpg
+
+== Darkr ==
+
+Darkr is a dark browsing option to combat Flickrs stark white page.  I hand-mangled a bunch of sprites and modified a bunch of css to make the dark pages work and still look like flickr as much as possible.  Try it out if you want to see something a little different, you might just like it :)
+
+http://farm5.static.flickr.com/4034/4386060360_755dcab014.jpg
 
 == EXIF Data ==
 _*Finally*_ added EXIF data on the photo page.  It's currently located under "Additional Information" (near the link to get to the exif data originally).  This works well with Move "Additional Information"...
