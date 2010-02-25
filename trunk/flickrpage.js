@@ -24,8 +24,9 @@
 
 
 var flickrPage = {};
+
 var black = document.createElement("style");
-black.innerText = "html { background-color: black !important; }";
+black.innerText = "html { background-color: black !important; } body { background-color: black !important; } #flickrLogo{ opacity: 0; -webkit-transition: opacity 200ms linear; }";
 if( /darkr=1/.test( document.cookie ) ){ document.documentElement.insertBefore( black );  }
 
 // insert custom css styles before page load (to avoid flicker if possible!)
@@ -37,102 +38,8 @@ st3.rel = 'stylesheet';
 st3.type = 'text/css';
 
  st.innerText="html { background-color: black !important; }"
-                +" body{ background-color: black ! important; color: white !important; }"
-                + "img#FlickrLogo { visibility: hidden; }"
-                + "table { color: white !important; }";
+                +" body{ background-color: black ! important; color: white !important; }";
 
-/*
-st2.innerText = "td.Section { color: white !important; }"
-                // Home
-                + "p#tt-do-more-promo-blurb { background-color: #0F0F0F !important; }"
-                + "li.act-item:hover { background-color: #0F0F0F !important; }"
-                + "#activity-settings { background-color: #0F0F0F !important; }"
-                + ".tt-stats-list a { color: white !important; }"
-                + "h4.main a { color: white !important; }"
-                + "#y-stats { background-color: #0F0F0F !important; }"
-                // Sets Column
-                + "td.SetsColumn { background-color: #0F0F0F !important; }"
-                + "p.Focus { background-color: #0F0F0F !important; }"
-                + "p#TagCloud { background-color: #0F0F0F !important; }"
-                // Button bar at top
-                + "li.menu_li, li.no_menu_li, li>span { border-color: #0F0F0F !important; }"
-                + "#TopBar > table { border-color: #0F0F0F !important; }"
-                + "div#SSButtonHugger > span > a, em[data-ywa-name] { border-color: #0F0F0F !important; }"
-                + "#ShareMenu { background-color: #999 !important; border-color: #999 !important;}"
-                // Photo Page Stuff
-                + "h3.contextTitleOpen, h3.contextTitleClosed { border-color: #0F0F0F !important; }"
-                + "ul#ShareOptions li { background-color: #0F0F0F !important; }"
-                + "div.sharing_options_header_open { color: white !important; }"
-                + "div.sharing_options_header_open { background-image: url("+ chrome.extension.getURL('images/sharing_sprite.png') +") !important; }"
-                + "[id^='photo_gne_button'] { background-image: url("+ chrome.extension.getURL('images/photo-button-bar-sprite5.png') +") !important; }"
-                + "[id^='photo_gne_button'] { background-color: black !important; border-color: #0F0F0F !important; }"
-                + "#global_modal_blocker { background-color: #0F0F0F !important; }"
-                + ".contextInfo, .nextprev_contextThumbsDiv, .contextCrumbsDiv, img.fs-context_crap { background-color: black !important; }"
-                + "img.fs-context_crap[src$='spaceout.gif'] { background-image: none !important; }"
-                + "td.context_crap_td { border-left: solid 1px white; border-bottom: solid 1px white; background-image: none !important; }"
-                // This is to make description/titles legible when on own page...
-                + "[title='Click to edit']:hover { -webkit-transition: color 0s; color: black !important; background-color: gray !important; }"
-                + "[title='Click to edit'] { color: white !important; background-color: black !important; -webkit-transition: background-color,color 1.5s,1.5s; }"
-                + "textarea[name='content'], input[name='content'] { background-color: #DDDDDD !important; }"
-                + "p { color: white !important; }"
-                + "#notes_text_span { color: black !important; }"
-                //Search
-                + "#SearchFormStrip { background-image: none !important; }"
-                + ".pivot_grouping { background-color: #0F0F0F !important; }"
-                + ".pivot_grouping a, h3 { color: white !important ; }"
-                + ".pivot_grouping_hover a { color: #0063DC !important; }"
-                + ".pivot_grouping_hover a:hover { color: white !important; }"
-                + ".SortOptions { color: white !important; }"
-                // Archives
-                + "table.YearListing td { color: white !important; }"
-                // Popular
-                + "table.PopularPic h4 { color: white !important; }"
-                // Apps
-                + "#ag-user-promo { background-color: #0F0F0F !important; }"
-                // Profile
-                + "#manage { background-color: #0F0F0F !important; }"
-                + ".profile-section h3 { color: white !important; }"
-                // Explore Stuff
-                + ".faq, .intro_text, .try_a_search { background-color: #0F0F0F !important; }"
-                + "#TopBar, #FooterWrapper { background-color: black !important; }"
-                // Commons
-                + ".tc_intro { background-color: #0F0F0F !important; }"
-                // Group listing
-                + "div.Editorial td { color: white !important; }"
-                + "td.EachGroup { color: white !important; }"
-                + "td.OtherBits { color: white !important; }"
-                + "ul[id$='_ul'] { color: white !important; }"
-                // Contact list
-                + "td[class^='contact-list'] { color: white !important; }"
-                + "th[class$='contact-list-sorted'] a { color: #555555 !important; }"
-                + "div.contact-list-header { background-color: #0F0F0F !important; }"
-                + "div.InvitePreview { background-color: #0F0F0F !important; }"
-                // Photostream
-                + "td { color: white !important; }"
-                // This is for group front pages
-                + "table.TopicListing td[style*='text-align: center'] { color: white !important; }"
-                + "#addInfo { color: white; }"
-                + "#group-info td>p { color: white !important; }"
-                + "div.Preview { color: white !important; background-color: #0F0F0F !important; }"
-                + ".Here { color: white !important; }"
-                + ".paginator > *{ background-color: black ! important; color: white ; }"
-                + ".comment-content { color: white ! important; }"
-                + "*[id^='title'], *[id^='desc'] { color: white ! important; }"
-                + "td.Said > h4 ~ p { color: white !important; }"
-                + "div[id^='description_div'] { background-color: black !important; }"
-                + ".SeeAll { color: white !important; }"
-                // Stats
-                + ".name > a { color: #AAA !important; }"
-                + ".name > a:hover { color: #0063DC !important; }"
-                + ".even td { background-color: transparent !important; }"
-                + ".even { background-color: #0F0F0F !important; }"
-                // Search Page
-                + "#SearchFormStrip { background-color: #0F0F0F !important; background-image: url();}"
-                // fixing icons where possible
-                + "a[href='/mail/'], a[href='/cart/'] { background-color: transparent !important; }"
-                + "a#SlideShowButton, a[data-ywa-name='Share'] { background-image: url('" + chrome.extension.getURL('images/sharing_sprite.png') +"') !important; }"
-                + ".act-content, h2 { color: white !important; }";
-*/
 st2.innerText = "div.sharing_options_header_open { background-image: url("+ chrome.extension.getURL('images/sharing_sprite.png') +") !important; }"
                 + "[id^='photo_gne_button'] { background-image: url("+ chrome.extension.getURL('images/photo-button-bar-sprite5.png') +") !important; }"
                 + "a#SlideShowButton, a[data-ywa-name='Share'] { background-image: url('" + chrome.extension.getURL('images/sharing_sprite.png') +"') !important; }";
@@ -160,24 +67,27 @@ var _startPage = setInterval( function(){
             // replacing badges & images
             var pro = document.getElementsByClassName('Pro');
             for(i = 0; i < pro.length; i++){ pro[i].src = chrome.extension.getURL('images/badge_pro.gif.v2'); }
-            document.getElementById('FlickrLogo').style.visibility = 'visible';
 
             flickrPage.isPhotoPage = document.querySelector("link[rel='canonical']") ? true : false ;
 
-            chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound', 'bigPool', 'moveInfo'] },
+            chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound', 'bigPool', 'moveInfo', 'nLogo'] },
                     function( response ){
                         if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                         if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
 			            if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage || flickrPage.isPhotosOf) ){ doBigPool(); }
                         if( response.moveInfo == 'true' && flickrPage.isPhotoPage ){ flickrPage.moveInfo(); }
+                        if( response.nLogo == 'true'){
+                            var logo = document.getElementById('FlickrLogo');
+                            logo.src = chrome.extension.getURL('images/flickr-yahoo-logo.png.v2');
+                            logo.style.opacity = '100';
+                        }else if( response.nLogo == 'false' ){
+                            document.getElementById('FlickrLogo').style.opacity = '100';
+                        }
 
                     } );
 
             doFlickrPage();
             doDiscuss();
-        }
-        if( document.getElementById('FlickrLogo') ){
-            document.getElementById('FlickrLogo').src = chrome.extension.getURL('images/flickr-yahoo-logo.png.v2');
         }
     }, 10 );
 

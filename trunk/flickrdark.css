@@ -80,10 +80,9 @@ th[class$='contact-list-sorted'] a { color: #555555 !important; }
 div.contact-list-header { background-color: #0F0F0F !important; }
 div.InvitePreview { background-color: #0F0F0F !important; }
 
-/* Photostream 
+/* Photostream // This was breaking send to groups/add to sets text :(
 td { color: white !important; }
 */
-td { color: white !important; }
 
 /* This is for group front pages */
 table.TopicListing td[style*='text-align: center'] { color: white !important; }
@@ -111,6 +110,13 @@ div[id^='description_div'] { background-color: black !important; }
 #snapshot td { color: inherit; background-color: inherit !important; }
 #snapshot .odd:hover, .even:hover { background-color: #FFFFD1 !important; color: black; }
 .num { background-color: transparent !important; }
+
+/* Camera */
+#cfModel th { color: white !important; }
+.over > td { color: black !important; }
+
+/* People */
+#Main > .context { background-color: #0F0F0F; }
 
 /* Sets */
 #gray_set_button_bar { background-image: none !important; }
