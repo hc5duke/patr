@@ -11,3 +11,6 @@ multiGroup.preLoad = function(){
     multiGroup.mgDiv.innerHTML = '<table id="mgTable" style="width: 100%;"><tr><td></td><td></td></tr></table>';
     document.getElementById('About').parentNode.insertBefore( multiGroup.mgDiv, document.getElementById('About') );
 }
+
+multiGroup.getGroups = function(){
+}
