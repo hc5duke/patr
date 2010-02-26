@@ -149,3 +149,6 @@ pre { background-color: #0F0F0F; }
 .ThinCase td, #GoodStuff, #GoodStuff td, .acct-sett td,th { color: white !important; }
 #GoodStuff textarea { color: black !important; }
 #GoodStuff .Highlight { background-color: #777777; }
+.linkout { background-color: red !important; }
+.linkhover { background-color: #0F0F0F !important; }
+

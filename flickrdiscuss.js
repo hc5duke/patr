@@ -38,7 +38,8 @@ function doDiscuss(){
         function addReplies( type , sSize ){
 
             var peeps = document.querySelectorAll("td.Said > h4 > a[href^='/photos/']");
-            peeps = peeps.length != 0 ? peeps : document.querySelectorAll('a[data-ywa-name^="Commenter"]');
+            peeps = peeps.length != 0 ? peeps : document.querySelectorAll('h4[data-ywa-name^="Commenter"] > a[href^="/photos/"]');
+            console.log( peeps );
 
             for( var key in peeps ){
                 if( parseInt(key+1) ){
@@ -51,7 +52,7 @@ function doDiscuss(){
 
                     r.innerHTML = ' reply by ';
                     rImage.innerHTML = "<small>Image</small>";
-                    rImageSmall.innerHTML = "<small> [&frac12;]</small>";
+                    rImageSmall.innerHTML = "<small> [&#0392;]</small>";
                     rName.innerHTML = "<small>Name</small>";
                     rNameB.innerHTML = '<small> [b]</small>';
                     rImage.link = '['+ peeps[key].href +']'; 
@@ -91,7 +92,7 @@ function doDiscuss(){
                         var last = a[a.length-1].nextSibling;
                         rImage.className = rNameB.className = rName.className = rImageSmall.className = 'Plain';
                         rImage.innerHTML = "icon";
-                        rImageSmall.innerHTML = " [&frac12;]";
+                        rImageSmall.innerHTML = " [&#0392;]";
                         rName.innerHTML = "name";
                         rNameB.innerHTML = ' [b]';
 

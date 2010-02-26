@@ -222,7 +222,7 @@ function doFlickrPage() {
             }
         } 
       );
-      multiGroup.preLoad();
+      //multiGroup.preLoad();
     }
 }
 
