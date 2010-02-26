@@ -92,8 +92,12 @@ function doDiscuss(){
                         rImage.className = rNameB.className = rName.className = rImageSmall.className = 'Plain';
                         rImage.innerHTML = "icon";
                         rImageSmall.innerHTML = " [&#0392;]";
+                        //rImage.title = "Paste icon";
+                        //rImageSmall.title = "Paste custom icon size";
                         rName.innerHTML = "name";
                         rNameB.innerHTML = ' [b]';
+                        //rName.title = "Paste users name";
+                        //rNameB.title = "Paste users name in bold";
 
                         var res = document.createElement('span')
                         res.appendChild( document.createTextNode(' | ') );

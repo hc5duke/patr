@@ -39,7 +39,6 @@ st3.rel = 'stylesheet';
 st3.type = 'text/css';
 
 st.innerText="html { background-color: black !important; }"
-                //+" #sendToGroupDialogDiv { display: none !important; }"
                 +" body{ background-color: black ! important; color: white !important; }";
 
 st2.innerText = "div.sharing_options_header_open { background-image: url("+ chrome.extension.getURL('images/sharing_sprite.png') +") !important; }"
@@ -222,7 +221,7 @@ function doFlickrPage() {
             }
         } 
       );
-      //multiGroup.preLoad();
+      multiGroup.preLoad();
     }
 }
 

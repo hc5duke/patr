@@ -93,7 +93,7 @@ div.Preview { color: white !important; background-color: #0F0F0F !important; }
 .paginator > *{ background-color: black ! important; color: white ; }
 .comment-content { color: white ! important; }
 *[id^='title'], *[id^='desc'] { color: white ! important; }
-td.Said > h4 ~ p { color: white !important; }
+td[valign='top'], td.Said > h4 ~ p { color: white !important; }
 div[id^='description_div'] { background-color: black !important; }
 .SeeAll { color: white !important; }
 
@@ -112,7 +112,7 @@ div[id^='description_div'] { background-color: black !important; }
 .num { background-color: transparent !important; }
 
 /* Camera */
-#cfModel th { color: white !important; }
+#cfModel th, td { color: white !important; }
 .over > td { color: black !important; }
 
 /* People */
