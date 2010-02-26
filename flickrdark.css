@@ -145,3 +145,7 @@ a[href='/mail/'], a[href='/cart/'] { background-color: transparent !important; }
 pre { background-color: #0F0F0F; }
 #Explorer td { color: white; }
 
+/* Profile Pages */
+.ThinCase td, #GoodStuff, #GoodStuff td, .acct-sett td,th { color: white !important; }
+#GoodStuff textarea { color: black !important; }
+#GoodStuff .Highlight { background-color: #777777; }
