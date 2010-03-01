@@ -152,3 +152,11 @@ pre { background-color: #0F0F0F; }
 .linkout { background-color: red !important; }
 .linkhover { background-color: #0F0F0F !important; }
 
+/* Stuff for Multi Group Sender */
+.mg-ingroup { color: white !important; border: dotted 1px #444444 !important; }
+.mg-group { color: #0063DC !important; border: dotted 1px #444444 !important; }
+.mg-group:hover { color: white !important; }
+
+#mgTable { border: solid 1px #444444; }
+
+.mgHeader { color: black !important; background-color: #777777; font-weight: bold; border-bottom: solid 2px gray; }
