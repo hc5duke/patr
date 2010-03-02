@@ -50,9 +50,11 @@ multiGroup.start = function(){
                             function( response ){
                                 if( response.stat == 'ok' ){
                                     multiGroup.inGroup = {}
-                                    for( var i = 0; i < response.pool.length; i++ ){
-                                        multiGroup.inGroup[response.pool[i].id] = null;
-                                    }
+									if( response.pool ){
+										for( var i = 0; i < response.pool.length; i++ ){
+											multiGroup.inGroup[response.pool[i].id] = null;
+										}
+									}
                                     multiGroup.doList();
                                 }else{
                                     console.log( 'Error retrieving current groups for this photo!' );
@@ -183,6 +185,7 @@ multiGroup.Add = function( el ){
                             el.target.addEventListener('click', multiGroup.Remove, false);
                         }else{
                             el.target.removeEventListener('click', multiGroup.Add, false);
+							theseBalls.src = chrome.extension.getURL('images/icon_!_red.png');
                             msg.innerHTML = response.message;
                             msg.style.display = 'inline';
                         }
