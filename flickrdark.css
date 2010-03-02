@@ -152,6 +152,9 @@ pre { background-color: #0F0F0F; }
 .linkout { background-color: red !important; }
 .linkhover { background-color: #0F0F0F !important; }
 
+/* Messaging */
+td.Reply > p { color: black !important; }
+
 /* Stuff for Multi Group Sender */
 .mg-ingroup { color: white !important; border: dotted 1px #444444 !important; }
 .mg-group { color: #0063DC !important; border: dotted 1px #444444 !important; }

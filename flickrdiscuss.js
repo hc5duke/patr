@@ -47,6 +47,7 @@ function doDiscuss(){
                     var rImageSmall = document.createElement('a');
                     var rName = document.createElement('a');
                     var rNameB = document.createElement('a');
+					var rBoth = document.createElement('a');
                     var r = document.createElement('small');
 
                     r.innerHTML = ' reply by ';
@@ -54,16 +55,19 @@ function doDiscuss(){
                     rImageSmall.innerHTML = "<small> [&#0392;]</small>";
                     rName.innerHTML = "<small>Name</small>";
                     rNameB.innerHTML = '<small> [b]</small>';
+					rBoth.innerHTML = '<small>both</small>';
                     rImage.link = '['+ peeps[key].href +']'; 
                     rImageSmall.link = "<img src='"
                             + peeps[key].parentNode.parentNode.previousElementSibling.querySelector("img").src
                             + "' width='" + sSize + "' height='" + sSize + "'>";
                     rName.link = peeps[key].innerHTML;
                     rNameB.link = "<b>"+ rName.link +"</b>";
+					rBoth.link = '['+ peeps[key].href +'] <b>'+ peeps[key].innerHTML +'</b> ';
                     rImage.href = rImageSmall.href = rName.href = rNameB.href = 'javascript:;';
                     rImageSmall.href = 'javascript:;';
                     rName.href = 'javascript:;';
                     rNameB.href = 'javascript:;';
+					rBoth.href = 'javascript:;';
 
                     if( type == 'under' ){
 
@@ -73,6 +77,8 @@ function doDiscuss(){
                         respond.appendChild( document.createTextNode(' ') );
                         respond.appendChild( rImage );
                         respond.appendChild( rImageSmall );
+                        respond.appendChild( document.createTextNode(' ') );
+						respond.appendChild( rBoth );
 
                         peeps[key].parentNode.insertBefore( respond, peeps[key].nextSibling );
 
@@ -89,13 +95,14 @@ function doDiscuss(){
 
                         var a = p.querySelectorAll("a");
                         var last = a[a.length-1].nextSibling;
-                        rImage.className = rNameB.className = rName.className = rImageSmall.className = 'Plain';
+                        rBoth.className = rImage.className = rNameB.className = rName.className = rImageSmall.className = 'Plain';
                         rImage.innerHTML = "icon";
                         rImageSmall.innerHTML = " [&#0392;]";
                         //rImage.title = "Paste icon";
                         //rImageSmall.title = "Paste custom icon size";
                         rName.innerHTML = "name";
                         rNameB.innerHTML = ' [b]';
+						rBoth.innerHTML = "both";
                         //rName.title = "Paste users name";
                         //rNameB.title = "Paste users name in bold";
 
@@ -106,6 +113,8 @@ function doDiscuss(){
                         res.appendChild( document.createTextNode(' | ') );
                         res.appendChild( rImage );
                         res.appendChild( rImageSmall );
+						res.appendChild( document.createTextNode(' | ') );
+						res.appendChild( rBoth );
 
                         p.insertBefore( res, last );
                     }
@@ -114,6 +123,7 @@ function doDiscuss(){
                     rImageSmall.onmousedown = pasteLink;
                     rName.onmousedown = pasteLink;
                     rNameB.onmousedown = pasteLink;
+					rBoth.onmousedown = pasteLink;
 
                     function pasteLink(){
                         var start = txt.selectionStart;
