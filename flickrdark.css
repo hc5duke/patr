@@ -41,7 +41,7 @@ p { color: white !important; }
 /*Search */
 #SearchFormStrip { background-image: none !important; }
 .pivot_grouping { background-color: #0F0F0F !important; }
-.pivot_grouping a, h3 { color: white !important ; }
+.pivot_grouping a, .pivot_grouping h3 { color: white !important ; }
 .pivot_grouping_hover a { color: #0063DC !important; }
 .pivot_grouping_hover a:hover { color: white !important; }
 .SortOptions { color: white !important; }
@@ -55,6 +55,8 @@ table.PopularPic h4 { color: white !important; }
 
 /* Apps */
 #ag-user-promo { background-color: #0F0F0F !important; }
+div[style*='background: #f3f3f3'] { background-color: #111111 !important; }
+div[style*='background: #ffffff'] { background-color: #222222 !important; }
 
 /* Profile */
 #manage { background-color: #0F0F0F !important; }
@@ -105,14 +107,21 @@ div[id^='description_div'] { background-color: black !important; }
 .odd>th { background-color: inherit !important; }
 .views, #refs td, #breakdown td { color: #888 !important; background-color: inherit; }
 [id^='bubb-'] { color: black !important; }
-.yesterday > div > a, .alltime>div>a { color: #AAAAAA !important; }
+.yesterday > div > a, .alltime>div>a, .yesterday h3, .alltime h3 { color: #AAAAAA !important; }
 .yesterday > div > a:hover, .alltime>div>a:hover { color: white !important; background-color: #0063DC !important; }
 #snapshot td { color: inherit; background-color: inherit !important; }
+#snapshot td:hover, #snapshot th:hover { color: black; background-color: inherit !important; }
 #snapshot .odd:hover, .even:hover { background-color: #FFFFD1 !important; color: black; }
+.even:hover, .odd:hover { background-color: #222222 !important; }
 .num { background-color: transparent !important; }
+.domains-holder a { color: #AAAAAA !important; }
+.domains-holder a:hover { color: #0063DC !important; }
+#main > .title  td { color: white !important; }
+#main > .title  td:hover { background-color: inherit !important; }
+#main > .title td span { color: #AAAAAA !important; }
 
 /* Camera */
-#cfModel th, td { color: white !important; }
+#cfModel th, #cfModel td { color: white !important; }
 .over > td { color: black !important; }
 
 /* People */
@@ -146,7 +155,7 @@ pre { background-color: #0F0F0F; }
 #Explorer td { color: white; }
 
 /* Profile Pages */
-.ThinCase td, #GoodStuff, #GoodStuff td, .acct-sett td,th { color: white !important; }
+.ThinCase td, #GoodStuff, #GoodStuff td, .acct-sett td, .acct-sett th { color: white !important; }
 #GoodStuff textarea { color: black !important; }
 #GoodStuff .Highlight { background-color: #777777; }
 .linkout { background-color: red !important; }
@@ -163,3 +172,4 @@ td.Reply > p { color: black !important; }
 #mgTable { border: solid 1px #444444; }
 
 .mgHeader { color: black !important; background-color: #777777; font-weight: bold; border-bottom: solid 2px gray; }
+.mgHeader { color: #222222 !important; text-shadow: 0px 1px 1px #888888; }

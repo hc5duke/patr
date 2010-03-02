@@ -60,6 +60,7 @@ chrome.extension.sendRequest( { type: "localStorage", param:['darkr'] },
 flickrPage.isPoolPage = ( location.href.search(/\/pool\//) == -1 ) ? false : true;
 flickrPage.isFriendPage = ( location.href.search(/\/friends\//) == -1 ) ? false : true;
 flickrPage.isPhotosOf = ( location.href.search(/\/photosof\//) == -1 ) ? false : true;
+flickrPage.isStatsPage = ( location.href.search(/\/photos\/.*\/stats\/($|\d{4}-\d\d-\d\d\/$)/) == -1 ) ? false : true;
 
 // Wait till the DOM is done to call these guys...
 var _startPage = setInterval( function(){
@@ -221,7 +222,11 @@ function doFlickrPage() {
             }
         } 
       );
-      multiGroup.preLoad();
+      if( document.getElementById('photo_gne_button_send_to_group') ){
+          multiGroup.preLoad();
+      }
+    }else if( flickrPage.isStatsPage ){
+        flickrPage.niceStats();
     }
 }
 
@@ -390,4 +395,42 @@ flickrPage.moveInfo = function(){
         i++;
     }
 
+}
+
+
+flickrPage.niceStats = function(){
+    //Let's put some fancy stats on the stats pages...
+    var breakdown_today = document.querySelectorAll(".yesterday .breakdown tbody tr");
+    var stats = {};
+
+//  http://chart.apis.google.com/chart?cht=p&chd=t:60,12,2,24&chs=350x150&chl=Flickr (60%25)|Search (12%25)|Other (2%25)|Unkown (24%25)&chdl=Flickr|Search|Other|Unknown&chdlp=t&chf=bg,s,00000000
+    var tmpURL = 'http://chart.apis.google.com/chart?'
+                        + 'cht=p'
+                        + '&chf=bg,s,00000000'
+                        + '&chs=350x200'
+                        + '&chco=0000FF'
+                        + '&chdlp=t';
+    console.log( tmpURL );
+    // chl = labels on chart, chd = chart data, chdl = legend labels
+    var chl = chd = chdl = '';
+
+    for(var i = 0; i < breakdown_today.length; i++ ){
+        var name = breakdown_today[i].firstElementChild.innerText;
+        var num = breakdown_today[i].firstElementChild.nextElementSibling.innerText;
+        var per = breakdown_today[i].firstElementChild.nextElementSibling.nextElementSibling.innerText;
+
+        chl += name.split(' ',1)[0] +' ('+ per +')|';
+        chd += ( parseInt( per ) === NaN ) ? 1+',' : parseInt( per )+',';
+        chdl += num +' '+ name +'|';
+    }
+    chl = chl.slice(0, -1);
+    chd = chd.slice(0, -1);
+    chdl = escape( chdl.slice(0, -1) );
+    tmpURL += '&chd=t:'+ chd +'&chl='+ chl +'&chdl='+ chdl;
+    console.log( tmpURL );
+    var today =  document.querySelector('#refs .yesterday');
+    var img = document.createElement('img');
+    img.src = tmpURL;
+    img.style.marginTop = '5px';
+    today.insertBefore( img , today.querySelector('.detail') );
 }
