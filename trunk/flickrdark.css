@@ -139,6 +139,8 @@ div[id^='description_div'] { background-color: black !important; }
 /* Uploadr */
 #uploadr, #upload-container, #uploadr-list, .foot, .batch-operations .tags, .batch-sets { background-color: #0F0F0F !important; }
 .photo_title > input, .photo_description > textarea { color: black !important; }
+.uploading { color: black !important; }
+label[for^='license'] { color: white !important; }
 
 /* Add to Group */
 [id$='DialogListDiv'] td { background-color: transparent !important; /*color: #0063DC !important;*/ }
@@ -160,6 +162,7 @@ pre { background-color: #0F0F0F; }
 #GoodStuff .Highlight { background-color: #777777; }
 .linkout { background-color: red !important; }
 .linkhover { background-color: #0F0F0F !important; }
+#GoodStuff #Inbox[bgcolor] { background-color: #222222; }
 
 /* Messaging */
 td.Reply > p { color: black !important; }
