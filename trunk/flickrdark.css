@@ -61,6 +61,8 @@ div[style*='background: #ffffff'] { background-color: #222222 !important; }
 /* Profile */
 #manage { background-color: #0F0F0F !important; }
 .profile-section h3 { color: white !important; }
+#Edit .Stats .Label { color: #999999; }
+#Edit .Stats td:not(.Label) { color: white; }
 
 /* Explore Stuff */
 .faq, .intro_text, .try_a_search { background-color: #0F0F0F !important; }
@@ -85,6 +87,10 @@ div.InvitePreview { background-color: #0F0F0F !important; }
 /* Photostream // This was breaking send to groups/add to sets text :(
 td { color: white !important; }
 */
+/* Add as contact */
+#contactChangerContainer .hd, #contactChangerContainer label { color: black !important; }
+#contactChangerContainer .contactChangerFootnote > p { color: #8D8D8D !important; }
+#contactChangerInfoDetails > p { color: #8D8D8D !important }
 
 /* This is for group front pages */
 table.TopicListing td[style*='text-align: center'] { color: white !important; }
@@ -119,6 +125,9 @@ div[id^='description_div'] { background-color: black !important; }
 #main > .title  td { color: white !important; }
 #main > .title  td:hover { background-color: inherit !important; }
 #main > .title td span { color: #AAAAAA !important; }
+#viewsummary table td { color: silver !important; }
+#main table.title td { color: silver !important; }
+#main table.title h1 span { color: #555555 !important; }
 
 /* Camera */
 #cfModel th, #cfModel td { color: white !important; }
@@ -158,14 +167,22 @@ pre { background-color: #0F0F0F; }
 
 /* Profile Pages */
 .ThinCase td, #GoodStuff, #GoodStuff td, .acct-sett td, .acct-sett th { color: white !important; }
+.acct-sett th { color: #888888 !important; }
 #GoodStuff textarea { color: black !important; }
 #GoodStuff .Highlight { background-color: #777777; }
 .linkout { background-color: red !important; }
 .linkhover { background-color: #0F0F0F !important; }
 #GoodStuff #Inbox[bgcolor] { background-color: #222222; }
 
+/* Group discussions */
+.taglist td { background-color: #888888 !important; }
+
+
 /* Messaging */
 td.Reply > p { color: black !important; }
+
+/* Change privacy settings */
+.privacyDetails p label, .privacyDetails blockquote > label { color: silver !important; }
 
 /* Stuff for Multi Group Sender */
 .mg-ingroup { color: white !important; border: dotted 1px #444444 !important; }

@@ -66,7 +66,6 @@ multiGroup.start = function(){
                 }
             }
         );
-
         
     }else{ // We already had it open, so just show the div again!
         multiGroup.mgDiv.style.display = 'block';

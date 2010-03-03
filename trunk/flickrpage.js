@@ -226,7 +226,7 @@ function doFlickrPage() {
           multiGroup.preLoad();
       }
     }else if( flickrPage.isStatsPage ){
-        flickrPage.niceStats();
+        //flickrPage.niceStats();
     }
 }
 
