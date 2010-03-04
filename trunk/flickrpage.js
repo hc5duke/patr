@@ -147,18 +147,15 @@ function doFlickrPage() {
                     lightBox.preLoad();
 
             }else if( /*document.getElementById('photo_gne_button_zoom') */ true ){
-                // We failed getting photo info, let's try another method...
-                //console.log( "Failed getting API info, trying workaround..." );
-
                 
                 //TEMPORARY - MOVE ME - Getting EXIF data
                 chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getExif', params: { photo_id: flickrPage.photoID, api_key: flickrPage.api_key, auth_hash: flickrPage.auth_hash, auth_token: '', src: 'js' } },
                         function( response ){
                             if( response.stat == 'ok' ){
-                                //console.log( response );
+                                console.log( response );
                                 var rpe = response.photo.exif;
-                                var values = {'ExposureTime':{}, 'Aperture':{}, 'FocalLength':{}, 'ISO':{},
-                                                'ExposureCompensation':{}, 'Flash':{}, 'Lens':{} };
+                                var values = {'Lens':{}, 'ExposureTime':{}, 'Aperture':{}, 'ISO':{}, 'FocalLength':{}, 
+                                                'ExposureCompensation':{}, 'Flash':{} };
                                 for(var i = 0; i < rpe.length; i++){
                                     if( rpe[i].tag in values && !( values[ rpe[i].tag ].value ) ){
                                         values[ rpe[i].tag ].label = rpe[i].label;
@@ -171,9 +168,8 @@ function doFlickrPage() {
                                 }
                                 // We have EXIF values, now push them into the page
                                 var newul = document.createElement('ul');
-                                values.Aperture.value = 'f/'+values.Aperture.value;
                                 for( var key in values ){
-                                    if( values[key].value ){
+                                    if( values[key].value && values[key].label ){
                                         var li = document.createElement('li');
                                         li.innerHTML = values[key].label +': '+values[key].value;
                                         li.setAttribute('class', 'Stats');
@@ -183,7 +179,8 @@ function doFlickrPage() {
                                         newul.appendChild( li );
                                     }
                                 }
-                                var mp = document.querySelector("td.RHS>ul>li.Stats a[data-ywa-name*='More']").previousElementSibling;
+                                var more = document.querySelector("td.RHS>ul>li.Stats a[data-ywa-name*='More']") || false;
+                                var mp = more ? more.previousElementSibling : false;
                                 if( mp ){
                                     newul.querySelector("li:last-child").appendChild( document.createElement('br') );
                                     newul.querySelector("li:last-child").appendChild(mp.parentNode.removeChild(mp.nextElementSibling));
