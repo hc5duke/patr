@@ -140,7 +140,9 @@ div[id^='description_div'] { background-color: black !important; }
 #gray_set_button_bar { background-image: none !important; }
 
 /* Search Page */
-#SearchFormStrip { background-color: #0F0F0F !important; background-image: none;}
+#SearchFormStrip { background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#C9C9C9), to(#212121)) !important; /* background-image: none; */ }
+.search-refinements div.refinement { color: #111; }
+.search-refinements { background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#C9C9C9), to(#212121), color-stop(.2,#777),color-stop(.8,#5E5E5E)) !important; }
 
 /* Organizer */
 .top_form_tip_txt, .tree_coll_title_div, #collections_instructions_top_p { color: black !important; }

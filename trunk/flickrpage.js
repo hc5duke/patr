@@ -152,7 +152,6 @@ function doFlickrPage() {
                 chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getExif', params: { photo_id: flickrPage.photoID, api_key: flickrPage.api_key, auth_hash: flickrPage.auth_hash, auth_token: '', src: 'js' } },
                         function( response ){
                             if( response.stat == 'ok' ){
-                                console.log( response );
                                 var rpe = response.photo.exif;
                                 var values = {'Lens':{}, 'ExposureTime':{}, 'Aperture':{}, 'ISO':{}, 'FocalLength':{}, 
                                                 'ExposureCompensation':{}, 'Flash':{} };
@@ -223,7 +222,7 @@ function doFlickrPage() {
           multiGroup.preLoad();
       }
     }else if( flickrPage.isStatsPage ){
-        //flickrPage.niceStats();
+        flickrPage.niceStats();
     }
 }
 
@@ -397,10 +396,10 @@ flickrPage.moveInfo = function(){
 
 flickrPage.niceStats = function(){
     //Let's put some fancy stats on the stats pages...
+    /*
     var breakdown_today = document.querySelectorAll(".yesterday .breakdown tbody tr");
     var stats = {};
 
-//  http://chart.apis.google.com/chart?cht=p&chd=t:60,12,2,24&chs=350x150&chl=Flickr (60%25)|Search (12%25)|Other (2%25)|Unkown (24%25)&chdl=Flickr|Search|Other|Unknown&chdlp=t&chf=bg,s,00000000
     var tmpURL = 'http://chart.apis.google.com/chart?'
                         + 'cht=p'
                         + '&chf=bg,s,00000000'
@@ -430,4 +429,34 @@ flickrPage.niceStats = function(){
     img.src = tmpURL;
     img.style.marginTop = '5px';
     today.insertBefore( img , today.querySelector('.detail') );
+    */
+    var today = {};
+    today.ref = {};
+    today.ref.name = document.querySelectorAll('.yesterday > table.breakdown td.name');
+    today.ref.num = document.querySelectorAll('.yesterday > table.breakdown td.num');
+    today.ref.per = document.querySelectorAll('.yesterday > table.breakdown td.per');
+    today.ref.url = flickrPage.chartURL( 'pie', today.ref );
+}
+
+flickrPage.chartURL = function( type, obj ){
+//  http://chart.apis.google.com/chart?cht=p&chd=t:60,12,2,24&chs=350x150&chl=Flickr (60%25)|Search (12%25)|Other (2%25)|Unkown (24%25)&chdl=Flickr|Search|Other|Unknown&chdlp=t&chf=bg,s,00000000
+
+    console.log( obj );
+    // expectin an obj that has name(label), chartdata, and possibly more chart label stuff
+    var tmpURL = 'http://chart.apis.google.com/chart?';
+    tmpURL += 'chf=bg,s,00000000';
+    tmpURL += '&chdlp=t';
+
+    var cht = chd = chl = chdl = '';
+
+    if( obj.per && type == 'pie' ){ // percent is present, chart that as 'pie'
+        cht = 'cht=p';
+        for( var i = 0; i < obj.per.length; i++ ){
+            console.log( obj.per[i].innerText );
+            chd += parseInt( obj.per[i].innerText.replace('<','') );
+        }
+        console.log( chd );
+    }
+
+
 }
