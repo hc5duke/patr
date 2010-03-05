@@ -231,6 +231,7 @@ function doFlickrPage() {
       if( document.getElementById('photo_gne_button_send_to_group') ){
           multiGroup.preLoad();
       }
+      flickrPage.doReferrer();
     }else if( flickrPage.isStatsPage ){
         flickrPage.niceStats();
     }
