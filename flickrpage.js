@@ -67,7 +67,8 @@ var _startPage = setInterval( function(){
         if( /loaded|complete/.test(document.readyState) ){
             clearInterval( _startPage );
             // replacing badges & images
-            var pro = document.getElementsByClassName('Pro');
+            //var pro = document.getElementsByClassName('Pro');
+			var pro = document.querySelectorAll('img[src$="badge_pro.gif.v2"]');
             for(i = 0; i < pro.length; i++){ pro[i].src = chrome.extension.getURL('images/badge_pro.gif.v2'); }
 
             flickrPage.isPhotoPage = document.querySelector("link[rel='canonical']") ? true : false ;
