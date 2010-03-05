@@ -9,7 +9,7 @@
 	"content_scripts": [
 		{
 			"matches": ["http://www.flickr.com/*"],
-			"js": ["flickrpage.js", "flickrdiscuss.js", "lightbox.js", "multigroup.js", "patr.js", "flickrrefercomment.user.js"],
+			"js": ["flickrpage.js", "flickrdiscuss.js", "lightbox.js", "multigroup.js", "patr.js", "flickrrefer.js" ],
 			"css": ["flickrdiscuss.css", "lightbox.css", "multigroup.css"],
             "run_at": "document_start"
 		}

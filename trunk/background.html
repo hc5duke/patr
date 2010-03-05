@@ -37,6 +37,9 @@ chrome.extension.onRequest.addListener(
         sendResponse( sendRequest( request.fn, request.params ) );
     }else if( request.type == "cAPI" ){ //make cookie API call - POST
         sendResponse( sendDirty( request.fn, request.params ) );
+    }else if( request.type == 'xAPI' ){
+        console.log(' xAPI CALLLLL ');
+        sendResponse( sendDirtyX( request.fn, request.params ) );
     }else if( request.type == "localStorage" ){
         var param = request.param;
         if( typeof param == 'object' ){
@@ -65,13 +68,13 @@ function sendRequest( type, params ){
             for( var opt in params ){
                URL += "&" + opt + "=" + params[opt] ;
             }
-            console.log( 'params: ');
-            console.log( params );
+            //console.log( 'params: ');
+            //console.log( params );
 
    req.onreadystatechange = function() {
      if( req.readyState == 4 && req.status == 200 ){
-         console.log( 'req.responseText: ');
-         console.log( req.responseText );
+         //console.log( 'req.responseText: ');
+         //console.log( req.responseText );
          response = JSON.parse( req.responseText );
 
      }else{
@@ -105,6 +108,37 @@ function sendDirty( type, params ){
     // Don't set header data on the call, it will throw an XHR exception...
     req.onreadystatechange = function(){
         if( req.readyState == 4 && req.status == 200 ){
+            //console.log( 'req.responseText' );
+            //console.log( req.responseText );
+            response = JSON.parse( req.responseText );
+        }
+    }
+    
+    req.open("POST", URL, false);
+    req.send( cookie );
+
+    return response;
+}
+
+function sendDirtyX( type, params ){
+    var response;
+    var req = new XMLHttpRequest();
+    var cookie = params.cookie;
+    delete params.cookie;
+
+    var URL = "http://www.flickr.com/services/rest/?" +
+            "method=flickr." + type + "&" +
+            "format=json&" +
+            "nojsoncallback=1&";
+            //"api_key=" + API_KEY;
+
+                for( var opt in params ){
+               URL += "&" + opt + "=" + params[opt] ;
+            }
+
+    // Don't set header data on the call, it will throw an XHR exception...
+    req.onreadystatechange = function(){
+        if( req.readyState == 4 && req.status == 200 ){
             console.log( 'req.responseText' );
             console.log( req.responseText );
             response = JSON.parse( req.responseText );
@@ -117,47 +151,5 @@ function sendDirty( type, params ){
     return response;
 }
 
-/*
-function getSizes(photo_id){
-
-	var finalSize;
-	var req = new XMLHttpRequest();
-	var URL = "http://api.flickr.com/services/rest/?" +
-					"method=flickr.photos.getSizes&" +
-					"api_key=" + API_KEY + "&" +
-					//"photo_id=3797073541";
-					//"nojsoncallback=1&" +
-					//"format=json&" +
-					"photo_id=" + photo_id;
-
-	req.open( "GET", URL, false );
-	//req.onload = parseSizes();
-	req.onreadystatechange = function() {
-		//alert("readyState: " + req.readyState );
-		if( req.readyState == 4 ){
-			parseSizes();
-		}
-	}
-	req.send(null);
-
-	function parseSizes(){
-		finalSize = "dummy-path-to-biggest-sized-image";
-		// deal with the list and return the path to the finalSize you want to use...
-		var res = req.responseXML.getElementsByTagName("size");
-		var sizes = {}
-		//alert( typeof( sizes ) );
-		sizes.rsp = req.responseXML.getElementsByTagName("rsp")[0].getAttribute("stat");
-		for ( var i = 0, sz; sz = res[i]; i++ ){
-			sizes[ res[i].getAttribute("label") ] =  {
-						"width" : res[i].getAttribute("width"),
-						"height": res[i].getAttribute("height"),
-						"source": res[i].getAttribute("source")
-						} ;
-		}
-		finalSize = sizes;
-	}
-	return finalSize;
-}
-*/
 
 </script>
