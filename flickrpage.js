@@ -154,11 +154,16 @@ function doFlickrPage() {
                         function( response ){
                             if( response.stat == 'ok' ){
                                 var rpe = response.photo.exif;
-                                var values = {'Lens':{}, 'ExposureTime':{}, 'Aperture':{}, 'ISO':{}, 'FocalLength':{}, 
-                                                'ExposureCompensation':{}, 'Flash':{} };
+                                var values = {'Lens':{label:'Lens'}, 
+                                                'ExposureTime':{label:'Exposure'}, 
+                                                'Aperture':{label:'Aperture'}, 
+                                                'ISO':{label:'ISO Speed'}, 
+                                                'FocalLength':{label:'Focal Length'}, 
+                                                'ExposureCompensation':{label:'Exposure Bias'}, 
+                                                'Flash':{label:'Flash'} };
                                 for(var i = 0; i < rpe.length; i++){
                                     if( rpe[i].tag in values && !( values[ rpe[i].tag ].value ) ){
-                                        values[ rpe[i].tag ].label = rpe[i].label;
+                                        values[ rpe[i].tag ].label = values[ rpe[i].tag ].label || rpe[i].label;
                                         if( rpe[i].clean ){
                                             values[ rpe[i].tag ].value = rpe[i].clean._content;
                                         }else{
@@ -166,8 +171,12 @@ function doFlickrPage() {
                                         }
                                     }
                                 }
+                                if( values['Aperture'].value ){
+                                    values['Aperture'].value = 'f/'+values['Aperture'].value;
+                                }
                                 // We have EXIF values, now push them into the page
                                 var newul = document.createElement('ul');
+
                                 for( var key in values ){
                                     if( values[key].value && values[key].label ){
                                         var li = document.createElement('li');
@@ -364,7 +373,7 @@ function doOrig( url ){
     }
     xhr.open("GET", url, false);
     xhr.send(null);
-    console.log('after .send');
+    //console.log('after .send');
     return otxt;
 }
 
@@ -437,6 +446,12 @@ flickrPage.niceStats = function(){
     today.ref.num = document.querySelectorAll('.yesterday > table.breakdown td.num');
     today.ref.per = document.querySelectorAll('.yesterday > table.breakdown td.per');
     today.ref.url = flickrPage.chartURL( 'pie', today.ref );
+    today.ref.img = document.createElement('img');
+    today.ref.img.src = today.ref.url;
+    today.ref.table = document.querySelector('.yesterday table.breakdown') || false;
+    if( today.ref.table ){
+        today.ref.table.parentNode.insertBefore( today.ref.img, today.ref.table );
+    }
 }
 
 flickrPage.chartURL = function( type, obj ){
@@ -445,18 +460,28 @@ flickrPage.chartURL = function( type, obj ){
     console.log( obj );
     // expectin an obj that has name(label), chartdata, and possibly more chart label stuff
     var tmpURL = 'http://chart.apis.google.com/chart?';
-    tmpURL += 'chf=bg,s,00000000';
-    tmpURL += '&chdlp=t';
+    tmpURL += 'chf=bg,s,00000000'
+            + '&chs=350x150'
+            + '&chco=0000FF'
+            + '&chdlp=t';
 
     var cht = chd = chl = chdl = '';
 
     if( obj.per && type == 'pie' ){ // percent is present, chart that as 'pie'
         cht = 'cht=p';
         for( var i = 0; i < obj.per.length; i++ ){
-            console.log( obj.per[i].innerText );
-            chd += parseInt( obj.per[i].innerText.replace('<','') );
+            chd += parseInt( obj.per[i].innerText.replace('<','') ) +',';
+            chl += obj.name[i].innerText.split(' ')[0] +'%20';
+            chl += '('+ escape( obj.per[i].innerText) +')|';
+
         }
-        console.log( chd );
+        chd = chd.slice(0,-1);
+        chl = chl.slice(0,-1);
+        tmpURL += '&'+ cht
+        + '&chd=t:' + chd
+        + '&chl=' + chl;
+        console.log( tmpURL );
+        return tmpURL;
     }
 
 

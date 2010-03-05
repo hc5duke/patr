@@ -152,6 +152,8 @@ div[id^='description_div'] { background-color: black !important; }
 .photo_title > input, .photo_description > textarea { color: black !important; }
 .uploading { color: black !important; }
 label[for^='license'] { color: white !important; }
+div[id^='upload-total'] { color: white !important; }
+p.ReadThis { color: black !important; }
 
 /* Add to Group */
 [id$='DialogListDiv'] td { background-color: transparent !important; /*color: #0063DC !important;*/ }
@@ -178,6 +180,11 @@ pre { background-color: #0F0F0F; }
 
 /* Group discussions */
 .taglist td { background-color: #888888 !important; }
+.staffPost h4, .staffPost td.Said > p { color: white !important; }
+/*tr.staffPost td { background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#CCC), to(#444), color-stop(0.85, #444), color-stop(0.95, #222) ) !important; }
+ */
+tr.staffPost td { background-color: #222 !important; }
+.staffPost td { border-bottom-color: #444 !important; }
 
 
 /* Messaging */
@@ -195,3 +202,4 @@ td.Reply > p { color: black !important; }
 
 .mgHeader { color: black !important; background-color: #777777; font-weight: bold; border-bottom: solid 2px gray; }
 .mgHeader { color: #222222 !important; text-shadow: 0px 1px 1px #888888; }
+

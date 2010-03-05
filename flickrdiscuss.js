@@ -26,6 +26,10 @@ function doDiscuss(){
 
     var discuss = (document.getElementsByName('message').length > 0 ); 
     var txt = document.querySelector("textarea[name='message']");
+    if( !discuss ){ 
+        discuss = (document.querySelectorAll('textarea[name="body"]').length > 0 );
+        txt = document.querySelector("textarea[name='body']");
+    }
 
     if( discuss && txt ){
         

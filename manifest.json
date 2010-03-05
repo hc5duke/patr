@@ -1,6 +1,6 @@
 {
 	"name": "Patr - Pats Flickr App",
-	"version": "0.2.415",
+	"version": "0.2.417",
 	"description": "Pats Flickr App - making Flickr Funr with: Lightbox, All Sizes, Flic.kr links, buddy icon reply, and more!",
 	"icons": { "48": "logo48.png",
 			"128": "logo128.png" },
@@ -9,7 +9,7 @@
 	"content_scripts": [
 		{
 			"matches": ["http://www.flickr.com/*"],
-			"js": ["flickrpage.js", "flickrdiscuss.js", "lightbox.js", "multigroup.js", "patr.js"],
+			"js": ["flickrpage.js", "flickrdiscuss.js", "lightbox.js", "multigroup.js", "patr.js", "flickrrefercomment.user.js"],
 			"css": ["flickrdiscuss.css", "lightbox.css", "multigroup.css"],
             "run_at": "document_start"
 		}
