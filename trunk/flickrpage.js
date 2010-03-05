@@ -117,7 +117,7 @@ function doFlickrPage() {
         if( flickrPage.spaceball ) flickrPage.spaceball.offsetParent.removeChild( flickrPage.spaceball );
         if( flickrPage.dragproxy ) flickrPage.dragproxy.style.visibility = 'hidden';
 
-        var ftxt = document.head.querySelector("script").innerHTML; 
+        var ftxt = document.head.querySelector("script[type='text/javascript']").innerHTML; 
         var farray = ftxt.match( /'\w+'/g );
         flickrPage.api_key = farray[0].substring( 1, farray[0].length - 1 );
         flickrPage.auth_hash = farray[1].substring( 1, farray[1].length -1 );
