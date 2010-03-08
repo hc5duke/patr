@@ -49,8 +49,6 @@ flickrPage.doReferrer = function(){
 	};
     */
 
-
-
 	var DISCUSS = 0;
 	var POOL = DISCUSS+1;
 	var FELLOW = POOL+1;
