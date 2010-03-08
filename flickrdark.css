@@ -139,6 +139,9 @@ div[id^='description_div'] { background-color: black !important; }
 /* Sets */
 #gray_set_button_bar { background-image: none !important; }
 
+/* collections column */
+.CollectionsColumn { background-color: #222!important; }
+
 /* Search Page */
 #SearchFormStrip { background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#C9C9C9), to(#212121)) !important; /* background-image: none; */ }
 .search-refinements div.refinement { color: #111; }

@@ -137,6 +137,8 @@ function doDiscuss(){
                             + txt.value.substring(end, txt.value.length);
                         return false;
                     }
+
+                    //console.log( peeps[key] );
                 }
             }
         }

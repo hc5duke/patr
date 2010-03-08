@@ -130,7 +130,10 @@ this.init();}
 							var re = new RegExp("/photos/("+matches[1]+")/");
 							if(document.location.pathname.indexOf("/in/photostream") >= 0 || re.test(document.location.pathname)) {
 								//we come from the same user photo feed
-								this.insertComment("Seen on your photo stream.",referrer);
+                                if( document.location.pathname.indexOf( flickrPage.photos_url ) != 0 ){
+                                    // We are NOT on a users own photo page...
+								    this.insertComment("Seen on your photo stream.",referrer);
+                                }
 							} else {
 								//we come from someone else feed, it was therefore found in a comment.
 								this.insertComment("Seen in some comments.",referrer);
@@ -487,11 +490,15 @@ this.init();}
 //	var flickrgp = new FlickrReferComment();
 	//======================================================================
 	// launch
+    /*
 	try {
 		window.addEventListener("load", function () {
                 console.log('starting flickrrefer');
 				var flickrgp = new FlickrReferComment();
 		}, false);
 	} catch (ex) {}
+    */
+    console.log('starting flickrrefer...');
+    var flickrgp = new FlickrReferComment();
 
 }
