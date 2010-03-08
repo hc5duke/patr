@@ -73,7 +73,7 @@ var _startPage = setInterval( function(){
 
             flickrPage.isPhotoPage = document.querySelector("link[rel='canonical']") ? true : false ;
 
-            chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound', 'bigPool', 'moveInfo', 'nLogo'] },
+            chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound', 'bigPool', 'moveInfo', 'nLogo', 'addRef'] },
                     function( response ){
                         if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                         if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
@@ -86,6 +86,7 @@ var _startPage = setInterval( function(){
                         }else if( response.nLogo == 'false' ){
                             document.getElementById('FlickrLogo').style.opacity = '100';
                         }
+                        if( response.addRef == 'true'){ flickrPage.doReferrer();}
 
                     } );
 
@@ -231,7 +232,11 @@ function doFlickrPage() {
       if( document.getElementById('photo_gne_button_send_to_group') ){
           multiGroup.preLoad();
       }
-      flickrPage.doReferrer();
+      /*
+      if( flickrPage.addRef ){
+        //flickrPage.doReferrer();
+      }
+      */
     }else if( flickrPage.isStatsPage ){
         flickrPage.niceStats();
     }

@@ -41,6 +41,9 @@
                 }else if( key == 'nLogo' ){
                     console.log("loading, nLogo: " + localStorage[key] +" "+ key);
                     document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
+                }else if( key == 'addRef' ){
+                    console.log("loading, addRef: " + localStorage[key] +" "+ key);
+                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
                 }
 			}
         }
@@ -126,7 +129,7 @@
 
     <span style='float: left;' >
 	<div onmouseout="hidePreview()" onmouseover="showPreview()" >
-        <div style='font-size: 2em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Eye Candy</div>
+        <div style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Eye Candy</div>
 
     <input onclick="doAllEC('input');" type="checkbox" name="ecAll" id="ecAll" value="ecAll" />
     <span onclick="doAllEC( 'span' );" class='ecOpt' style='display: inline;'>All Effects</span>
@@ -141,7 +144,7 @@
 	</div>
 
 	<br/>
-		<div style='font-size: 2em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Buddy Reply Icons</div>
+		<div style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Buddy Reply Icons</div>
 		<div class='briOpt' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
 			<input onclick="this.checked = !this.checked;" type='radio' name='briLoc' id='briUnder' value='briUnder' />
 			Buddy reply under name</div>
@@ -154,7 +157,7 @@
 			Small icon size: <input onBlur=' doMe(this);' type='text' name='iconSmallSize' id='iconSmallSize' style='width: 40; font-size: 1em; font-weight: bold;' onFocus='this.style.backgroundColor = "#FFc1c1"' /> px. square</div>
 
 	<br />
-	<div style='font-size: 1.8em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Bigger Pool Preview</div>
+	<div style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Bigger Pool Preview</div>
     	<div class='ecOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
 	<input onclick="this.checked = !this.checked;" type='checkbox' name='bigPool' id='bigPool' value='bigPool' />
 	Use bigger pool previews</div>
@@ -164,7 +167,7 @@
 	</div>
 
 	<br />
-	<div style='font-size: 1.8em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Move Additional Info</div>
+	<div style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Move Additional Info</div>
     	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
 	<input onclick="this.checked = !this.checked;" type='checkbox' name='moveInfo' id='moveInfo' value='moveInfo' />
 	Move Additional Information</div>
@@ -174,7 +177,7 @@
 	</div>
 
 	<br />
-	<div class='linear' style='font-size: 1.8em; border-bottom: solid 1px gray; margin-bottom: 0.2em; color: white; background-color: black;'>Darkr Flickr</div>
+	<div class='linear' style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em; color: white; background-color: black;'>Darkr Flickr</div>
     	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
 	<input onclick="this.checked = !this.checked;" type='checkbox' name='darkr' id='darkr' value='darkr' />
 	Darkr Flickr</div>
@@ -190,7 +193,7 @@
 	</div>
 
     <br />
-    <div style='font-size: 1.8em; border-bottom: solid 1px gray; margin-bottom: 0.2em; color: white;'>
+    <div style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em; color: white;'>
         <img src="images/flickr-yahoo-logo.png.v2" /></div>
     	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
 	<input onclick="this.checked = !this.checked;" type='checkbox' name='nLogo' id='nLogo' value='nLogo' />
@@ -203,8 +206,25 @@
         <p/>
 	</div>
 
+	<br />
+	<div style='float: right; font-size: 1.4em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Add Referrer in Comments</div>
+    	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
+	<input onclick="this.checked = !this.checked;" type='checkbox' name='addRef' id='addRef' value='addRef' />
+	Add Referrer in Comments</div>
+	<div style='width: 250px; font-size: 0.75em; margin-top: 0.5em;'>
+        Add how you got to this photo (Referrer) to the end of your
+        comments.
+        It will look like this:<br/>
+        &#95;&#95;<br/>
+<i><a href="http://www.flickr.com/groups/flickrhacks/" style='color: #1057AE;' title="Seen on...">Seen in the group <b>"Flickr Hacks"</b></a></i> <em>(<a href="https://chrome.google.com/extensions/detail/iplbmjolljikncjboeofgmjoaacheemi" style='color: #1057AE;'>?</a>)</em>
+        
+	</div>
+
+
+    <div style='margin-bottom: 100px;'>&nbsp;</div>
     </span>
     <div id='preview' style='visibility: hidden;'></div>
+
 
 </body>
 </html>
