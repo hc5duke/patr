@@ -28,6 +28,7 @@ if( localStorage['iconSmallSize'] == undefined ){ localStorage['iconSmallSize'] 
 if( localStorage['bigPool'] == undefined ){ localStorage['bigPool'] = false; }
 if( localStorage['moveInfo'] == undefined ){ localStorage['moveInfo'] = true; }
 if( localStorage['nLogo'] == undefined ){ localStorage['nLogo'] = true; }
+if( localStorage['addRef'] == undefined ){ localStorage['addRef'] = true; }
 
 chrome.extension.onRequest.addListener(
 	function( request, sender, sendResponse) {

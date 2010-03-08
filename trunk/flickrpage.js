@@ -86,7 +86,9 @@ var _startPage = setInterval( function(){
                         }else if( response.nLogo == 'false' ){
                             document.getElementById('FlickrLogo').style.opacity = '100';
                         }
-                        if( response.addRef == 'true'){ flickrPage.doReferrer();}
+                        if( response.addRef == 'true' && flickrPage.isPhotoPage ){ 
+                            flickrPage.doReferrer();
+                        }
 
                     } );
 
@@ -123,6 +125,8 @@ function doFlickrPage() {
         var farray = ftxt.match( /'\w+'/g );
         flickrPage.api_key = farray[0].substring( 1, farray[0].length - 1 );
         flickrPage.auth_hash = farray[1].substring( 1, farray[1].length -1 );
+        flickrPage.photos_url = ftxt.match( /'\/photos\/.*\/'/g)[0].replace(/'/g,'');
+        console.log( flickrPage.photos_url );
         var cookie = document.cookie;
 
 
@@ -233,8 +237,10 @@ function doFlickrPage() {
           multiGroup.preLoad();
       }
       /*
+      alert( flickrpage.addRef );
       if( flickrPage.addRef ){
-        //flickrPage.doReferrer();
+        flickrPage.doReferrer();
+        alert( 'flickrPage.addRef = true\nJust after flickrpage.doReferrer()' );
       }
       */
     }else if( flickrPage.isStatsPage ){
