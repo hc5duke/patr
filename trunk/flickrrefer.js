@@ -71,7 +71,7 @@ this.init();}
 
 		init: function() {
 			var referrer = document.referrer;
-            console.log( 'referrer: '+ referrer );
+            //console.log( 'referrer: '+ referrer );
 		  if(referrer) {
 				var matches;
 				if(referrer.indexOf(document.location.pathname) >= 0) return //no need to add the comment if you just commented...
@@ -85,7 +85,7 @@ this.init();}
 							this.resolveGroupName(MAP,referrer,referrer);
 						} else {
 							//we come from a group
-                            console.log( 'from a group' );
+                            //console.log( 'from a group' );
 							this.resolveGroupName(POOL,referrer,referrer);
 						}
 					}  else if(referrer.indexOf('/photos/friends') >= 0) {
@@ -324,7 +324,7 @@ this.init();}
 		resolveGroupName: function(type,groupurl,referrer) {
 			//Trick to do it using the flickr API with authentication already embeded in the page.
 			var self = this;
-            console.log( 'resolveGroupName ');
+            //console.log( 'resolveGroupName ');
             /*
 			var listener = {
 				flickr_urls_lookupGroup_onLoad: function(success, responseXML, responseText, params){
@@ -372,9 +372,9 @@ this.init();}
 			};
             */
             var listener = function( response ){
-                console.log('LISTENER resolveGroupName');
+                //console.log('LISTENER resolveGroupName');
                 if( response.stat == 'ok' ){
-                    console.log( response );
+                    //console.log( response );
                     var groupname = response.group.groupname._content;
                     if( groupname ){
                         var msg = 'Seen in the group <b>"'+groupname+'"</b>';
@@ -401,10 +401,10 @@ this.init();}
                     }
                 }
             }
-            console.log( 'before switch(type)' );
+            //console.log( 'before switch(type)' );
 			switch(type) {
 				case RANDOM:
-                    console.log('case RANDOM');
+                    //console.log('case RANDOM');
 					unsafeWindow.F.API.callMethod('flickr.groups.getInfo', {
 							group_id:groupurl
 														  }, listener);
@@ -427,7 +427,7 @@ this.init();}
 		},
 		resolveSetName: function(id,referrer,type) {
 			//Trick to do it using the flickr API with authentication already embeded in the page.
-            console.log( 'resolveSetName' );
+            //console.log( 'resolveSetName' );
 			var self = this;
             /*
 			var listener = {
@@ -451,8 +451,8 @@ this.init();}
 			};
             */
             var listener = function( response ){
-                console.log( 'RESPONSE' );
-                console.log( response );
+                //console.log( 'RESPONSE' );
+                //console.log( response );
                 if( response.stat == 'ok' ){
                     var title = response.photoset.title._content;
                     var msg = '';
