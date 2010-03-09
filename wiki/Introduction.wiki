@@ -14,6 +14,7 @@ At the moment I have currently implemented these fantastic features!
   * [Introduction#Lightbox Lightbox (image on a dark background)]
   * [Introduction#Darkr Darkr Flickr] is a nice dark version of Flickr instead of white
   * [Introduction#Quotr Quotr] easy quoting of other users in discussion/comments
+  * [Introduction#Add_Referrer_to_Comments Add Referrer to Comments] adapted from 6v8.gamboni.org
   * [Introduction#EXIF_Data EXIF Data] directly on photo page under "Additional Information
   * [Introduction#Sizes All Sizes Links] for direct access to all available image sizes
   * [Introduction#Move_Additional_Information Move Additional Information] higher on the page
@@ -44,6 +45,10 @@ http://farm5.static.flickr.com/4034/4386060360_755dcab014.jpg
 Quotr is an easy way to quote other users in discussion threads or photo comments.  Just highlight anyones previous comment, and a box will appear that shows you what you've highlighted to quote, and an option to quote by their name or name + icon.  The best part is that the word "said:" in the reply is also a link directly back to the quoted comment in the discussion!
 
 [http://www.flickr.com/photos/patdavid/4419984543 http://farm5.static.flickr.com/4001/4419984543_0bf797f8f5_o.png]
+
+== Add Referrer to Comments ==
+
+I have adapted the "Add Referrer into Comments" script from [http://6v8.gamboni.org/Flickr-Add-referer-into-comments.html 6v8.gamboni.org] to work with Patr.  Now when viewing a photo, your comment box will automatically be filled in with data on how you came to the photo (from a group, your contacts, a photostream, etc.).  This really helps users know how you got to their picture.
 
 == EXIF Data ==
 _*Finally*_ added EXIF data on the photo page.  It's currently located under "Additional Information" (near the link to get to the exif data originally).  This works well with Move "Additional Information"...
