@@ -40,12 +40,13 @@ function doDiscuss(){
                 addReplies( type , response.iconSmallSize);
             });
         
+        /*
         var qDiv = document.createElement('div');
         qDiv.style.visibility = 'hidden';
         qDiv.style.padding = '5px';
         qDiv.style.backgroundColor = '#888';
         qDiv.id = 'qDiv';
-        var an = document.createElement('a');
+        var an = document.createElement('span');
         var ani = document.createElement('a');
         var quote = document.createElement('span');
         var or = document.createElement('span');
@@ -57,8 +58,9 @@ function doDiscuss(){
         an.className = ani.className = 'Plain';
         an.id = 'qName';
         ani.id = 'qBoth';
-        an.href = ani.href = '#';
-        an.innerHTML = ani.innerHTML = 'LV426';
+        an.href = ani.href = 'javascript:;';
+        an.innerHTML = '<span id="qNameText">LV426</span> <b>said:</b>';
+        ani.innerHTML = 'LV426';
         qDiv.name = an.name = ani.name = 'qDivEl';
         qDiv.appendChild( an );
         qDiv.appendChild( or );
@@ -66,8 +68,39 @@ function doDiscuss(){
         qDiv.appendChild( said );
         qDiv.appendChild( document.createElement('br') );
         qDiv.appendChild( quote );
-        
-        
+        */
+        var qDiv = document.createElement('div');
+        qDiv.id = 'qDiv';
+        console.log( qDiv );
+
+        var nameButton = document.createElement('span');
+        nameButton.id = 'nameButt';
+        nameButton.className = 'qButton';
+
+        var qName = document.createElement('span');
+        qName.setAttribute('Name', 'qName');
+        qName.id = 'qName';
+
+        nameButton.appendChild( qName );
+        nameButton.insertAdjacentHTML('beforeEnd', ' <b>said:</b>');
+
+        var bothButton = nameButton.cloneNode(true);
+        bothButton.id = 'bothButt';
+
+        var qIcon = document.createElement('img');
+        qIcon.setAttribute('height', '24px');
+        bothButton.insertBefore( qIcon, bothButton.childNodes[0] );
+        var qBoth = bothButton.querySelector('[name="qName"]');
+        qBoth.id = 'qBoth';
+
+        var quote = document.createElement('blockquote');
+        quote.id = 'qQuote';
+
+        qDiv.appendChild( nameButton );
+        qDiv.insertAdjacentHTML('beforeEnd', ' ');
+        qDiv.appendChild( bothButton );
+        qDiv.insertAdjacentHTML('beforeEnd', '<br/>');
+        qDiv.appendChild( quote );
 
         function addReplies( type , sSize ){
 
@@ -179,6 +212,7 @@ function doDiscuss(){
                     var said = peeps[key].parentNode.parentNode;
                     said.addEventListener('mouseup', doQuote);
                     said.setAttribute('icon_src', peeps[key].parentNode.parentNode.previousElementSibling.querySelector('img').src );
+                    said.setAttribute('user_link', peeps[key].href );
                     said.setAttribute('who', peeps[key].innerHTML );
                     var ca = peeps[key].parentNode.parentNode.previousElementSibling.querySelector('a[name^="comment"]');
                     var commentLink = (ca) ? ca.name : null;
@@ -187,12 +221,32 @@ function doDiscuss(){
                 }
             }
 
-            an.addEventListener('click', addQuote, false);
-            ani.addEventListener('click', addQuote, false);
+            nameButton.addEventListener('click', addQuote, false);
+            bothButton.addEventListener('click', addQuote, false);
             function addQuote( el ){
                 console.log('===== addQuote =====');
                 console.log( el.target );
+                console.log( 'el.currentTarget' );
+                console.log( el.currentTarget );
                 console.log( quote.innerHTML );
+                var start = txt.selectionStart;
+                var end = txt.selectionEnd;
+                var qTxt = '';
+                if( el.currentTarget.id == 'bothButt' ){
+                    qTxt = '['+ qDiv.getAttribute('user_link') +'] ';
+                }
+                qTxt += '<b>'+ qDiv.getAttribute('username');
+                console.log( 'commentlink:'+ qDiv.getAttribute('commentlink') );
+                if( qDiv.getAttribute('commentlink') != 'null' ){
+                    qTxt += ' <a href="#'+ qDiv.getAttribute('commentlink') +'">said:</a></b>';
+                }else{
+                    qTxt += ' said:</b>';
+                }
+                qTxt += '<blockquote><b>&#8220;</b><em>'+ quote.innerHTML +'</em><b>&#8221;</b></blockquote>';
+
+                txt.value = txt.value.substring(0, start)
+                    + qTxt
+                    + txt.value.substring(end, txt.value.length);
                 return false;
             }
 
@@ -208,29 +262,18 @@ function doDiscuss(){
             }
 
             function doQuote( el ){
-                //alert( el.target );
-                //alert('doQuote');
-                //console.log('el.target:');
-                //console.log( el.target );
-                //console.log('=====\nel.currentTarget');
-                //console.log( el.currentTarget );
                 var qText = document.getSelection();
-                if( !qText.isCollapsed && el.target.getAttribute('name') != 'qDivEl' ){
-                    //an.innerHTML = el.currentTarget.getAttribute('who');
-                    //ani.innerHTML = '<img src="'+ el.currentTarget.getAttribute('icon_src')
-                                    + '" width="24" height="24"/> '+ el.currentTarget.getAttribute('who');
-                    //qDiv.innerHTML += '<br/><span class="quote" name="qDivEl">'+ qText +'</span>';
+                if( !qText.isCollapsed && el.target.getAttribute('name') != 'qDivEl' && qText != ' '){
                     quote.innerHTML = qText;
+                    qName.innerText = qBoth.innerText = el.currentTarget.getAttribute('who');
+                    qIcon.src = el.currentTarget.getAttribute('icon_src');
+                    qDiv.setAttribute('commentlink', el.currentTarget.getAttribute('commentlink') );
+                    qDiv.setAttribute('user_link', el.currentTarget.getAttribute('user_link') );
+                    qDiv.setAttribute('username', el.currentTarget.getAttribute('who') );
                     el.currentTarget.appendChild( qDiv );
-                    qDiv.style.visibility = 'visible';
                 }else{
-                    //qDiv.style.visibility = 'hidden';
                 }
                 
             }
-        function addQuote( el ){
-            alert('hi');
-        }
     }
-
 }
