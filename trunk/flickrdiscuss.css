@@ -14,3 +14,24 @@ div.responseDiv a {
 }
 
 body { background-color: red; }
+
+#qDiv { background-color: whiteSmoke;
+    padding: 5px; 
+    -webkit-border-radius: 5px;
+    border: solid 1px #DDD;
+    -webkit-transition: 1s;
+    -webkit-transform-origin: 0 0;
+}
+
+
+.qButton { background-color: #0063DC;
+    padding: 5px;
+    text-align: center;
+    vertical-align: text-bottom;
+    height: 30px;
+    -webkit-box-align: center;
+    -webkit-border-radius: 4px;
+    color: white;
+}
+
+.qButton:hover { background-color: #0054BD; cursor: pointer; }
