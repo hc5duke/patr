@@ -209,3 +209,9 @@ td.Reply > p { color: black !important; }
 /* Mail */
 .fromto { color: #999 !important; }
 .username { color: #999 !important; }
+
+/* Quotr */
+#qDiv { background-color: #999;
+    border: solid 1px #888;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#333), to(#111) );
+}

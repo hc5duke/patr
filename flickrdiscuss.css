@@ -19,8 +19,6 @@ body { background-color: red; }
     padding: 5px; 
     -webkit-border-radius: 5px;
     border: solid 1px #BEBEBE;
-    -webkit-transition: 1s;
-    -webkit-transform-origin: 0 0;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(whiteSmoke), to(#DDD) );
 }
 
