@@ -3,7 +3,7 @@
 
 An extension for the Google Chrome browser that aims to extend the functionality of [http://www.flickr.com Flickr].
 
-*The Google Extension page for Patr is <a href="https://chrome.google.com/extensions/detail/iplbmjolljikncjboeofgmjoaacheemi">located here</a>.  If you're using Chrome go over, install it, and try it out!*
+*<font size='4em'>The Google Extension page for Patr is <a href="https://chrome.google.com/extensions/detail/iplbmjolljikncjboeofgmjoaacheemi">located here</a>.  If you're using Chrome go over, install it, and try it out!</font>*
 
 =Introduction=
 My goal is to implement features that will best take advantage of features on Flickr that would make the experience even better!
