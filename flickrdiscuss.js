@@ -31,6 +31,7 @@ function doDiscuss(){
         txt = document.querySelector("textarea[name='body']");
     }
 
+
     if( discuss && txt ){
         
         chrome.extension.sendRequest( {type:"localStorage", param:['briFooter', 'briUnder', 'iconSmallSize'] },
@@ -38,6 +39,35 @@ function doDiscuss(){
                 var type = (response.briFooter == 'true') ? 'foot' : 'under';
                 addReplies( type , response.iconSmallSize);
             });
+        
+        var qDiv = document.createElement('div');
+        qDiv.style.visibility = 'hidden';
+        qDiv.style.padding = '5px';
+        qDiv.style.backgroundColor = '#888';
+        qDiv.id = 'qDiv';
+        var an = document.createElement('a');
+        var ani = document.createElement('a');
+        var quote = document.createElement('span');
+        var or = document.createElement('span');
+        or.setAttribute('name', 'qDivEl');
+        or.innerText = ' OR ';
+        var said = document.createElement('span');
+        said.setAttribute('name', 'qDivEl');
+        said.innerHTML = '<b> said:</b>';
+        an.className = ani.className = 'Plain';
+        an.id = 'qName';
+        ani.id = 'qBoth';
+        an.href = ani.href = '#';
+        an.innerHTML = ani.innerHTML = 'LV426';
+        qDiv.name = an.name = ani.name = 'qDivEl';
+        qDiv.appendChild( an );
+        qDiv.appendChild( or );
+        qDiv.appendChild( ani );
+        qDiv.appendChild( said );
+        qDiv.appendChild( document.createElement('br') );
+        qDiv.appendChild( quote );
+        
+        
 
         function addReplies( type , sSize ){
 
@@ -72,6 +102,12 @@ function doDiscuss(){
                     rName.href = 'javascript:;';
                     rNameB.href = 'javascript:;';
 					rBoth.href = 'javascript:;';
+
+                    // Trying something for Quotr
+                    /*
+                    var p = peeps[key].parentNode.parentNode.getElementsByTagName('p')[0];
+                    p.setAttribute('icon_src', peeps[key].parentNode.parentNode.previousElementSibling.querySelector('img').src );
+                    */
 
                     if( type == 'under' ){
 
@@ -129,6 +165,7 @@ function doDiscuss(){
                     rNameB.onmousedown = pasteLink;
 					rBoth.onmousedown = pasteLink;
 
+                    /*
                     function pasteLink(){
                         var start = txt.selectionStart;
                         var end = txt.selectionEnd;
@@ -137,11 +174,63 @@ function doDiscuss(){
                             + txt.value.substring(end, txt.value.length);
                         return false;
                     }
+                    */
 
-                    //console.log( peeps[key] );
+                    var said = peeps[key].parentNode.parentNode;
+                    said.addEventListener('mouseup', doQuote);
+                    said.setAttribute('icon_src', peeps[key].parentNode.parentNode.previousElementSibling.querySelector('img').src );
+                    said.setAttribute('who', peeps[key].innerHTML );
+                    var ca = peeps[key].parentNode.parentNode.previousElementSibling.querySelector('a[name^="comment"]');
+                    var commentLink = (ca) ? ca.name : null;
+                    said.setAttribute('commentLink', commentLink);
+                    
                 }
             }
+
+            an.addEventListener('click', addQuote, false);
+            ani.addEventListener('click', addQuote, false);
+            function addQuote( el ){
+                console.log('===== addQuote =====');
+                console.log( el.target );
+                console.log( quote.innerHTML );
+                return false;
+            }
+
         }
 
+            function pasteLink(){
+                var start = txt.selectionStart;
+                var end = txt.selectionEnd;
+                txt.value = txt.value.substring(0, start)
+                    + this.link
+                    + txt.value.substring(end, txt.value.length);
+                return false;
+            }
+
+            function doQuote( el ){
+                //alert( el.target );
+                //alert('doQuote');
+                //console.log('el.target:');
+                //console.log( el.target );
+                //console.log('=====\nel.currentTarget');
+                //console.log( el.currentTarget );
+                var qText = document.getSelection();
+                if( !qText.isCollapsed && el.target.getAttribute('name') != 'qDivEl' ){
+                    //an.innerHTML = el.currentTarget.getAttribute('who');
+                    //ani.innerHTML = '<img src="'+ el.currentTarget.getAttribute('icon_src')
+                                    + '" width="24" height="24"/> '+ el.currentTarget.getAttribute('who');
+                    //qDiv.innerHTML += '<br/><span class="quote" name="qDivEl">'+ qText +'</span>';
+                    quote.innerHTML = qText;
+                    el.currentTarget.appendChild( qDiv );
+                    qDiv.style.visibility = 'visible';
+                }else{
+                    //qDiv.style.visibility = 'hidden';
+                }
+                
+            }
+        function addQuote( el ){
+            alert('hi');
+        }
     }
+
 }
