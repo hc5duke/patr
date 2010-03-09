@@ -81,6 +81,7 @@ function doDiscuss(){
         qName.setAttribute('Name', 'qName');
         qName.id = 'qName';
 
+        nameButton.insertAdjacentHTML('beforeEnd', ' ');
         nameButton.appendChild( qName );
         nameButton.insertAdjacentHTML('beforeEnd', ' <b>said:</b>');
 
