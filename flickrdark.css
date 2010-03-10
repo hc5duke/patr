@@ -45,6 +45,7 @@ p { color: white !important; }
 .pivot_grouping_hover a { color: #0063DC !important; }
 .pivot_grouping_hover a:hover { color: white !important; }
 .SortOptions { color: white !important; }
+.NoneFound { color: white !important; }
 
 /* Archives */
 table.YearListing td, .Separated>tbody>tr>td { color: white !important; }
