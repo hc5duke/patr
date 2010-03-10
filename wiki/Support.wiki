@@ -1,4 +1,5 @@
 #summary Support page listing options and how-tos.
+#labels Featured
 
 = Support =
 
