@@ -13,7 +13,7 @@ multiGroup.preLoad = function(){
     multiGroup.mgDiv.innerHTML = '<table id="mgTable" style="width: 100%; display: none; opacity: 100; background-color: inherit;"></table>';
     document.getElementById('About').parentNode.insertBefore( multiGroup.mgDiv, document.getElementById('About') );
     multiGroup.mgTable = document.getElementById('mgTable');
-    multiGroup.mgTable.innerHTML = '<tr><th colspan=2 class="mgHeader">Patr Multi-Group Sender</th></tr>';
+    multiGroup.mgTable.innerHTML = '<tr><th colspan=2 class="mgHeader">Sendr - Add to Multiple Groups</th></tr>';
 
     var no = document.createElement('style');
     no.innerText += ' #sendToGroupDialogDiv { display: none !important; }';
