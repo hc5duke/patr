@@ -413,6 +413,12 @@ flickrPage.moveInfo = function(){
         i++;
     }
 
+    var feat = document.getElementsByClassName('stats-featured');
+    var lastli = document.querySelector("ul > li[style*='margin-bottom']");
+    for( i = 0; i < feat.length; i++ ){
+        lastli.insertAdjacentElement('beforeBegin', feat[i]);
+    }
+
 }
 
 
