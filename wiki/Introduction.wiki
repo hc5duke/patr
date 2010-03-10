@@ -11,9 +11,10 @@ If you're using Chrome go over, install it, and try it out!</font>*
 My goal is to implement features that will best take advantage of features on Flickr that would make the experience even better!
 
 At the moment I have currently implemented these fantastic features!
-  * *[Introduction#Lightbox Lightbox (image on a dark background)]*
+  * *[Introduction#Lightbox Lightbox] (image on a dark background)*
   * *[Introduction#Darkr Darkr Flickr]* is a nice dark version of Flickr instead of white
   * *[Introduction#Quotr Quotr]* easy quoting of other users in discussion/comments
+  * *[Introduction#Sendr Sendr]* quickly send your photo to multiple groups at once
   * *[Introduction#Add_Referrer_to_Comments Add Referrer to Comments]* adapted from 6v8.gamboni.org
   * *[Introduction#EXIF_Data EXIF Data]* directly on photo page under "Additional Information
   * *[Introduction#Sizes All Sizes Links]* for direct access to all available image sizes
@@ -23,7 +24,7 @@ At the moment I have currently implemented these fantastic features!
   * *[Introduction#Eye_Candy Eye Candy]* enhancements to the look and feel of Flickr
 
 Hopefully to come before too long:
-  * Multiple group select and submits
+  * ~~Multiple group select and submits~~
   * Better lightbox functionality
   * Set/Group browsing enhancements
   * and more...
@@ -45,6 +46,12 @@ http://farm5.static.flickr.com/4034/4386060360_755dcab014.jpg
 Quotr is an easy way to quote other users in discussion threads or photo comments.  Just highlight anyones previous comment, and a box will appear that shows you what you've highlighted to quote, and an option to quote by their name or name + icon.  The best part is that the word "said:" in the reply is also a link directly back to the quoted comment in the discussion!
 
 [http://www.flickr.com/photos/patdavid/4419984543 http://farm5.static.flickr.com/4001/4419984543_0bf797f8f5_o.png]
+
+== Sendr ==
+
+Sendr is a way to easily send your photo to multiple groups quickly from the photo page.  I hated having to click on "Send to Group", pick a group, wait, get a response, and have to hit the button and start again.  So this will drop down a table below your photo of all the groups you are a part of that you can send the photo to, and will add them to those groups as fast as you can click on them!
+
+[http://www.flickr.com/photos/patdavid/4399702711/ http://farm5.static.flickr.com/4007/4399702711_1c0e38f383_o.png]
 
 == Add Referrer to Comments ==
 
