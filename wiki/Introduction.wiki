@@ -55,7 +55,7 @@ Quotr is an easy way to quote other users in discussion threads or photo comment
 
 Sendr is a way to easily send your photo to multiple groups quickly from the photo page.  I hated having to click on "Send to Group", pick a group, wait, get a response, and have to hit the button and start again.  So this will drop down a table below your photo of all the groups you are a part of that you can send the photo to, and will add them to those groups as fast as you can click on them!
 
-[http://www.flickr.com/photos/patdavid/4399702711/ http://farm5.static.flickr.com/4007/4399702711_1c0e38f383_o.png]
+[http://www.flickr.com/photos/patdavid/4399702711/ http://farm5.static.flickr.com/4007/4399702711_57459c764c_o.png]
 
 == Add Referrer to Comments ==
 
