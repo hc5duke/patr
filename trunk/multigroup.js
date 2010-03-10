@@ -58,6 +58,8 @@ multiGroup.start = function(){
                                     multiGroup.doList();
                                 }else{
                                     console.log( 'Error retrieving current groups for this photo!' );
+                                    multiGroup.inGroup = {};
+                                    multiGroup.doList();
                                 }
                             });
 
