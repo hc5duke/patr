@@ -129,6 +129,7 @@ div[id^='description_div'] { background-color: black !important; }
 #viewsummary table td { color: silver !important; }
 #main table.title td { color: silver !important; }
 #main table.title h1 span { color: #555555 !important; }
+#Main table.title-photo h1 > a { color: white !important; }
 
 /* Camera */
 #cfModel th, #cfModel td { color: white !important; }

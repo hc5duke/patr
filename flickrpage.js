@@ -73,7 +73,7 @@ var _startPage = setInterval( function(){
 
             flickrPage.isPhotoPage = document.querySelector("link[rel='canonical']") ? true : false ;
 
-            chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound', 'bigPool', 'moveInfo', 'nLogo', 'addRef'] },
+            chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound', 'bigPool', 'moveInfo', 'nLogo', 'addRef', 'showEXIF'] },
                     function( response ){
                         if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                         if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
@@ -89,6 +89,7 @@ var _startPage = setInterval( function(){
                         if( response.addRef == 'true' && flickrPage.isPhotoPage ){ 
                             flickrPage.doReferrer();
                         }
+                        if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
 
                     } );
 
@@ -101,6 +102,13 @@ var _startPage = setInterval( function(){
 
 
 function doFlickrPage() {
+
+        var ftxt = document.head.querySelector("script[type='text/javascript']").innerHTML; 
+        var farray = ftxt.match( /'\w+'/g );
+        flickrPage.api_key = farray[0].substring( 1, farray[0].length - 1 );
+        flickrPage.auth_hash = farray[1].substring( 1, farray[1].length -1 );
+        flickrPage.photos_url = ftxt.match( /'\/photos\/.*\/'/g)[0].replace(/'/g,'');
+        var cookie = document.cookie;
 
     if( flickrPage.isPhotoPage ){
 
@@ -121,6 +129,7 @@ function doFlickrPage() {
         if( flickrPage.spaceball ) flickrPage.spaceball.offsetParent.removeChild( flickrPage.spaceball );
         if( flickrPage.dragproxy ) flickrPage.dragproxy.style.visibility = 'hidden';
 
+        /*
         var ftxt = document.head.querySelector("script[type='text/javascript']").innerHTML; 
         var farray = ftxt.match( /'\w+'/g );
         flickrPage.api_key = farray[0].substring( 1, farray[0].length - 1 );
@@ -128,6 +137,7 @@ function doFlickrPage() {
         flickrPage.photos_url = ftxt.match( /'\/photos\/.*\/'/g)[0].replace(/'/g,'');
         console.log( flickrPage.photos_url );
         var cookie = document.cookie;
+        */
 
 
       // Make API request to fill out photo sizes available
@@ -155,54 +165,57 @@ function doFlickrPage() {
             }else if( /*document.getElementById('photo_gne_button_zoom') */ true ){
                 
                 //TEMPORARY - MOVE ME - Getting EXIF data
-                chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getExif', params: { photo_id: flickrPage.photoID, api_key: flickrPage.api_key, auth_hash: flickrPage.auth_hash, auth_token: '', src: 'js' } },
-                        function( response ){
-                            if( response.stat == 'ok' ){
-                                var rpe = response.photo.exif;
-                                var values = {'Lens':{label:'Lens'}, 
-                                                'ExposureTime':{label:'Exposure'}, 
-                                                'Aperture':{label:'Aperture'}, 
-                                                'ISO':{label:'ISO Speed'}, 
-                                                'FocalLength':{label:'Focal Length'}, 
-                                                'ExposureCompensation':{label:'Exposure Bias'}, 
-                                                'Flash':{label:'Flash'} };
-                                for(var i = 0; i < rpe.length; i++){
-                                    if( rpe[i].tag in values && !( values[ rpe[i].tag ].value ) ){
-                                        values[ rpe[i].tag ].label = values[ rpe[i].tag ].label || rpe[i].label;
-                                        if( rpe[i].clean ){
-                                            values[ rpe[i].tag ].value = rpe[i].clean._content;
-                                        }else{
-                                            values[ rpe[i].tag ].value = rpe[i].raw._content;
+                if( flickrPage.showEXIF ){
+
+                    chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getExif', params: { photo_id: flickrPage.photoID, api_key: flickrPage.api_key, auth_hash: flickrPage.auth_hash, auth_token: '', src: 'js' } },
+                            function( response ){
+                                if( response.stat == 'ok' ){
+                                    var rpe = response.photo.exif;
+                                    var values = {'Lens':{label:'Lens'}, 
+                                                    'ExposureTime':{label:'Exposure'}, 
+                                                    'Aperture':{label:'Aperture'}, 
+                                                    'ISO':{label:'ISO Speed'}, 
+                                                    'FocalLength':{label:'Focal Length'}, 
+                                                    'ExposureCompensation':{label:'Exposure Bias'}, 
+                                                    'Flash':{label:'Flash'} };
+                                    for(var i = 0; i < rpe.length; i++){
+                                        if( rpe[i].tag in values && !( values[ rpe[i].tag ].value ) ){
+                                            values[ rpe[i].tag ].label = values[ rpe[i].tag ].label || rpe[i].label;
+                                            if( rpe[i].clean ){
+                                                values[ rpe[i].tag ].value = rpe[i].clean._content;
+                                            }else{
+                                                values[ rpe[i].tag ].value = rpe[i].raw._content;
+                                            }
                                         }
                                     }
-                                }
-                                if( values['Aperture'].value ){
-                                    values['Aperture'].value = 'f/'+values['Aperture'].value;
-                                }
-                                // We have EXIF values, now push them into the page
-                                var newul = document.createElement('ul');
+                                    if( values['Aperture'].value ){
+                                        values['Aperture'].value = 'f/'+values['Aperture'].value;
+                                    }
+                                    // We have EXIF values, now push them into the page
+                                    var newul = document.createElement('ul');
 
-                                for( var key in values ){
-                                    if( values[key].value && values[key].label ){
-                                        var li = document.createElement('li');
-                                        li.innerHTML = values[key].label +': '+values[key].value;
-                                        li.setAttribute('class', 'Stats');
-                                        li.style.listStyleType = 'square';
-                                        li.style.color = 'rgb(125,125,125)';
-                                        li.style.fontSize = '100%';
-                                        newul.appendChild( li );
+                                    for( var key in values ){
+                                        if( values[key].value && values[key].label ){
+                                            var li = document.createElement('li');
+                                            li.innerHTML = values[key].label +': '+values[key].value;
+                                            li.setAttribute('class', 'Stats');
+                                            li.style.listStyleType = 'square';
+                                            li.style.color = 'rgb(125,125,125)';
+                                            li.style.fontSize = '100%';
+                                            newul.appendChild( li );
+                                        }
+                                    }
+                                    var more = document.querySelector("td.RHS>ul>li.Stats a[data-ywa-name*='More']") || false;
+                                    var mp = more ? more.previousElementSibling : false;
+                                    if( mp ){
+                                        newul.querySelector("li:last-child").appendChild( document.createElement('br') );
+                                        newul.querySelector("li:last-child").appendChild(mp.parentNode.removeChild(mp.nextElementSibling));
+                                        mp.parentNode.insertBefore( newul, mp );
+                                        mp.parentNode.removeChild( mp );
                                     }
                                 }
-                                var more = document.querySelector("td.RHS>ul>li.Stats a[data-ywa-name*='More']") || false;
-                                var mp = more ? more.previousElementSibling : false;
-                                if( mp ){
-                                    newul.querySelector("li:last-child").appendChild( document.createElement('br') );
-                                    newul.querySelector("li:last-child").appendChild(mp.parentNode.removeChild(mp.nextElementSibling));
-                                    mp.parentNode.insertBefore( newul, mp );
-                                    mp.parentNode.removeChild( mp );
-                                }
-                            }
-                        });
+                            });
+                }
 
                 chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getSizes', params: { photo_id: flickrPage.photoID, api_key: flickrPage.api_key, auth_hash: flickrPage.auth_hash, auth_token: '', src: 'js' } },
                         function( response ){
@@ -245,6 +258,11 @@ function doFlickrPage() {
       */
     }else if( flickrPage.isStatsPage ){
         flickrPage.niceStats();
+    }else if( flickrPage.isPoolPage ){
+        //flickrPage.scroller();
+        flickrPage.scroller.test = true;
+        flickrPage.scroller.triggerHeight = 0;
+        window.onscroll = flickrPage.scroller;
     }
 }
 
@@ -503,4 +521,56 @@ flickrPage.chartURL = function( type, obj ){
     }
 
 
+}
+
+flickrPage.scroller = function(){
+    //std flickr pool count is 30
+    // start getting next page +900
+    console.log( 'offsetY: '+ window.scrollY );
+    var g_id = document.querySelector("#headersearchform > input[name='w']").value;
+    var pool = location.href.match(/\/groups\/(.*)\/pool\//)[1];
+    var p_pattern = /\/pool\/page(\d+)\//;
+    var match, page = 0;
+
+    if( match = location.href.match(/\/pool\/page(\d+)\//) ){
+        page = parseInt( match[1] );
+    }
+
+    if( window.scrollY > flickrPage.scroller.triggerHeight && flickrPage.scroller.test ){
+        flickrPage.scroller.test = false;
+        chrome.extension.sendRequest( { type: 'cAPI',
+                                        fn: 'groups.pools.getPhotos',
+                                        params: {
+                                            group_id: g_id,
+                                            per_page: 30,
+                                            page: page+1,
+                                            extras: 'url_s, path_alias',
+                                            api_key: flickrPage.api_key,
+                                            auth_hash: flickrPage.auth_hash,
+                                            auth_token: '',
+                                            src: 'js' } },
+                function( response ){
+                    console.log( response );
+                    if( response.stat == 'ok' ){
+
+                        //Add this page to Main div
+                        var rpp = response.photos.photo;
+                        for( var key in rpp ){
+                            var p = document.querySelector('.HoldPhotos > p').cloneNode( true );
+                            p.id = 'pool_'+ rpp[key].id;
+                            var a = p.getElementsByTagName('a');
+                            a[0].href= '/photos/'+ rpp[key].pathalias +'/in/'+ pool ; // add group name after here
+                            a[0].title = rpp[key].title;
+                            a[0].firstElementChild.src = rpp[key].url_s;
+                            a[0].firstElementChild.alt = rpp[key].title;
+                            a[1].href = '/photos/'+ rpp[key].pathalias;
+                            a[1].innerText = rpp[key].ownername;
+                            document.querySelector('#Main > .HoldPhotos').appendChild( p );
+                        }
+                        flickrPage.scroller.test = true;
+                        flickrPage.scroller.triggerHeight = document.querySelector(".HoldPhotos > p:last-child").offsetTop;
+                        console.log( flickrPage.scroller.triggerHeight );
+                    }
+                });
+    }
 }

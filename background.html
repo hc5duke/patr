@@ -29,6 +29,7 @@ if( localStorage['bigPool'] == undefined ){ localStorage['bigPool'] = false; }
 if( localStorage['moveInfo'] == undefined ){ localStorage['moveInfo'] = true; }
 if( localStorage['nLogo'] == undefined ){ localStorage['nLogo'] = true; }
 if( localStorage['addRef'] == undefined ){ localStorage['addRef'] = true; }
+if( localStorage['showEXIF'] == undefined ){ localStorage['showEXIF'] = true; }
 
 chrome.extension.onRequest.addListener(
 	function( request, sender, sendResponse) {
@@ -37,6 +38,7 @@ chrome.extension.onRequest.addListener(
 	}else if( request.type == "API" ){
         sendResponse( sendRequest( request.fn, request.params ) );
     }else if( request.type == "cAPI" ){ //make cookie API call - POST
+        //console.log('cAPI call\n'+request.fn);
         sendResponse( sendDirty( request.fn, request.params ) );
     }else if( request.type == 'xAPI' ){
         console.log(' xAPI CALLLLL ');
@@ -91,6 +93,7 @@ function sendRequest( type, params ){
 
 // Dirty API request
 function sendDirty( type, params ){
+    console.log('sendDirty' + type +'\n'+params);
     var response;
     var req = new XMLHttpRequest();
     var cookie = params.cookie;
@@ -109,8 +112,8 @@ function sendDirty( type, params ){
     // Don't set header data on the call, it will throw an XHR exception...
     req.onreadystatechange = function(){
         if( req.readyState == 4 && req.status == 200 ){
-            //console.log( 'req.responseText' );
-            //console.log( req.responseText );
+            console.log( 'req.responseText' );
+            console.log( req.responseText );
             response = JSON.parse( req.responseText );
         }
     }

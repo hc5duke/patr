@@ -44,6 +44,9 @@
                 }else if( key == 'addRef' ){
                     console.log("loading, addRef: " + localStorage[key] +" "+ key);
                     document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
+                }else if( key == 'showEXIF' ){
+                    console.log("loading, showEXIF: " + localStorage[key] +" "+ key);
+                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true: false;
                 }
 			}
         }
@@ -207,7 +210,7 @@
 	</div>
 
 	<br />
-	<div style='float: right; font-size: 1.4em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Add Referrer in Comments</div>
+	<div style='font-size: 1.4em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Add Referrer in Comments</div>
     	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
 	<input onclick="this.checked = !this.checked;" type='checkbox' name='addRef' id='addRef' value='addRef' />
 	Add Referrer in Comments</div>
@@ -220,6 +223,15 @@
         
 	</div>
 
+    <br />
+	<div style='font-size: 1.4em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>EXIF Data</div>
+    	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
+	<input onclick="this.checked = !this.checked;" type='checkbox' name='showEXIF' id='showEXIF' value='showEXIF' />
+	Show EXIF Data</div>
+	<div style='width: 250px; font-size: 0.75em; margin-top: 0.5em;'>
+        Turn on/off the showing of EXIF data on the photo page
+        under "Additional Information".
+	</div>
 
     <div style='margin-bottom: 100px;'>&nbsp;</div>
     </span>
