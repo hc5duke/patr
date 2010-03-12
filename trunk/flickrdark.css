@@ -73,6 +73,9 @@ label[for='exploreMapSearch'] { color: black !important; }
 /* Commons */
 .tc_intro { background-color: #0F0F0F !important; }
 
+/* Create new group */
+td[style*='background-color: #f5f5f5'] > p { color: #444 !important; }
+
 /* Group listing */
 div.Editorial td { color: white !important; }
 td.EachGroup { color: white !important; }
@@ -191,6 +194,10 @@ pre { background-color: #0F0F0F; }
 tr.staffPost td { background-color: #222 !important; }
 .staffPost td { border-bottom-color: #444 !important; }
 
+/* Admin */
+#admin_intro { color: #444 !important; }
+#Hint { color: #888 !important; }
+form[action="groups_url.gne"] > div { background-color: #222 !important; }
 
 /* Messaging */
 td.Reply > p { color: black !important; }
@@ -216,4 +223,36 @@ td.Reply > p { color: black !important; }
 #qDiv { background-color: #999;
     border: solid 1px #888;
     background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#333), to(#111) );
+}
+
+/* Testing some transform stuff */
+/*
+#TopBar {
+    position: relative;
+    -webkit-transition-property: -webkit-transform, top;
+    -webkit-transition-duration: 1s, 1s;
+    -webkit-transform-origin: 0 100%;
+}
+
+@-webkit-keyframes broken {
+
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    60% {
+        -webkit-transform: rotate(90deg);
+        -webkit-transition-timing-function: cubic-bezier(0.3,0.7, 0.3, 0.9);
+        -webkit-transition-timing-function: ease-in;
+    }
+
+    80% {
+        -webkit-transform: rotate(70deg);
+        -webkit-transition-timing-function: ease-out;
+    }
+
+    100% {
+        -webkit-transform: rotate(90deg);
+        -webkit-transition-timing-function: ease-in;
+    }
 }
