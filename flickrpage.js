@@ -67,38 +67,41 @@ var _startPage = setInterval( function(){
         if( /loaded|complete/.test(document.readyState) ){
             clearInterval( _startPage );
             // replacing badges & images
-            //var pro = document.getElementsByClassName('Pro');
 			var pro = document.querySelectorAll('img[src$="badge_pro.gif.v2"]');
             for(i = 0; i < pro.length; i++){ pro[i].src = chrome.extension.getURL('images/badge_pro.gif.v2'); }
 
             flickrPage.isPhotoPage = document.querySelector("link[rel='canonical']") ? true : false ;
+            chrome.extension.sendRequest( {type:"localStorage", 
+                                           param:['ecShadow',
+                                                  'ecRound', 
+                                                  'bigPool', 
+                                                  'moveInfo', 
+                                                  'nLogo', 
+                                                  'addRef', 
+                                                  'showEXIF'] },
+                function( response ){
+                    if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
+                    if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
+                    if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage || flickrPage.isPhotosOf) ){ doBigPool(); }
+                    if( response.moveInfo == 'true' && flickrPage.isPhotoPage ){ flickrPage.moveInfo(); }
+                    if( response.nLogo == 'true'){
+                        var logo = document.getElementById('FlickrLogo');
+                        logo.src = chrome.extension.getURL('images/flickr-yahoo-logo.png.v2');
+                        logo.style.opacity = '100';
+                    }else if( response.nLogo == 'false' ){
+                        document.getElementById('FlickrLogo').style.opacity = '100';
+                    }
+                    if( response.addRef == 'true' && flickrPage.isPhotoPage ){ 
+                        flickrPage.doReferrer();
+                    }
+                    if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
 
-            chrome.extension.sendRequest( {type:"localStorage", param:['ecShadow','ecRound', 'bigPool', 'moveInfo', 'nLogo', 'addRef', 'showEXIF'] },
-                    function( response ){
-                        if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
-                        if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
-			            if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage || flickrPage.isPhotosOf) ){ doBigPool(); }
-                        if( response.moveInfo == 'true' && flickrPage.isPhotoPage ){ flickrPage.moveInfo(); }
-                        if( response.nLogo == 'true'){
-                            var logo = document.getElementById('FlickrLogo');
-                            logo.src = chrome.extension.getURL('images/flickr-yahoo-logo.png.v2');
-                            logo.style.opacity = '100';
-                        }else if( response.nLogo == 'false' ){
-                            document.getElementById('FlickrLogo').style.opacity = '100';
-                        }
-                        if( response.addRef == 'true' && flickrPage.isPhotoPage ){ 
-                            flickrPage.doReferrer();
-                        }
-                        if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
+                    doFlickrPage();
+                    doDiscuss();
 
-                    } );
-
-            doFlickrPage();
-            doDiscuss();
+                } );
         }
-    }, 10 );
-
-
+}, 10 );
 
 
 function doFlickrPage() {
@@ -112,150 +115,120 @@ function doFlickrPage() {
 
     if( flickrPage.isPhotoPage ){
 
-      flickrPage.photoID = document.location.href.split("/")[5] ;
-      flickrPage.url = document.querySelector("link[rel='canonical']").href ;
-      flickrPage.image_src = document.querySelector("link[rel='image_src']").href ;
-      flickrPage.reflect = document.querySelector("img[class='reflect']");
-      flickrPage.spaceball = document.querySelector("div.photoImgDiv > img[src*='spaceball.gif']");
-      flickrPage.dragproxy = document.getElementById('photo-drag-proxy');
-      flickrPage.ICBM = document.querySelector("meta[name='ICBM']") || false;
-      flickrPage.flic = document.querySelector("link[rev='canonical']") || false;
+        flickrPage.photoID = document.location.href.split("/")[5] ;
+        flickrPage.url = document.querySelector("link[rel='canonical']").href ;
+        flickrPage.image_src = document.querySelector("link[rel='image_src']").href ;
+        flickrPage.reflect = document.querySelector("img[class='reflect']");
+        flickrPage.spaceball = document.querySelector("div.photoImgDiv > img[src*='spaceball.gif']");
+        flickrPage.dragproxy = document.getElementById('photo-drag-proxy');
+        flickrPage.ICBM = document.querySelector("meta[name='ICBM']") || false;
+        flickrPage.flic = document.querySelector("link[rev='canonical']") || false;
 
-      flickrPage.exif = {};
+        flickrPage.exif = {};
+        preFlic();
 
-      preFlic();
-
-      // Clear some crud off the image itself in the page.
+        // Clear some crud off the image itself in the page.
         if( flickrPage.spaceball ) flickrPage.spaceball.offsetParent.removeChild( flickrPage.spaceball );
         if( flickrPage.dragproxy ) flickrPage.dragproxy.style.visibility = 'hidden';
 
-        /*
-        var ftxt = document.head.querySelector("script[type='text/javascript']").innerHTML; 
-        var farray = ftxt.match( /'\w+'/g );
-        flickrPage.api_key = farray[0].substring( 1, farray[0].length - 1 );
-        flickrPage.auth_hash = farray[1].substring( 1, farray[1].length -1 );
-        flickrPage.photos_url = ftxt.match( /'\/photos\/.*\/'/g)[0].replace(/'/g,'');
-        console.log( flickrPage.photos_url );
-        var cookie = document.cookie;
-        */
-
-
-      // Make API request to fill out photo sizes available
-      chrome.extension.sendRequest( { type: "API", fn: "photos.GetSizes", params: { photo_id: flickrPage.photoID } },
-        function( response ){ 
-            if( false /*response.stat == "ok" */ ){ // Skip this section for now, and just use dirtyAPI
-                    var rss = response.sizes.size;
-                    var sizes = {};
-                    for( var sz in rss ){
-                        sizes[ rss[sz].label ] = rss[sz];
-                    }
-                    flickrPage.sizes = sizes;
-                    if( flickrPage.sizes.Large ){
-                          flickrPage.lb_src =  flickrPage.sizes.Large.source;
-                    }else if( flickrPage.sizes.Original ){
-                          flickrPage.lb_src =  flickrPage.sizes.Original.source;
-                    }else{
-                          flickrPage.lb_src =  flickrPage.image_src.replace( "_m", "" );
-                    }
-
-                    // Call our functions to start things off
-                    flickrPage.preSizes();
-                    lightBox.preLoad();
-
-            }else if( /*document.getElementById('photo_gne_button_zoom') */ true ){
-                
-                //TEMPORARY - MOVE ME - Getting EXIF data
-                if( flickrPage.showEXIF ){
-
-                    chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getExif', params: { photo_id: flickrPage.photoID, api_key: flickrPage.api_key, auth_hash: flickrPage.auth_hash, auth_token: '', src: 'js' } },
-                            function( response ){
-                                if( response.stat == 'ok' ){
-                                    var rpe = response.photo.exif;
-                                    var values = {'Lens':{label:'Lens'}, 
-                                                    'ExposureTime':{label:'Exposure'}, 
-                                                    'Aperture':{label:'Aperture'}, 
-                                                    'ISO':{label:'ISO Speed'}, 
-                                                    'FocalLength':{label:'Focal Length'}, 
-                                                    'ExposureCompensation':{label:'Exposure Bias'}, 
-                                                    'Flash':{label:'Flash'} };
-                                    for(var i = 0; i < rpe.length; i++){
-                                        if( rpe[i].tag in values && !( values[ rpe[i].tag ].value ) ){
-                                            values[ rpe[i].tag ].label = values[ rpe[i].tag ].label || rpe[i].label;
-                                            if( rpe[i].clean ){
-                                                values[ rpe[i].tag ].value = rpe[i].clean._content;
-                                            }else{
-                                                values[ rpe[i].tag ].value = rpe[i].raw._content;
-                                            }
-                                        }
-                                    }
-                                    if( values['Aperture'].value ){
-                                        values['Aperture'].value = 'f/'+values['Aperture'].value;
-                                    }
-                                    // We have EXIF values, now push them into the page
-                                    var newul = document.createElement('ul');
-
-                                    for( var key in values ){
-                                        if( values[key].value && values[key].label ){
-                                            var li = document.createElement('li');
-                                            li.innerHTML = values[key].label +': '+values[key].value;
-                                            li.setAttribute('class', 'Stats');
-                                            li.style.listStyleType = 'square';
-                                            li.style.color = 'rgb(125,125,125)';
-                                            li.style.fontSize = '100%';
-                                            newul.appendChild( li );
-                                        }
-                                    }
-                                    var more = document.querySelector("td.RHS>ul>li.Stats a[data-ywa-name*='More']") || false;
-                                    var mp = more ? more.previousElementSibling : false;
-                                    if( mp ){
-                                        newul.querySelector("li:last-child").appendChild( document.createElement('br') );
-                                        newul.querySelector("li:last-child").appendChild(mp.parentNode.removeChild(mp.nextElementSibling));
-                                        mp.parentNode.insertBefore( newul, mp );
-                                        mp.parentNode.removeChild( mp );
+        // Getting EXIF data
+        if( flickrPage.showEXIF ){
+            chrome.extension.sendRequest( { type: 'cAPI', 
+                                            fn: 'photos.getExif', 
+                                            params: { 
+                                                photo_id: flickrPage.photoID, 
+                                                api_key: flickrPage.api_key, 
+                                                auth_hash: flickrPage.auth_hash, 
+                                                auth_token: '', 
+                                                src: 'js' } },
+                    function( response ){
+                        if( response.stat == 'ok' ){
+                            var rpe = response.photo.exif;
+                            var values = {'Lens':{label:'Lens'}, 
+                                            'ExposureTime':{label:'Exposure'}, 
+                                            'Aperture':{label:'Aperture'}, 
+                                            'ISO':{label:'ISO Speed'}, 
+                                            'FocalLength':{label:'Focal Length'}, 
+                                            'ExposureCompensation':{label:'Exposure Bias'}, 
+                                            'Flash':{label:'Flash'} };
+                            for(var i = 0; i < rpe.length; i++){
+                                if( rpe[i].tag in values && !( values[ rpe[i].tag ].value ) ){
+                                    values[ rpe[i].tag ].label = values[ rpe[i].tag ].label || rpe[i].label;
+                                    if( rpe[i].clean ){
+                                        values[ rpe[i].tag ].value = rpe[i].clean._content;
+                                    }else{
+                                        values[ rpe[i].tag ].value = rpe[i].raw._content;
                                     }
                                 }
-                            });
-                }
-
-                chrome.extension.sendRequest( { type: 'cAPI', fn: 'photos.getSizes', params: { photo_id: flickrPage.photoID, api_key: flickrPage.api_key, auth_hash: flickrPage.auth_hash, auth_token: '', src: 'js' } },
-                        function( response ){
-                            if( response.stat == 'ok' ){
-                                var rss = response.sizes.size;
-                                var sizes = {};
-                                for( var sz in rss ){
-                                    sizes[ rss[sz].label ] = rss[sz];
-                                }
-                                flickrPage.sizes = sizes;
-                                if( flickrPage.sizes.Large ){
-                                      flickrPage.lb_src =  flickrPage.sizes.Large.source;
-                                }else if( flickrPage.sizes.Original ){
-                                      flickrPage.lb_src =  flickrPage.sizes.Original.source;
-                                }else{
-                                      flickrPage.lb_src =  flickrPage.image_src.replace( "_m", "" );
-                                }
-
-                                flickrPage.preSizes();
-                                lightBox.preLoad();
                             }
-                        });
+                            if( values['Aperture'].value ){
+                                values['Aperture'].value = 'f/'+values['Aperture'].value;
+                            }
+                            // We have EXIF values, now push them into the page
+                            var newul = document.createElement('ul');
 
-            }else{ // Everything else failed, so just use the img on the page...
-                console.log("Failed getting API info, and no zoom, so ...");
-                flickrPage.lb_src = flickrPage.reflect.src;
-                lightBox.preLoad();
-            }
-        } 
-      );
-      if( document.getElementById('photo_gne_button_send_to_group') ){
-          multiGroup.preLoad();
-      }
-      /*
-      alert( flickrpage.addRef );
-      if( flickrPage.addRef ){
-        flickrPage.doReferrer();
-        alert( 'flickrPage.addRef = true\nJust after flickrpage.doReferrer()' );
-      }
-      */
+                            for( var key in values ){
+                                if( values[key].value && values[key].label ){
+                                    var li = document.createElement('li');
+                                    li.innerHTML = values[key].label +': '+values[key].value;
+                                    li.setAttribute('class', 'Stats');
+                                    li.style.listStyleType = 'square';
+                                    li.style.color = 'rgb(125,125,125)';
+                                    li.style.fontSize = '100%';
+                                    newul.appendChild( li );
+                                }
+                            }
+                            var more = document.querySelector("td.RHS>ul>li.Stats a[data-ywa-name*='More']") || false;
+                            var mp = more ? more.previousElementSibling : false;
+                            if( mp ){
+                                newul.querySelector("li:last-child").appendChild( document.createElement('br') );
+                                newul.querySelector("li:last-child").appendChild(mp.parentNode.removeChild(mp.nextElementSibling));
+                                mp.parentNode.insertBefore( newul, mp );
+                                mp.parentNode.removeChild( mp );
+                            }
+                        }
+                    });
+        }
+
+        chrome.extension.sendRequest( { type: 'cAPI', 
+                                        fn: 'photos.getSizes', 
+                                        params: { 
+                                            photo_id: flickrPage.photoID, 
+                                            api_key: flickrPage.api_key, 
+                                            auth_hash: flickrPage.auth_hash, 
+                                            auth_token: '', 
+                                            src: 'js' } },
+                function( response ){
+                    if( response.stat == 'ok' ){
+                        var rss = response.sizes.size;
+                        var sizes = {};
+                        for( var sz in rss ){
+                            sizes[ rss[sz].label ] = rss[sz];
+                        }
+                        flickrPage.sizes = sizes;
+                        if( flickrPage.sizes.Large ){
+                              flickrPage.lb_src =  flickrPage.sizes.Large.source;
+                        }else if( flickrPage.sizes.Original ){
+                              flickrPage.lb_src =  flickrPage.sizes.Original.source;
+                        }else{
+                              flickrPage.lb_src =  flickrPage.image_src.replace( "_m", "" );
+                        }
+
+                        //flickrPage.preSizes();
+                        flickrPage.preSizes2();
+                        lightBox.preLoad();
+                    }else{ // Everything else failed, so just use the img on the page...
+                        console.log("Failed getting API info, and no zoom, so ...");
+                        flickrPage.lb_src = flickrPage.reflect.src;
+                        lightBox.preLoad();
+    
+                    }
+                });
+
+        if( document.getElementById('photo_gne_button_send_to_group') ){
+            multiGroup.preLoad();
+        }
+
     }else if( flickrPage.isStatsPage ){
         flickrPage.niceStats();
     }else if( flickrPage.isPoolPage ){
@@ -288,6 +261,61 @@ flickrPage.preSizes = function(){
     ds.appendChild( document.createTextNode('') );
     d.appendChild( ds );
 	document.querySelector("div.Widget").appendChild( d );
+}
+
+flickrPage.preSizes2 = function(){
+var d = document.createElement('div');
+d.id = 'patr-sizes';
+	for( var key in flickrPage.sizes ){
+		var a = document.createElement('a');
+		a.setAttribute('href', flickrPage.sizes[ key ].source );
+		a.setAttribute('class', 'plain');
+        a.setAttribute('size', key );
+        a.setAttribute('onmouseover', 'document.querySelector("span#sizebox").firstChild.nodeValue = "('+
+                    flickrPage.sizes[ key ].width +' x '+ flickrPage.sizes[ key ].height +')"');
+        a.addEventListener('mouseover', flickrPage.showLinkOpts, false);
+        a.setAttribute('onmouseout', 'document.querySelector("span#sizebox").firstChild.nodeValue = ""');
+		a.appendChild( document.createTextNode( key.slice(0, 2) + " "  ) );
+		d.appendChild( a );
+	}
+	d.style.marginTop = 3;
+	d.style.marginLeft = 28;
+
+    var ds = document.createElement('span');
+    ds.id = 'sizebox';
+    ds.style.marginLeft = '5px';
+
+    ds.appendChild( document.createTextNode('') );
+    d.appendChild( ds );
+	document.querySelector("div.Widget").appendChild( d );
+
+    flickrPage.linkOpts = document.createElement('div');
+    var lo = flickrPage.linkOpts;
+    lo.id = 'linkOpts';
+    lo.style.background = '-webkit-gradient(linear, 0% 0%, 0% 100%, from(#333), to(#111))';
+    lo.style.border = 'solid 1px #888';
+    lo.style.webkitBorderRadius = '5px';
+    lo.style.padding = '5px';
+    lo.style.color = 'white';
+    lo.style.marginTop = '5px';
+    lo.style.display = 'none';
+
+    flickrPage.linkText = document.createElement('textarea');
+    flickrPage.linkText.id = 'patrLinkText';
+    flickrPage.linkText.style.width = '100%';
+    flickrPage.linkText.setAttribute('rows', 5);
+    flickrPage.linkText.style.fontSize = '1em';
+    lo.appendChild( flickrPage.linkText );
+    document.querySelector("div.Widget").appendChild( lo );
+}
+
+flickrPage.showLinkOpts = function( evt ){
+    console.log( evt.target );
+    var link = "<a href='"+ document.querySelector("link[rel='canonical']").href +"'>";
+    link += "<img src='"+ evt.target.href +"'/></a>";
+    flickrPage.linkText.innerText = link;
+    var lo = flickrPage.linkOpts;
+    lo.style.display = 'block';
 }
 
 function preFlic(){
