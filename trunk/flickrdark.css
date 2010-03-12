@@ -32,7 +32,7 @@ img.fs-context_crap[src$='spaceout.gif'] { background-image: none !important; }
 td.context_crap_td { border-left: solid 1px white; border-bottom: solid 1px white; background-image: none !important; }
 
 /* This is to make description/titles legible when on own page... */
-[title='Click to edit']:hover { -webkit-transition: color 0s; color: black !important; background-color: gray !important; }
+[title='Click to edit']:hover { -webkit-transition: color 0s; color: white!important; background-color: #222 !important; }
 [title='Click to edit'] { color: white !important; background-color: black !important; -webkit-transition: background-color,color 1.5s,1.5s; }
 textarea[name='content'], input[name='content'] { background-color: #DDDDDD !important; }
 p { color: white !important; }
@@ -256,3 +256,4 @@ td.Reply > p { color: black !important; }
         -webkit-transition-timing-function: ease-in;
     }
 }
+*/
