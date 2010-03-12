@@ -262,7 +262,7 @@ function doFlickrPage() {
         //flickrPage.scroller();
         flickrPage.scroller.test = true;
         flickrPage.scroller.triggerHeight = 0;
-        window.onscroll = flickrPage.scroller;
+        //window.onscroll = flickrPage.scroller;
     }
 }
 
