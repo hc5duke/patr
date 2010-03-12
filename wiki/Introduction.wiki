@@ -7,10 +7,6 @@ An extension for the Google Chrome browser that aims to extend the functionality
 
 If you're using Chrome go over, install it, and try it out!</font>*
 
-I have been contacted by another programmer ([http://www.flickr.com/people/steeev/ Steeev] on Flickr) who politely pointed out that I was using the name of his greasemonkey script "Multi Group Sender", and asked that I change the name.  I have done so below and everywhere else in Patr.
-
-He also felt that I have been using his ideas to build out the functionality of Patr in some cases, and felt that attribution would be in order.  I personally disagree with him on this point, and feel that alot of what I have added in Patr was a result of my own (or other peoples) desires to change Flickr in some way.  The only case where I have used something form someone else is the 6v8.gamboni.org "Add Referrer to Comment" script, and I have credited the author/website from the beginning (all I did was adapt it for Patr).  Sometimes these are fundamental changes that are lacking compared to what we might be used to.  While I disagree that I have "borrowed" from many of his scripts, I feel that his work is fantastic for the Flickr community and if you are using Firefox, invite you to head over to [http://steeev.freehostia.com/flickr/ his website] and check out his many scripts!
-
 =Introduction=
 My goal is to implement features that will best take advantage of features on Flickr that would make the experience even better!
 
