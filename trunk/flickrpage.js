@@ -264,8 +264,26 @@ flickrPage.preSizes = function(){
 }
 
 flickrPage.preSizes2 = function(){
-var d = document.createElement('div');
-d.id = 'patr-sizes';
+
+    var d = document.createElement('div');
+    d.id = 'patr-sizes';
+
+    var linkSizesList = document.createElement('span');
+    linkSizesList.id = 'linkSizesList';
+
+    var ds = document.createElement('span');
+    ds.id = 'sizebox';
+
+    flickrPage.linkOpts = document.createElement('div');
+    var lo = flickrPage.linkOpts;
+    lo.id = 'linkOpts';
+
+    var linkExtra = document.createElement('input');
+    linkExtra.id = 'linkExtra';
+
+    flickrPage.linkText = document.createElement('textarea');
+    flickrPage.linkText.id = 'patrLinkText';
+
 	for( var key in flickrPage.sizes ){
 		var a = document.createElement('a');
 		a.setAttribute('href', flickrPage.sizes[ key ].source );
@@ -273,48 +291,106 @@ d.id = 'patr-sizes';
         a.setAttribute('size', key );
         a.setAttribute('onmouseover', 'document.querySelector("span#sizebox").firstChild.nodeValue = "('+
                     flickrPage.sizes[ key ].width +' x '+ flickrPage.sizes[ key ].height +')"');
+        a.setAttribute('pWidth', flickrPage.sizes[ key ].width);
+        a.setAttribute('pHeight', flickrPage.sizes[ key].height);
         a.addEventListener('mouseover', flickrPage.showLinkOpts, false);
         a.setAttribute('onmouseout', 'document.querySelector("span#sizebox").firstChild.nodeValue = ""');
 		a.appendChild( document.createTextNode( key.slice(0, 2) + " "  ) );
 		d.appendChild( a );
-	}
-	d.style.marginTop = 3;
-	d.style.marginLeft = 28;
 
-    var ds = document.createElement('span');
-    ds.id = 'sizebox';
-    ds.style.marginLeft = '5px';
+        var aList = document.createElement('a');
+        aList.setAttribute('class', 'plain');
+        aList.setAttribute('link', flickrPage.sizes[key].source);
+        aList.href = 'javascript:;';
+        aList.setAttribute('size', key);
+        aList.appendChild( document.createTextNode( key.slice(0,2) + " " ) );
+        aList.addEventListener('click', flickrPage.extraLinkOpts);
+        linkSizesList.appendChild( aList );
+	}
+
+    var viewonblack = document.createElement('a');
+    viewonblack.setAttribute('class','plain');
+    viewonblack.setAttribute('link', 'http://viewonblack.com/flickr/'+flickrPage.photoID);
+    viewonblack.href='javascript:;';
+    viewonblack.setAttribute('size', 'View on Black');
+    viewonblack.appendChild( document.createTextNode('viewonblack.com') );
+    viewonblack.addEventListener('click', flickrPage.extraLinkOpts);
+
+    var bhlonblack = viewonblack.cloneNode(true);
+    bhlonblack.setAttribute('link', 'http://bighugelabs.com/onblack.php?id='+ flickrPage.photoID +'&size=large');
+    bhlonblack.setAttribute('size', 'BHL On Black');
+    bhlonblack.addEventListener('click', flickrPage.extraLinkOpts);
+    bhlonblack.innerText = 'BHL On Black';
+
+    var fluidr = viewonblack.cloneNode(true);
+    fluidr.setAttribute('link', 'http://www.fluidr.com/'+ location.href.split("http://www.flickr.com/")[1] ); // Add photos/user/photo_id
+    fluidr.setAttribute('size', 'Fluidr');
+    fluidr.addEventListener('click', flickrPage.extraLinkOpts);
+    fluidr.innerText = 'Fluidr';
+
+    linkSizesList.appendChild( document.createElement('br') );
+    linkSizesList.appendChild( fluidr );
+    linkSizesList.appendChild( document.createElement('br') );
+    linkSizesList.appendChild( bhlonblack );
+    linkSizesList.appendChild( document.createElement('br') );
+    linkSizesList.appendChild( viewonblack );
 
     ds.appendChild( document.createTextNode('') );
     d.appendChild( ds );
 	document.querySelector("div.Widget").appendChild( d );
 
-    flickrPage.linkOpts = document.createElement('div');
-    var lo = flickrPage.linkOpts;
-    lo.id = 'linkOpts';
-    lo.style.background = '-webkit-gradient(linear, 0% 0%, 0% 100%, from(#333), to(#111))';
-    lo.style.border = 'solid 1px #888';
-    lo.style.webkitBorderRadius = '5px';
-    lo.style.padding = '5px';
-    lo.style.color = 'white';
-    lo.style.marginTop = '5px';
-    lo.style.display = 'none';
+    linkExtra.value = 'Link text...';
+    linkExtra.addEventListener('change', flickrPage.extraChange);
 
-    flickrPage.linkText = document.createElement('textarea');
-    flickrPage.linkText.id = 'patrLinkText';
-    flickrPage.linkText.style.width = '100%';
-    flickrPage.linkText.setAttribute('rows', 5);
-    flickrPage.linkText.style.fontSize = '1em';
+    flickrPage.linkText.setAttribute('rows', 9);
+    flickrPage.linkText.appendChild( document.createTextNode('') );
+    flickrPage.linkText.addEventListener('mouseover', function(){ this.select(); } );
+
+    lo.insertAdjacentHTML('afterBegin', "<span style='font-size:11px; color:#999;'>Copy & Paste code below:</span><span id='linkSizeName'>Test</span>");
     lo.appendChild( flickrPage.linkText );
+    lo.insertAdjacentHTML('beforeEnd', "<br/><span style='color: #999; font-size: 11px;'>Add a link:</span><br/>");
+    lo.appendChild( linkSizesList );
+    lo.insertAdjacentHTML('beforeEnd', "<span id='extraName'></span>");
+    lo.insertAdjacentHTML('beforeEnd', "<br/>");
+    lo.appendChild( linkExtra );
+
     document.querySelector("div.Widget").appendChild( lo );
+    document.querySelector("div.Widget").setAttribute('onmouseout', "if(evt.relatedTarget.id == 'photoswftd' || evt.relatedTarget.className == 'RHS' || evt.relatedTarget.id == 'Main'){ document.getElementById('linkOpts').style.display='none';}");
+}
+
+flickrPage.extraLinkOpts = function( evt ){
+    var le = document.getElementById('linkExtra');
+    le.value = document.getElementById('extraName').innerText = evt.currentTarget.getAttribute('size');
+    var extra = new Array();
+    extra[1] = "<a href='"+ evt.target.getAttribute('link') +"'>";
+    extra[2] = le.value;
+    extra[3] = "</a>";
+    for( var i = 1; i < 4; i++ ){
+        if( flickrPage.linkText.childNodes[i] ){
+            flickrPage.linkText.childNodes[i].nodeValue = extra[i];
+        }else{
+            flickrPage.linkText.appendChild( document.createTextNode( extra[i] ) );
+        }
+    }
+}
+
+flickrPage.extraChange = function( evt ){
+    flickrPage.linkText.childNodes[2].nodeValue = document.getElementById('linkExtra').value;
+    flickrPage.linkText.select();
 }
 
 flickrPage.showLinkOpts = function( evt ){
-    console.log( evt.target );
-    var link = "<a href='"+ document.querySelector("link[rel='canonical']").href +"'>";
-    link += "<img src='"+ evt.target.href +"'/></a>";
-    flickrPage.linkText.innerText = link;
+    var title = document.querySelector("meta[name='title']").getAttribute('content');
+    var user = document.querySelector("b[property='foaf:name']").innerText;
+    var link = "<a href='"+ document.querySelector("link[rel='canonical']").href +"' ";
+    link += "title='"+ title +" by "+ user +", on Flickr, via Patr' ";
+    link += "alt='"+ title +"' ";
+    link += "height='"+ evt.target.getAttribute('pHeight') +"' width='"+ evt.target.getAttribute('pWidth') +"'>";
+    link += "<img src='"+ evt.target.href +"'/></a>\r";
+    //flickrPage.linkText.innerText = link;
+    flickrPage.linkText.childNodes[0].nodeValue = link;
     var lo = flickrPage.linkOpts;
+    document.getElementById('linkSizeName').innerText = evt.target.getAttribute('size');
     lo.style.display = 'block';
 }
 
