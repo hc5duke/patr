@@ -63,9 +63,9 @@ this.init();}
 	FlickrReferComment.prototype = {
 
 		M8_log: function(msg) {
-		  if(unsafeWindow.console && unsafeWindow.console.log) {
-			unsafeWindow.console.log(msg);
-		  } else
+		  //if(unsafeWindow.console && unsafeWindow.console.log) {
+		  //  unsafeWindow.console.log(msg);
+		  //} else
 		  alert(msg);
 		},
 
@@ -256,14 +256,16 @@ this.init();}
 						//we come from a map of the user photos
 						this.insertComment("Seen on a map of your photos.",'');
 					} else {
-						var re = new RegExp("/photos/("+matches[1]+"|"+unsafeWindow.nextprev_currentContextID.replace('stream','')+")/");
-						if(re.test(document.location.pathname) || document.location.pathname.indexOf("/in/photostream") >= 0) {
+                        console.log('inside fix by Marco');
+                        console.log( document.location.pathname );
+						//var re = new RegExp("/photos/("+matches[1]+"|"+unsafeWindow.nextprev_currentContextID.replace('stream','')+")/");
+						//if(re.test(document.location.pathname) || document.location.pathname.indexOf("/in/photostream") >= 0) {
 							//we come from the same user photo feed
-						  this.insertComment("Seen on your photo stream.",'');
-						} else {
+						//  this.insertComment("Seen on your photo stream.",'');
+						//} else {
 							//we come from someone else feed, it was therefore found in a comment.
 							this.insertComment("Seen in some comments.",'');
-						}
+						//}
 					}
 				}
 
@@ -274,7 +276,7 @@ this.init();}
 			var html = comment;
 			if(url)
 			html = '<a href="'+url+'" title="Seen on...">'+comment+'</a>';
-			html = "\n\n&#95;&#95;\n<i>"+html+"</i>"+
+			html = "\n&#95;&#95;\n<i>"+html+"</i>"+
 			' <em>(<a href="https://chrome.google.com/extensions/detail/iplbmjolljikncjboeofgmjoaacheemi">?</a>)</em>';
 			var thisTextAreas = document.getElementsByTagName('textarea');
 			var thisTextArea = null;
@@ -315,6 +317,7 @@ this.init();}
 					GM_log("error looking for user "+referrer+':' + responseText+'.');
 				}
 			};
+            console.log('starting unsafewindow lookupUser');
 			unsafeWindow.F.API.callMethod('flickr.urls.lookupUser', {
 					url:userurl
 						}, listener);
@@ -401,7 +404,7 @@ this.init();}
                     }
                 }
             }
-            //console.log( 'before switch(type)' );
+            console.log( 'before switch(type)' );
 			switch(type) {
 				case RANDOM:
                     //console.log('case RANDOM');
@@ -487,7 +490,7 @@ this.init();}
 
 	//======================================================================
 	// launch
-//	var flickrgp = new FlickrReferComment();
+    //	var flickrgp = new FlickrReferComment();
 	//======================================================================
 	// launch
     /*

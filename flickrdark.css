@@ -257,3 +257,50 @@ td.Reply > p { color: black !important; }
     }
 }
 */
+
+
+/* Stuff for all sizes links */
+#linkOpts { background: -webkit-gradient( linear, 0 0, 0 100%, from(#333), to(#111));
+    border: solid 1px #888;
+    -webkit-border-radius: 5px;
+    padding: 5px;
+    padding-bottom: 10px;
+    color: white;
+    margin-top: 5px;
+    display: none;
+}
+
+#patrLinkText {
+    width: 100%;
+    font-size: 1em;
+    background: #CCC;
+}
+
+#linkSizeName { 
+    color: #BBB; 
+    float: right; 
+    font-size: 16px; 
+    font-weight: bold; 
+}
+
+#extraName {
+    color: #BBB;
+    float: right;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#patr-sizes {
+    margin-top: 3;
+    margin-left: 28;
+}
+
+#sizebox {
+    margin-left: 5;
+}
+
+#linkExtra {
+    background: #CCC;
+    width: 100%;
+    border: none;
+}
