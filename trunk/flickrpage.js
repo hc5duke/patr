@@ -379,7 +379,7 @@ flickrPage.preSizes2 = function(){
             eventObj.initEvent( 'click', true, true );
 
             if( flickrPage.ASLdefaultText != '' ){
-                console.log( flickrPage.ASLdefaultText );
+                //console.log( flickrPage.ASLdefaultText );
                 linkExtra.value = flickrPage.ASLdefaultText;
             }
 
@@ -407,7 +407,7 @@ flickrPage.preSizes2 = function(){
 flickrPage.extraLinkOpts = function( evt ){
     var le = document.getElementById('linkExtra');
     le.value = document.getElementById('extraName').innerText = evt.currentTarget.getAttribute('size');
-    console.log('extraLinkOpts: '+ flickrPage.ASLdefaultText );
+    //console.log('extraLinkOpts: '+ flickrPage.ASLdefaultText );
     if( flickrPage.ASLdefaultText != '' ){ le.value = flickrPage.ASLdefaultText; }
     var extra = new Array();
     extra[1] = "<a href='"+ evt.target.getAttribute('link') +"'>";
