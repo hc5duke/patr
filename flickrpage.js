@@ -78,7 +78,11 @@ var _startPage = setInterval( function(){
                                                   'moveInfo', 
                                                   'nLogo', 
                                                   'addRef', 
-                                                  'showEXIF'] },
+                                                  'showEXIF',
+                                                  'showAS',
+                                                  'showASL',
+                                                  'ASLdefault',
+                                                  'ASLdefaultText' ] },
                 function( response ){
                     if( response.ecShadow == 'true' ){ flickrPage.makeShadows(); }
                     if( response.ecRound  == 'true' ){ flickrPage.makeRound(); }
@@ -95,6 +99,10 @@ var _startPage = setInterval( function(){
                         flickrPage.doReferrer();
                     }
                     if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
+                    if( response.showASL == 'true' ){ flickrPage.showASL = true; }
+                    if( response.showAS == 'true' ){ flickrPage.showAS = true; }
+                    flickrPage.ASLdefault = response.ASLdefault; 
+                    flickrPage.ASLdefaultText = response.ASLdefaultText; 
 
                     doFlickrPage();
                     doDiscuss();
@@ -215,7 +223,7 @@ function doFlickrPage() {
                         }
 
                         //flickrPage.preSizes();
-                        flickrPage.preSizes2();
+                        if( flickrPage.showAS ){ flickrPage.preSizes2(); }
                         lightBox.preLoad();
                     }else{ // Everything else failed, so just use the img on the page...
                         console.log("Failed getting API info, and no zoom, so ...");
@@ -293,7 +301,7 @@ flickrPage.preSizes2 = function(){
                     flickrPage.sizes[ key ].width +' x '+ flickrPage.sizes[ key ].height +')"');
         a.setAttribute('pWidth', flickrPage.sizes[ key ].width);
         a.setAttribute('pHeight', flickrPage.sizes[ key].height);
-        a.addEventListener('mouseover', flickrPage.showLinkOpts, false);
+        if( flickrPage.showASL ){ a.addEventListener('mouseover', flickrPage.showLinkOpts, false); }
         a.setAttribute('onmouseout', 'document.querySelector("span#sizebox").firstChild.nodeValue = ""');
 		a.appendChild( document.createTextNode( key.slice(0, 2) + " "  ) );
 		d.appendChild( a );
@@ -308,59 +316,99 @@ flickrPage.preSizes2 = function(){
         linkSizesList.appendChild( aList );
 	}
 
-    var viewonblack = document.createElement('a');
-    viewonblack.setAttribute('class','plain');
-    viewonblack.setAttribute('link', 'http://viewonblack.com/flickr/'+flickrPage.photoID);
-    viewonblack.href='javascript:;';
-    viewonblack.setAttribute('size', 'View on Black');
-    viewonblack.appendChild( document.createTextNode('viewonblack.com') );
-    viewonblack.addEventListener('click', flickrPage.extraLinkOpts);
-
-    var bhlonblack = viewonblack.cloneNode(true);
-    bhlonblack.setAttribute('link', 'http://bighugelabs.com/onblack.php?id='+ flickrPage.photoID +'&size=large');
-    bhlonblack.setAttribute('size', 'BHL On Black');
-    bhlonblack.addEventListener('click', flickrPage.extraLinkOpts);
-    bhlonblack.innerText = 'BHL On Black';
-
-    var fluidr = viewonblack.cloneNode(true);
-    fluidr.setAttribute('link', 'http://www.fluidr.com/'+ location.href.split("http://www.flickr.com/")[1] ); // Add photos/user/photo_id
-    fluidr.setAttribute('size', 'Fluidr');
-    fluidr.addEventListener('click', flickrPage.extraLinkOpts);
-    fluidr.innerText = 'Fluidr';
-
-    linkSizesList.appendChild( document.createElement('br') );
-    linkSizesList.appendChild( fluidr );
-    linkSizesList.appendChild( document.createElement('br') );
-    linkSizesList.appendChild( bhlonblack );
-    linkSizesList.appendChild( document.createElement('br') );
-    linkSizesList.appendChild( viewonblack );
-
     ds.appendChild( document.createTextNode('') );
     d.appendChild( ds );
-	document.querySelector("div.Widget").appendChild( d );
+    document.querySelector("div.Widget").appendChild( d );
 
-    linkExtra.value = 'Link text...';
-    linkExtra.addEventListener('change', flickrPage.extraChange);
+    if( flickrPage.showASL ){
+        var viewonblack = document.createElement('a');
+        viewonblack.setAttribute('class','plain');
+        viewonblack.setAttribute('link', 'http://viewonblack.com/flickr/'+flickrPage.photoID);
+        viewonblack.href='javascript:;';
+        viewonblack.setAttribute('size', 'View on Black');
+        viewonblack.appendChild( document.createTextNode('viewonblack.com') );
+        viewonblack.addEventListener('click', flickrPage.extraLinkOpts);
 
-    flickrPage.linkText.setAttribute('rows', 9);
-    flickrPage.linkText.appendChild( document.createTextNode('') );
-    flickrPage.linkText.addEventListener('mouseover', function(){ this.select(); } );
+        var bhlonblack = viewonblack.cloneNode(true);
+        bhlonblack.setAttribute('link', 'http://bighugelabs.com/onblack.php?id='+ flickrPage.photoID +'&size=large');
+        bhlonblack.setAttribute('size', 'BHL On Black');
+        bhlonblack.addEventListener('click', flickrPage.extraLinkOpts);
+        bhlonblack.innerText = 'BHL On Black';
 
-    lo.insertAdjacentHTML('afterBegin', "<span style='font-size:11px; color:#999;'>Copy & Paste code below:</span><span id='linkSizeName'>Test</span>");
-    lo.appendChild( flickrPage.linkText );
-    lo.insertAdjacentHTML('beforeEnd', "<br/><span style='color: #999; font-size: 11px;'>Add a link:</span><br/>");
-    lo.appendChild( linkSizesList );
-    lo.insertAdjacentHTML('beforeEnd', "<span id='extraName'></span>");
-    lo.insertAdjacentHTML('beforeEnd', "<br/>");
-    lo.appendChild( linkExtra );
+        var fluidr = viewonblack.cloneNode(true);
+        fluidr.setAttribute('link', 'http://www.fluidr.com/'+ location.href.split("http://www.flickr.com/")[1] ); // Add photos/user/photo_id
+        fluidr.setAttribute('size', 'Fluidr');
+        fluidr.addEventListener('click', flickrPage.extraLinkOpts);
+        fluidr.innerText = 'Fluidr';
 
-    document.querySelector("div.Widget").appendChild( lo );
-    document.querySelector("div.Widget").setAttribute('onmouseout', "if(evt.relatedTarget.id == 'photoswftd' || evt.relatedTarget.className == 'RHS' || evt.relatedTarget.id == 'Main'){ document.getElementById('linkOpts').style.display='none';}");
+        var darckr = viewonblack.cloneNode(true);
+        darckr.setAttribute('link', 'http://www.darckr.com/photo?photoid='+flickrPage.photoID+'&width=1024');
+        darckr.setAttribute('size', 'Darckr');
+        darckr.addEventListener('click', flickrPage.extraLinkOpts);
+        darckr.innerText = 'Darckr';
+
+        linkSizesList.appendChild( document.createElement('br') );
+        linkSizesList.appendChild( fluidr );
+        linkSizesList.appendChild( document.createElement('br') );
+        linkSizesList.appendChild( bhlonblack );
+        linkSizesList.appendChild( document.createElement('br') );
+        linkSizesList.appendChild( darckr );
+        linkSizesList.appendChild( document.createElement('br') );
+        linkSizesList.appendChild( viewonblack );
+
+        linkExtra.addEventListener('change', flickrPage.extraChange);
+
+        flickrPage.linkText.setAttribute('rows', 9);
+        flickrPage.linkText.appendChild( document.createTextNode('') );
+        flickrPage.linkText.addEventListener('mouseover', function(){ this.select(); } );
+
+        lo.insertAdjacentHTML('afterBegin', "<span class='ASLinfo'>Copy & Paste code below:</span><span id='linkSizeName'>Test</span>");
+        lo.appendChild( flickrPage.linkText );
+        lo.insertAdjacentHTML('beforeEnd', "<br/><span class='ASLinfo'>Add a link:</span><br/>");
+        lo.appendChild( linkSizesList );
+        lo.insertAdjacentHTML('beforeEnd', "<span id='extraName'></span>");
+        lo.insertAdjacentHTML('beforeEnd', "<br/>");
+        lo.appendChild( linkExtra );
+
+        document.querySelector("div.Widget").appendChild( lo );
+        document.querySelector("div.Widget").setAttribute('onmouseout', "if(evt.relatedTarget.id == 'photoswftd' || evt.relatedTarget.className == 'RHS' || evt.relatedTarget.id == 'Main'){ document.getElementById('linkOpts').style.display='none';}");
+        
+        if( flickrPage.ASLdefault != 'false' ){
+            var fireOn;
+            var eventObj = document.createEvent('MouseEvents');
+            eventObj.initEvent( 'click', true, true );
+
+            if( flickrPage.ASLdefaultText != '' ){
+                console.log( flickrPage.ASLdefaultText );
+                linkExtra.value = flickrPage.ASLdefaultText;
+            }
+
+            var ps = document.getElementById('patr-sizes');
+            if( !document.querySelector("#linkSizesList > a[size='"+ flickrPage.ASLdefault +"']") ){
+
+                if( flickrPage.ASLdefault == 'viewonblack.com' ){
+                    fireOn = document.querySelector("#linkSizesList > a[size='View on Black']");
+                    fireOn.dispatchEvent( eventObj );
+                }else{
+                    var biggest = ps.querySelector('a:last-of-type').getAttribute('size');
+                    fireOn = document.querySelector("#linkSizesList > a[size='"+ biggest +"']");
+                    fireOn.dispatchEvent( eventObj );
+                }
+
+            }else{
+                fireOn = document.querySelector("#linkSizesList > a[size='"+ flickrPage.ASLdefault +"']");
+                fireOn.dispatchEvent( eventObj );
+            }
+                
+        }
+    }
 }
 
 flickrPage.extraLinkOpts = function( evt ){
     var le = document.getElementById('linkExtra');
     le.value = document.getElementById('extraName').innerText = evt.currentTarget.getAttribute('size');
+    console.log('extraLinkOpts: '+ flickrPage.ASLdefaultText );
+    if( flickrPage.ASLdefaultText != '' ){ le.value = flickrPage.ASLdefaultText; }
     var extra = new Array();
     extra[1] = "<a href='"+ evt.target.getAttribute('link') +"'>";
     extra[2] = le.value;
@@ -386,7 +434,7 @@ flickrPage.showLinkOpts = function( evt ){
     link += "title='"+ title +" by "+ user +", on Flickr, via Patr' ";
     link += "alt='"+ title +"' ";
     link += "height='"+ evt.target.getAttribute('pHeight') +"' width='"+ evt.target.getAttribute('pWidth') +"'>";
-    link += "<img src='"+ evt.target.href +"'/></a>\r";
+    link += "<img src='"+ evt.target.href +"' alt='"+ title +"'/></a>\r";
     //flickrPage.linkText.innerText = link;
     flickrPage.linkText.childNodes[0].nodeValue = link;
     var lo = flickrPage.linkOpts;

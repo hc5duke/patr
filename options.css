@@ -25,6 +25,7 @@ body {
 .ecOpt, .briOpt, .moveOpt{
 	cursor: pointer;
 	font-size: 1em;
+    display: inline-block;
 }
 
 .ecOpt > input , briOpt > input, moveOpt > input {
