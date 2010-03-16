@@ -95,6 +95,7 @@ td { color: white !important; }
 #contactChangerContainer .hd, #contactChangerContainer label { color: black !important; }
 #contactChangerContainer .contactChangerFootnote > p { color: #8D8D8D !important; }
 #contactChangerInfoDetails > p { color: #8D8D8D !important }
+.sharing_faded_text > a { color: #0063DC !important; }
 
 /* This is for group front pages */
 table.TopicListing td[style*='text-align: center'] { color: white !important; }
@@ -154,6 +155,7 @@ div[id^='description_div'] { background-color: black !important; }
 
 /* Organizer */
 .top_form_tip_txt, .tree_coll_title_div, #collections_instructions_top_p { color: black !important; }
+.group_name > nobr { color: #0063DC !important; }
 
 /* Uploadr */
 #uploadr, #upload-container, #uploadr-list, .foot, .batch-operations .tags, .batch-sets { background-color: #0F0F0F !important; }
@@ -186,6 +188,7 @@ pre { background-color: #0F0F0F; }
 .linkhover { background-color: #0F0F0F !important; }
 #GoodStuff #Inbox[bgcolor] { background-color: #222222; }
 
+
 /* Group discussions */
 .taglist td { background-color: #888888 !important; }
 .staffPost h4, .staffPost td.Said > p { color: white !important; }
@@ -193,6 +196,7 @@ pre { background-color: #0F0F0F; }
  */
 tr.staffPost td { background-color: #222 !important; }
 .staffPost td { border-bottom-color: #444 !important; }
+.Locked { color: #333 !important; }
 
 /* Admin */
 #admin_intro { color: #444 !important; }
