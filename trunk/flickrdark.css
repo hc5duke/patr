@@ -274,6 +274,7 @@ td.Reply > p { color: black !important; }
     width: 100%;
     font-size: 1em;
     background: #CCC;
+    //overflow: hidden;
 }
 
 #linkSizeName { 
@@ -303,4 +304,9 @@ td.Reply > p { color: black !important; }
     background: #CCC;
     width: 100%;
     border: none;
+}
+
+.ASLinfo {
+    color: #999;
+    font-size: 11px;
 }

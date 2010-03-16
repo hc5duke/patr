@@ -30,6 +30,10 @@ if( localStorage['moveInfo'] == undefined ){ localStorage['moveInfo'] = true; }
 if( localStorage['nLogo'] == undefined ){ localStorage['nLogo'] = true; }
 if( localStorage['addRef'] == undefined ){ localStorage['addRef'] = true; }
 if( localStorage['showEXIF'] == undefined ){ localStorage['showEXIF'] = true; }
+if( localStorage['showAS'] == undefined ){ localStorage['showAS'] = true; }
+if( localStorage['showASL'] == undefined ){ localStorage['showASL'] = true; }
+if( localStorage['ASLdefault'] == undefined ){ localStorage['ASLdefault'] = false; }
+if( localStorage['ASLdefaultText'] == undefined ){ localStorage['ASLdefaultText'] = ''; }
 
 chrome.extension.onRequest.addListener(
 	function( request, sender, sendResponse) {
