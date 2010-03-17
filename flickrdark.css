@@ -168,6 +168,9 @@ label[for^='license'] { color: white !important; }
 div[id^='upload-total'] { color: white !important; }
 p.ReadThis { color: black !important; }
 label[for^='is_'] { color: black !important; }
+
+.fieldset > label[for^='is_'] { color: white !important; }
+
 #privacy-controls > label[for^='is_'] { color: white !important; }
 .photos-edit ul.rows { background-color: inherit !important; }
 
