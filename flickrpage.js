@@ -61,6 +61,7 @@ flickrPage.isPoolPage = ( location.href.search(/\/pool\//) == -1 ) ? false : tru
 flickrPage.isFriendPage = ( location.href.search(/\/friends\//) == -1 ) ? false : true;
 flickrPage.isPhotosOf = ( location.href.search(/\/photosof\//) == -1 ) ? false : true;
 flickrPage.isStatsPage = ( location.href.search(/\/photos\/.*\/stats\/($|\d{4}-\d\d-\d\d\/$)/) == -1 ) ? false : true;
+flickrPage.isUploadDone = ( location.href.search(/\/photos\/upload\/done\//) == -1 ) ? false : true;
 
 // Wait till the DOM is done to call these guys...
 var _startPage = setInterval( function(){
@@ -244,6 +245,8 @@ function doFlickrPage() {
         flickrPage.scroller.test = true;
         flickrPage.scroller.triggerHeight = 0;
         //window.onscroll = flickrPage.scroller;
+    }else if( flickrPage.isUploadDone ){
+        flickrPage.addBlackUploads();
     }
 }
 
@@ -724,5 +727,99 @@ flickrPage.scroller = function(){
                         console.log( flickrPage.scroller.triggerHeight );
                     }
                 });
+    }
+}
+
+
+flickrPage.addBlackUploads = function(){
+        var allLike = document.createElement('a');
+        allLike.href = 'javascript:;';
+        allLike.className = 'plain';
+        allLike.style.float = 'right';
+        allLike.style.fontSize = '11px';
+        allLike.addEventListener('click', flickrPage.allLikeThis);
+        allLike.innerText = "All";
+
+        var userURL = document.head.querySelector("script[type='text/javascript']").innerText;
+        userURL = userURL.match( /photos_url = '(.*)'/)[1];
+
+        var descriptionBoxes = document.querySelectorAll("textarea[name^='description']");
+        var photoID;
+
+        var links = new Array();
+        links[0] = ["http://bighugelabs.com/onblack.php?size=large&id=PHOTOID", 'BHL On Black'];
+        links[1] = ["http://www.fluidr.comURLPHOTOID", 'Fluidr'];
+        links[2] = ["http://www.darckr.com/photo?width=1024&photoid=PHOTOID", 'Darckr'];
+        links[3] = ["http://viewonblack.com/flickr/PHOTOID", 'viewonblack.com'];
+
+
+        for( var i = 0; i < descriptionBoxes.length; i++ ){
+            var all = allLike.cloneNode(true);
+            var allTitle = allLike.cloneNode(true);
+            all.addEventListener('click', flickrPage.allLikeThis);
+            all.addEventListener('mouseover', function(){ this.innerText = "Make all descriptions like this one"; } );
+            all.addEventListener('mouseout', function(){ this.innerText = "All"; } );
+            allTitle.addEventListener('click', flickrPage.allLikeThis);
+            allTitle.addEventListener('mouseover', function(){ this.innerText = "Make all titles like this one"; } );
+            allTitle.addEventListener('mouseout', function(){ this.innerText = "All"; } );
+            descriptionBoxes[i].previousElementSibling.insertAdjacentElement('afterEnd', all);
+            descriptionBoxes[i].previousElementSibling.parentNode.previousElementSibling.insertAdjacentElement('afterBegin', allTitle);
+
+            var onBlack = document.createElement('div');
+            onBlack.className = 'onBlackList';
+            onBlack.insertAdjacentHTML('afterBegin', "<span style='color: #666; font-size: 11px;'>Add a link:</span><br/>");
+
+            var link;
+            photoID = descriptionBoxes[i].id.split('_')[1];
+
+            var a = document.createElement('a');
+            a.setAttribute('style', "font-size: 11px; line-height: 1.2em;");
+            a.href = "javascript:;";
+            a.className = 'plain';
+
+                for( var j = 0; j < links.length; j++ ){
+                    link = links[j][0].replace('URL', userURL);
+                    link = link.replace('PHOTOID', descriptionBoxes[i].id.split('_')[1]);
+                    var b = a.cloneNode(true);
+                    b.setAttribute('link', link);
+                    b.setAttribute('txtareaid', descriptionBoxes[i].id);
+                    b.innerHTML = links[j][1];
+                    b.addEventListener('click', flickrPage.addBlackLink);
+                    onBlack.appendChild( b );
+                    onBlack.insertAdjacentHTML('beforeEnd', "<br />");
+                }
+            descriptionBoxes[i].parentNode.appendChild( onBlack );
+        }
+}
+
+flickrPage.addBlackLink = function( e ){
+    //console.log( e.currentTarget );
+    var txt = document.getElementById( e.currentTarget.getAttribute('txtareaid'));
+    var start = txt.selectionStart;
+    var end = txt.selectionEnd;
+    var qTxt = "<a href='"+ e.currentTarget.getAttribute('link') +"'>"+ e.currentTarget.innerText +"</a>";
+
+    txt.value = txt.value.substring(0, start)
+        + qTxt
+        + txt.value.substring(end, txt.value.length);
+
+}
+
+flickrPage.allLikeThis = function( e ){
+    if( e.currentTarget.parentNode.className == 'photo_description' ){
+        var txt = e.currentTarget.nextElementSibling.value;
+        var desc = document.querySelectorAll("textarea[name^='description_']");
+
+        for( var i = 0; i < desc.length; i++ ){
+            var reg = new RegExp( e.currentTarget.nextElementSibling.id.split('_')[1], "g");
+            desc[i].value = txt.replace( reg, desc[i].id.split('_')[1] );
+        }
+
+    }else if( e.currentTarget.parentNode.className == 'photo_title' ){
+        var txt = e.currentTarget.parentNode.querySelector("input").value;
+        var title = document.querySelectorAll("input[name^='title_']");
+        for( var i = 0; i < title.length; i++ ){
+            title[i].value = txt;
+        }
     }
 }

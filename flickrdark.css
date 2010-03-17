@@ -156,6 +156,9 @@ div[id^='description_div'] { background-color: black !important; }
 /* Organizer */
 .top_form_tip_txt, .tree_coll_title_div, #collections_instructions_top_p { color: black !important; }
 .group_name > nobr { color: #0063DC !important; }
+table.together_table td { color: black !important; }
+#candy_batch_together_button_bar > p { color: black !important; }
+.edit_together_paging_div { color: black !important; }
 
 /* Uploadr */
 #uploadr, #upload-container, #uploadr-list, .foot, .batch-operations .tags, .batch-sets { background-color: #0F0F0F !important; }
@@ -164,6 +167,9 @@ div[id^='description_div'] { background-color: black !important; }
 label[for^='license'] { color: white !important; }
 div[id^='upload-total'] { color: white !important; }
 p.ReadThis { color: black !important; }
+label[for^='is_'] { color: black !important; }
+#privacy-controls > label[for^='is_'] { color: white !important; }
+.photos-edit ul.rows { background-color: inherit !important; }
 
 /* Add to Group */
 [id$='DialogListDiv'] td { background-color: transparent !important; /*color: #0063DC !important;*/ }
@@ -278,6 +284,7 @@ td.Reply > p { color: black !important; }
     width: 100%;
     font-size: 1em;
     background: #CCC;
+    margin-bottom: 5px;
     //overflow: hidden;
 }
 
@@ -314,3 +321,15 @@ td.Reply > p { color: black !important; }
     color: #999;
     font-size: 11px;
 }
+
+/* Stuff for upload black thingies */
+div.onBlackList {
+    background: -webkit-gradient( linear, 0 0, 0 100%, from(#111), to(#000));
+    border: solid 1px #444;
+    -webkit-border-radius: 5px;
+    padding: 5px;
+    padding-top: 2px;
+    margin-top: 5px;
+}
+
+.photo_title a, .photo_description a { -webkit-border-radius: 4px; padding-left: 3px; padding-right: 3px; }
