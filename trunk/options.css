@@ -47,3 +47,17 @@ body {
 .fgCorners {
     -webkit-border-radius: 10px;
 }
+
+#top-notice {
+    font-size: 0.8em;
+    width: 50%
+}
+
+#top-notice > p {
+    padding: 10px;
+    -webkit-border-radius: 15px;
+    background: -webkit-gradient( linear, 0 0, 0 100%, from(#000), to(#FFF));
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFF), to(#141414), color-stop(.2,#BBB),color-stop(.9,#AAA));
+    border: solid 1px #666;
+    -webkit-box-shadow: 5px 5px 10px #000;
+}
