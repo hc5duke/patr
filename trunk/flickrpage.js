@@ -62,6 +62,7 @@ flickrPage.isFriendPage = ( location.href.search(/\/friends\//) == -1 ) ? false 
 flickrPage.isPhotosOf = ( location.href.search(/\/photosof\//) == -1 ) ? false : true;
 flickrPage.isStatsPage = ( location.href.search(/\/photos\/.*\/stats\/($|\d{4}-\d\d-\d\d\/$)/) == -1 ) ? false : true;
 flickrPage.isUploadDone = ( location.href.search(/\/photos\/upload\/done\//) == -1 ) ? false : true;
+flickrPage.isArchives = ( location.href.search(/\/photos\/.*\/archives\/$/) == -1 ) ? false : true;
 
 // Wait till the DOM is done to call these guys...
 var _startPage = setInterval( function(){
@@ -120,6 +121,7 @@ function doFlickrPage() {
         flickrPage.api_key = farray[0].substring( 1, farray[0].length - 1 );
         flickrPage.auth_hash = farray[1].substring( 1, farray[1].length -1 );
         flickrPage.photos_url = ftxt.match( /'\/photos\/.*\/'/g)[0].replace(/'/g,'');
+        flickrPage.user_id = ftxt.match(/global_nsid = '(.*)',/)[1];
         var cookie = document.cookie;
 
     if( flickrPage.isPhotoPage ){
@@ -247,6 +249,9 @@ function doFlickrPage() {
         //window.onscroll = flickrPage.scroller;
     }else if( flickrPage.isUploadDone ){
         flickrPage.addBlackUploads();
+    }else if( flickrPage.isArchives ){
+        console.log("Doing Archives...");
+        flickrPage.doArchives();
     }
 }
 
@@ -881,4 +886,97 @@ flickrPage.allLikeThis = function( e ){
             title[i].value = txt;
         }
     }
+}
+
+flickrPage.doArchives = function(){
+    var aList = new Array();
+    flickrPage.doArchives.txt = '';
+    flickrPage.doArchives.csv = '';
+    // Add a link like: <a href="data:text/plain;one,two,three%0A%0Dfour,five,six">LINK</a>
+    flickrPage.doArchives.getList( 1 );
+}
+
+flickrPage.doArchives.getList = function( page_num ){
+
+    chrome.extension.sendRequest( { type: 'cAPI',
+                                    fn: 'people.getPhotos',
+                                    params: {
+                                        user_id: flickrPage.user_id,
+                                        //user_id: "56815560@N00",
+                                        //user_id: "39543045@N06",
+                                        per_page: 500,
+                                        page: page_num,
+                                        extras: 'license, date_upload, date_taken, original_format, path_alias,',
+                                        api_key: flickrPage.api_key,
+                                        auth_hash: flickrPage.auth_hash,
+                                        auth_token: '',
+                                        src: 'js' } },
+            function( response ){
+                if( response.stat == 'ok' ){
+                    console.log( response );
+                    /*
+                    if( response.photos.page == 1 ){
+                        flickrPage.doArchives.aList = response.photos.photo;
+                    }else if( response.photos.page > 1 ){
+                        for(var i = 0; i < response.photos.photo.length; i++ ){
+                            flickrPage.doArchives.aList.push( response.photos.photo[i] );
+                        }
+                    }
+                    */
+                    var rpp = response.photos.photo;
+                    var txt = "";
+                    var csv = '';
+                    
+
+                    if( response.photos.page == response.photos.pages ){
+                        console.log('Done!');
+                        for(var i = 0; i < rpp.length; i++ ){
+                                var date_taken = new Date( rpp[i].datetaken );
+                                var date_upload = new Date( rpp[i].dateupload * 1000 );
+                                txt += "<tr><td style='color:white; font-size: 11px;'>"+ rpp[i].title +"</td>"+
+                                "<td style='color:white; font-size: 11px; text-align: right;' name='dTaken' stamp='"+ date_taken.valueOf() +"'>"+ 
+                                date_taken.toLocaleDateString().slice( date_taken.toLocaleDateString().indexOf(',')+2 ) +
+                                "</td>"+
+                                "<td style='color:white; font-size: 11px; margin-left: 10px; text-align: right;'>"+ 
+                                date_upload.toLocaleDateString().slice( date_upload.toLocaleDateString().indexOf(',')+2 ) +"</td></tr>";
+                                csv += '"'+ escape(rpp[i].title) +'","'+ escape(date_taken.toLocaleDateString()) +'","'+ escape(date_upload.toLocaleDateString()) +'"%0A';
+                        }
+                        flickrPage.doArchives.txt += txt;
+                        flickrPage.doArchives.csv += csv;
+
+                        flickrPage.doArchives.showList();
+                    }else{
+                        console.log( response.photos.page );
+                        console.log( response.photos.pages );
+                        flickrPage.doArchives.getList( response.photos.page + 1 );
+                        for(var i = 0; i < rpp.length; i++ ){
+                                var date_taken = new Date( rpp[i].datetaken );
+                                var date_upload = new Date( rpp[i].dateupload * 1000 );
+                                txt += "<tr><td style='color:white; font-size: 11px;'>"+ rpp[i].title +"</td>"+
+                                "<td style='color:white; font-size: 11px; text-align: right;' name='dTaken' stamp='"+ date_taken.valueOf() +"'>"+ 
+                                date_taken.toLocaleDateString().slice( date_taken.toLocaleDateString().indexOf(',')+2 ) +
+                                "</td>"+
+                                "<td style='color:white; font-size: 11px; margin-left: 10px; text-align: right;'>"+ 
+                                date_upload.toLocaleDateString().slice( date_upload.toLocaleDateString().indexOf(',')+2 ) +"</td></tr>";
+                                csv += '"'+ escape(rpp[i].title ) +'","'+ escape(date_taken.toLocaleDateString() ) +'","'+ escape(date_upload.toLocaleDateString()) +'"%0A';
+                        }
+                        flickrPage.doArchives.txt += txt;
+                        flickrPage.doArchives.csv += csv;
+                    }
+                }
+            });
+}
+
+flickrPage.doArchives.showList = function(){
+    //console.log( flickrPage.doArchives.txt );
+    var dMain = document.querySelector('div#Main');
+    var aTable = document.createElement('table');
+    var fda = flickrPage.doArchives.aList;
+    aTable.innerHTML = "<thead><tr><th style='color: white;'>Title</th><th style='color:white;'>Date Taken</th><th style='color:white;'>Date Uploaded</th></tr></thead><tbody>";
+    aTable.innerHTML += flickrPage.doArchives.txt;
+    aTable.innerHTML += "</tbody></table>";
+
+    dMain.querySelector('form').insertAdjacentElement('afterEnd', aTable);
+
+    document.querySelector("td.Intro").insertAdjacentHTML('beforeEnd', "<a href='data:text/plain;null,Title,Date%20Taken,Date%20Uploaded%0A"+ flickrPage.doArchives.csv +"'>Download</a>");
 }
