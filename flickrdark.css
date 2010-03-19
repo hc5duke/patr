@@ -70,6 +70,19 @@ div[style*='background: #ffffff'] { background-color: #222222 !important; }
 #TopBar, #FooterWrapper { background-color: black !important; }
 label[for='exploreMapSearch'] { color: black !important; }
 
+/*FAQ - Help Forum */
+#faqresults { background: #222; border-color: #444; }
+div.For { background-image: none; background-color: #222; }
+.help_main .disabled { color: #888 !important; }
+
+.help_trouble > h2 { color: #222 !important; }
+.help_inline_contactform td, .help_inline_forumform td, .help_inline_forumform h3, .help_inline_searchform h3 { color: #EEE !important; }
+
+p.forumIntroText { background-color: #222 !important; }
+
+/* Archives */
+.WhatIsThisPlace .Intro { background-color: #222; }
+
 /* Commons */
 .tc_intro { background-color: #0F0F0F !important; }
 
@@ -187,6 +200,7 @@ a[href='/mail/'], a[href='/cart/'] { background-color: transparent !important; }
 /* API pages */
 pre { background-color: #0F0F0F; }
 #Explorer td { color: white; }
+.MethodDescription > p, .MethodDescription { background-color: #222 !important; color: #DDD !important;}
 
 /* Profile Pages */
 .ThinCase td, #GoodStuff, #GoodStuff td, .acct-sett td, .acct-sett th { color: white !important; }
