@@ -361,3 +361,9 @@ div.onBlackList {
 }
 
 .photo_title a, .photo_description a { -webkit-border-radius: 4px; padding-left: 3px; padding-right: 3px; }
+
+/* Archives Table */
+table.patr-aTable th { color: #CCC; font-size: 14px; font-weight: bold; }
+table.patr-aTable td { color: #EEE; font-size: 11px; margin-left: 10px; text-align: right; }
+table.patr-aTable td:first-child { margin-left: 0px; text-align: left; }
+table.patr-aTable tr:nth-child(2n+0) { background-color: #111; }
