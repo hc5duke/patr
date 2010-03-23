@@ -10,6 +10,17 @@
 
 #mgTable td { border: dotted 1px #999; font-size: inherit; padding: 2px; empty-cells: show; }
 
+#mgInfo { background-color: gray; font-size: 11px; padding: 5px; position: absolute; display: none;
+    -webkit-border-radius: 5px;
+    border: solid 1px #CCC;
+    text-align: left;
+    font-size: 12px;
+    font-weight: bold;
+    background: -webkit-gradient( linear, 0 0, 0 100%, from( rgba(255,255,255,.98)), to( rgba(243,243,243,1) ));
+    -webkit-box-shadow: 5px 5px 15px #888;
+    color: #333;
+}
+
 /*#mgTable td:hover { color: white; background-color: #0063DC; }
  */
 

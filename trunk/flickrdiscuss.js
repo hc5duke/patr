@@ -71,7 +71,6 @@ function doDiscuss(){
         */
         var qDiv = document.createElement('div');
         qDiv.id = 'qDiv';
-        console.log( qDiv );
 
         var nameButton = document.createElement('span');
         nameButton.id = 'nameButt';
@@ -225,11 +224,7 @@ function doDiscuss(){
             nameButton.addEventListener('click', addQuote, false);
             bothButton.addEventListener('click', addQuote, false);
             function addQuote( el ){
-                console.log('===== addQuote =====');
-                console.log( el.target );
-                console.log( 'el.currentTarget' );
-                console.log( el.currentTarget );
-                console.log( quote.innerHTML );
+                
                 var start = txt.selectionStart;
                 var end = txt.selectionEnd;
                 var qTxt = '';
@@ -237,7 +232,6 @@ function doDiscuss(){
                     qTxt = '['+ qDiv.getAttribute('user_link') +'] ';
                 }
                 qTxt += '<b>'+ qDiv.getAttribute('username');
-                console.log( 'commentlink:'+ qDiv.getAttribute('commentlink') );
                 if( qDiv.getAttribute('commentlink') != 'null' ){
                     qTxt += ' <a href="#'+ qDiv.getAttribute('commentlink') +'">said:</a></b>';
                 }else{
