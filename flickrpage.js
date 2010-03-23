@@ -250,7 +250,7 @@ function doFlickrPage() {
     }else if( flickrPage.isUploadDone ){
         flickrPage.addBlackUploads();
     }else if( flickrPage.isArchives ){
-        console.log("Doing Archives...");
+        //console.log("Doing Archives...");
         flickrPage.doArchives();
     }
 }

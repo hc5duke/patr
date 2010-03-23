@@ -22,6 +22,9 @@ multiGroup.preLoad = function(){
     multiGroup.ballsImg = document.createElement('img');
     //multiGroup.ballsImg.src = 'http://l.yimg.com/g/images/progress/balls-24x12-trans.gif';
     multiGroup.ballsImg.src = chrome.extension.getURL('images/balls-24x12-trans-patr.gif');
+
+    document.body.insertAdjacentHTML('beforeEnd', "<div id='mgInfo'>mgINFO</div>");
+    document.getElementById('mgInfo').addEventListener('mouseout', multiGroup.Info.hide, false);
 }
 
 multiGroup.start = function(){
@@ -113,10 +116,12 @@ multiGroup.doList = function(){
         td.innerHTML += '<br><small id="msg-'+ mgg[i].id +'" style="display: none;" class="mg-msg"></small>';
         if( mgg[i].id in multiGroup.inGroup ){
             td.addEventListener('click', multiGroup.Remove, false);
+            td.addEventListener('contextmenu', multiGroup.Info, false);
             td.className = 'mg-ingroup';
             //td.setAttribute('title','Remove from group');
         }else{
             td.addEventListener('click', multiGroup.Add, false);
+            td.addEventListener('contextmenu', multiGroup.Info, false);
             td.className = 'mg-group';
             //td.setAttribute('title','Add to group');
         }
@@ -127,10 +132,12 @@ multiGroup.doList = function(){
             td2.innerHTML += '<br><small id="msg-'+ mgg[i+half].id +'" style="display: none;" class="mg-msg"></small>';
             if( mgg[i+half].id in multiGroup.inGroup ){
                 td2.addEventListener('click', multiGroup.Remove, false);
+                td2.addEventListener('contextmenu', multiGroup.Info, false);
                 td2.className = 'mg-ingroup';
                 //td2.setAttribute('title','Remove from group');
             }else{
                 td2.addEventListener('click', multiGroup.Add, false);
+                td2.addEventListener('contextmenu', multiGroup.Info, false);
                 td2.className = 'mg-group';
                 //td2.setAttribute('title','Add to group');
             }
@@ -140,6 +147,30 @@ multiGroup.doList = function(){
     }
     multiGroup.mgTable.style.display = 'block';
     multiGroup.balls();
+}
+
+multiGroup.Info = function( e ){
+    e.preventDefault();
+    var mgInfo = document.getElementById('mgInfo');
+    mgInfo.innerHTML = '<span>'+ e.target.innerText +'</span>';
+    mgInfo.insertAdjacentHTML('beforeEnd','<br/>');
+
+    var info = "<span style='font-size: 11px; font-weight: normal;'><a style='text-decoration: none; border-right: dotted 1px gray;' href='http://www.flickr.com/groups/"+ e.target.id +"' target='_new'>Page </a>"+
+        "<a style='text-decoration: none;' href='http://www.flickr.com/groups/"+ e.target.id +"/rules' target='_new'>&nbsp;Rules</a></span>";
+    mgInfo.insertAdjacentHTML('beforeEnd',info );
+    mgInfo.style.top = e.pageY - (mgInfo.offsetHeight == 0 ? 41 : mgInfo.offsetHeight) + 5;
+    mgInfo.style.left = e.pageX - 5;
+    mgInfo.style.display = 'block';
+}
+
+multiGroup.Info.hide = function( e ){
+    var rel = e.relatedTarget || null;
+    if( e.target.nodeName != 'DIV') return;
+    while( rel != e.target && rel.nodeName != 'BODY' ){
+        rel = rel.parentNode;
+        if( rel == e.target ) return;
+    }
+    e.target.style.display = 'none';
 }
 
 multiGroup.Add = function( el ){

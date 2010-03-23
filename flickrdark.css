@@ -235,7 +235,7 @@ td.Reply > p { color: black !important; }
 /* Stuff for Multi Group Sender */
 .mg-ingroup { color: white !important; border: dotted 1px #444444 !important; }
 .mg-group { color: #0063DC !important; border: dotted 1px #444444 !important; }
-.mg-group:hover { color: white !important; }
+.mg-group:hover { color: white !important; background-color: #222; }
 
 #mgTable { border: solid 1px #444444; }
 
@@ -367,3 +367,11 @@ table.patr-aTable th { color: #CCC; font-size: 14px; font-weight: bold; }
 table.patr-aTable td { color: #EEE; font-size: 11px; margin-left: 10px; text-align: right; }
 table.patr-aTable td:first-child { margin-left: 0px; text-align: left; }
 table.patr-aTable tr:nth-child(2n+0) { background-color: #111; }
+
+/* multigroup info box */
+#mgInfo { background-color: gray; -webkit-border-radius: 5px; border: solid 1px #333; text-align: left; font-size: 12px; font-weight: bold;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(51, 51, 51, 0.976563)), to(rgba(10, 10, 10, 0.976563)));
+    -webkit-box-shadow: 5px 5px 20px black;
+    border: solid 1px #888;
+    color: #CCC;
+}
