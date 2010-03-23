@@ -240,6 +240,15 @@ function doFlickrPage() {
             multiGroup.preLoad();
         }
 
+        /* Checking if user has commented on this photo before */
+        var comment_urls = document.querySelectorAll("h4[data-ywa-name='Commenter names'] > a:first-of-type");
+        for(var key in comment_urls){
+            if( comment_urls[key].href.search( flickrPage.photos_url ) != -1 ){
+                document.querySelector('#DiscussPhoto > h3:first-of-type').insertAdjacentHTML('beforeEnd', " <img src='"+ chrome.extension.getURL('images/icon_comment.gif') +"'/>" );
+                return;
+            }
+        }
+
     }else if( flickrPage.isStatsPage ){
         flickrPage.niceStats();
     }else if( flickrPage.isPoolPage ){
