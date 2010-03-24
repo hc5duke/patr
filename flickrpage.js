@@ -258,7 +258,7 @@ function doFlickrPage() {
         //window.onscroll = flickrPage.scroller;
     }else if( flickrPage.isUploadDone ){
         flickrPage.addBlackUploads();
-    }else if( flickrPage.isArchives ){
+    }else if( flickrPage.isArchives && location.href.match( flickrPage.photos_url ) !== null ){
         //console.log("Doing Archives...");
         flickrPage.doArchives();
     }
