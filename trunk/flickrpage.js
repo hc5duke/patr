@@ -251,10 +251,12 @@ function doFlickrPage() {
 
     }else if( flickrPage.isStatsPage ){
         flickrPage.niceStats();
-    }else if( flickrPage.isPoolPage ){
+    }else if( flickrPage.isPoolPage || flickrPage.isFriendPage ){
+        flickrPage.enhancePool();
+
         //flickrPage.scroller();
-        flickrPage.scroller.test = true;
-        flickrPage.scroller.triggerHeight = 0;
+        //flickrPage.scroller.test = true;
+        //flickrPage.scroller.triggerHeight = 0;
         //window.onscroll = flickrPage.scroller;
     }else if( flickrPage.isUploadDone ){
         flickrPage.addBlackUploads();
@@ -601,6 +603,11 @@ function doBigPool(){
 		p.style.width = p.style.height = 240;
         p.style.marginBottom = '2em';
 	}
+}
+
+flickrPage.enhancePool = function(){
+    console.log('enhancements coming...');
+    var pPhotos = document.querySelectorAll(".HoldPhotos > .RecentPhotos");
 }
 
 flickrPage.moveInfo = function(){
