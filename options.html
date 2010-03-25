@@ -57,7 +57,9 @@
                     document.getElementById( key ).checked = localStorage[key] == 'true' ? true: false;
                 }else if( key == 'ASLdefault' ){
                     console.log("loading, ASLdefault: "+ localStorage[key] +" "+ key);
-                    document.querySelector("input[value='"+ localStorage[key] +"']").checked = true;
+                    if( localStorage[key] != 'false' ){
+                        document.querySelector("input[value='"+ localStorage[key] +"']").checked = true;
+                    }
                 }else if( key == 'ASLdefaultText' ){
                     console.log("loading, ASLdefaultText: "+ localStorage[key] +" "+ key);
                     document.getElementById( key ).value = localStorage[key];

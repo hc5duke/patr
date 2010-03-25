@@ -232,6 +232,9 @@ td.Reply > p { color: black !important; }
 /* Change privacy settings */
 .privacyDetails p label, .privacyDetails blockquote > label { color: silver !important; }
 
+/* Friends photo pages descriptions */
+.StreamView { color: #CCC; }
+
 /* Stuff for Multi Group Sender */
 .mg-ingroup { color: white !important; border: dotted 1px #444444 !important; }
 .mg-group { color: #0063DC !important; border: dotted 1px #444444 !important; }
