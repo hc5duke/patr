@@ -249,6 +249,7 @@ function doFlickrPage() {
             }
         }
 
+
     }else if( flickrPage.isStatsPage ){
         flickrPage.niceStats();
     }else if( flickrPage.isPoolPage || flickrPage.isFriendPage ){
@@ -465,7 +466,8 @@ flickrPage.showLinkOpts = function( evt ){
 
 flickrPage.hideLinkOpts = function( evt ){
     var rel = evt.relatedTarget;
-    if( rel.className == 'Widget' ) return;
+    console.log( rel.className );
+    if( rel.className && rel.className == 'Widget' ) return;
     if( evt.target.nodeName != 'DIV') return;
     while( rel != evt.target && rel.nodeName != 'BODY' ){
         rel = rel.parentNode
