@@ -375,9 +375,9 @@ this.init();}
 			};
             */
             var listener = function( response ){
-                //console.log('LISTENER resolveGroupName');
+                console.log('LISTENER resolveGroupName');
                 if( response.stat == 'ok' ){
-                    //console.log( response );
+                    console.log( response );
                     var groupname = response.group.groupname._content;
                     if( groupname ){
                         var msg = 'Seen in the group <b>"'+groupname+'"</b>';
@@ -402,12 +402,15 @@ this.init();}
                         }
                         self.insertComment( msg, referrer );
                     }
+                }else{
+                    console.log( response.stat );
                 }
             }
             console.log( 'before switch(type)' );
+            console.log( 'type: '+ type );
 			switch(type) {
 				case RANDOM:
-                    //console.log('case RANDOM');
+                    console.log('case RANDOM');
 					unsafeWindow.F.API.callMethod('flickr.groups.getInfo', {
 							group_id:groupurl
 														  }, listener);

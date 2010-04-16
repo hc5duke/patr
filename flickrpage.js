@@ -26,6 +26,7 @@
 var flickrPage = {};
 var multiGroup = {};
 
+// Pre-set CSS styles before page loads
 var black = document.createElement("style");
 black.innerText = "html { background-color: black !important; } body { background-color: black !important; } #flickrLogo{ opacity: 0; -webkit-transition: opacity 150ms; }";
 if( /darkr=1/.test( document.cookie ) ){ document.documentElement.insertBefore( black );  }
@@ -488,7 +489,7 @@ function preFlic(){
         li.setAttribute('class', 'Stats');
         li.appendChild( flink );
 
-        flink.setAttribute('href', shortURL );
+        flink.setAttribute('href', '#' );
         flink.setAttribute('class', 'Plain');
         flink.appendChild( document.createTextNode( shortURL ) );
 
