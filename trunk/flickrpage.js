@@ -237,7 +237,7 @@ function doFlickrPage() {
                     }
                 });
 
-        if( document.getElementById('photo_gne_button_send_to_group') ){
+        if( document.getElementById('photo_gne_button_send_to_group') ){ // Start multigroup if enabled!
             multiGroup.preLoad();
         }
 
