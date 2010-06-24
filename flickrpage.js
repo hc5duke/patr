@@ -32,6 +32,7 @@ black.innerText = "html { background-color: black !important; } body { backgroun
 if( /darkr=1/.test( document.cookie ) ){ document.documentElement.insertBefore( black );  }
 
 // insert custom css styles before page load (to avoid flicker if possible!)
+// THESE ARE CURRENTLY ONLY FOR ENABLING/DISABLING DARKR
 var st = document.createElement("style");
 var st2 = document.createElement("style");
 var st3 = document.createElement("LINK");
@@ -57,6 +58,7 @@ chrome.extension.sendRequest( { type: "localStorage", param:['darkr'] },
                     document.cookie = 'darkr=0; path=/';
                 }
             } );
+// END DARKR INSERTION SECTION
 
 flickrPage.isPoolPage = ( location.href.search(/\/pool\//) == -1 ) ? false : true;
 flickrPage.isFriendPage = ( location.href.search(/\/friends\//) == -1 ) ? false : true;
