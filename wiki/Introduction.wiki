@@ -5,6 +5,8 @@ An extension for the Google Chrome browser that aims to extend the functionality
 
 *<font size='4em'>The Google Extension Gallery page for Patr is <a href="https://chrome.google.com/extensions/detail/iplbmjolljikncjboeofgmjoaacheemi">located here</a>.
 
+<font size='5em'>Yes, Flickr is redesigning their pages, and a preview is available where Patr will not work, I am working on a fix for this and hope to have something out as soon as possible!</font>
+
 If you're using Chrome go over, install it, and try it out!</font>*
 
 =Introduction=
