@@ -22,6 +22,9 @@
 //
 // Creating the lightbox object
 
+// TURNING THIS OFF DUE TO FLICKR HAVING NATIVE LIGHTBOX!
+/*
+ 
 var lightBox = {};
 
 lightBox.image = new Image();
@@ -58,6 +61,7 @@ lightBox.setOrigin = function() {
 
     tis.position = 'absolute';
     tis.margin = 20;
+    console.log('doing offsetLeft here');
     tis.left = img.offsetLeft - tis.margin.replace('px','');
 	tis.top = img.offsetTop - tis.margin.replace('px','');
 	tis.maxHeight = flickrPage.reflect.height;
@@ -144,3 +148,5 @@ function findPos(obj){
     return [curleft, curtop];
     }
 };
+
+*/
