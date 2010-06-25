@@ -22,7 +22,6 @@
 //
 // flickrPage contains functions for dealing with page parameters
 
-
 var flickrPage = {};
 var multiGroup = {};
 
@@ -114,8 +113,13 @@ var _startPage = setInterval( function(){
                     */
                     if( response.moveInfo == 'true' && flickrPage.isPhotoPage ){ flickrPage.moveInfo(); }
                     if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
-                    doFlickrPage();
+                    if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
+                    if( response.showASL == 'true' ){ flickrPage.showASL = true; }
+                    if( response.showAS == 'true' ){ flickrPage.showAS = true; }
+                    flickrPage.ASLdefault = response.ASLdefault; 
+                    flickrPage.ASLdefaultText = response.ASLdefaultText; 
 
+                    doFlickrPage();
                 } );
         }
 }, 10 );
@@ -124,7 +128,6 @@ var _startPage = setInterval( function(){
 function doFlickrPage() {
 console.log(" doFlickrPage()");
 
-        console.log("retrieveing auth keys and hash to make api calls");
         // RETRIEVE AUTH KEYS AND HASH TO MAKE API CALLS FOR THIS USER
         /*
         console.log("getting ftxt...");
@@ -137,16 +140,17 @@ console.log(" doFlickrPage()");
         flickrPage.photos_url = ftxt.match( /'\/photos\/.*\/'/g)[0].replace(/'/g,'');
         flickrPage.user_id = ftxt.match(/global_nsid = '(.*)',/)[1];
         */
+        console.log("retrieveing auth keys and hash to make api calls");
         var ftxt = document.querySelector("body > script:last-of-type").innerText;
         console.log("Got ftxt!");
-        ftxt.match(/api_key: '(.*)'/g);
-        flickrPage.api_key = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : FALSE;
-        ftxt.match(/auth_hash: '(.*)'/g);
-        flickrPage.auth_hash = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : FALSE;
+        ftxt.match(/api_key: '([A-Za-z0-9]+)'/);
+        flickrPage.api_key = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
+        ftxt.match(/auth_hash: '([A-Za-z0-9]+)'/);
+        flickrPage.auth_hash = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
         ftxt.match(/nsid: '(.*)'/g);
-        flickrPage.user_id = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : FALSE;
+        flickrPage.user_id = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
         ftxt.match(/photos_url: '(.*)'/g);
-        flickrPage.photos_url = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : FALSE;
+        flickrPage.photos_url = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
         console.log("api_key: " + flickrPage.api_key + "\nauth_hash: " + flickrPage.auth_hash );
         console.log("photos_url: " + flickrPage.photos_url + "\nnsid: " + flickrPage.user_id );
         var cookie = document.cookie;
@@ -235,7 +239,8 @@ console.log(" doFlickrPage()");
                             camLink.insertAdjacentHTML('afterEnd', "<a href='#' onclick=\"var d = document.getElementById('patrEXIF'); if( d.style.height=='0px' ){ d.style.height = d.getAttribute('oh'); }else{ d.style.height = '0px';}\"><sup style='font-size: 0.7em; vertical-align: super;'>[EXIF]</sup></a>");
 
                             exifBox.appendChild( newul );
-                            exifBox.style.webkitTransition = 'height 0.25s ease-in-out';
+                            exifBox.style.webkitTransition = 'height 0.5s ease-in-out';
+                            exifBox.style.overflow = 'hidden';
                             pss.insertAdjacentElement('afterEnd', exifBox);
                             exifBox.setAttribute('oh', exifBox.offsetHeight +'px');
                             exifBox.style.height = '0px';
@@ -246,6 +251,7 @@ console.log(" doFlickrPage()");
                     });
         }
 
+        // Getting all size data
         chrome.extension.sendRequest( { type: 'cAPI', 
                                         fn: 'photos.getSizes', 
                                         params: { 
@@ -256,6 +262,7 @@ console.log(" doFlickrPage()");
                                             src: 'js' } },
                 function( response ){
                     if( response.stat == 'ok' ){
+                        console.log("cAPI: photos.getSizes OK");
                         var rss = response.sizes.size;
                         var sizes = {};
                         for( var sz in rss ){
@@ -271,7 +278,13 @@ console.log(" doFlickrPage()");
                         }
 
                         //flickrPage.preSizes();
-                        if( flickrPage.showAS ){ flickrPage.preSizes2(); }
+
+                        // SHOW ALL SIZES IF TURNED ON
+                        if( flickrPage.showAS ){ 
+                            console.log('flickrPage.showAS == TRUE');
+                            flickrPage.preSizes2(); 
+                        }
+
                         // Turning off lightbox due to native handling now!
                         //lightBox.preLoad();
                     }else{ // Everything else failed, so just use the img on the page...
@@ -289,7 +302,7 @@ console.log(" doFlickrPage()");
             //multiGroup.preLoad();
         }
 
-        /* Checking if user has commented on this photo before */
+        // Checking if user has commented on this photo before
         var comment_urls = document.querySelectorAll("h4[data-ywa-name='Commenter names'] > a:first-of-type");
         for(var key in comment_urls){
             if( comment_urls[key].href && comment_urls[key].href.search( flickrPage.photos_url ) != -1 ){
@@ -297,7 +310,7 @@ console.log(" doFlickrPage()");
                 return;
             }
         }
-
+// ##### END OF isPhotoPage SECTION ####
 
     }else if( flickrPage.isStatsPage ){
         flickrPage.niceStats();
@@ -331,11 +344,12 @@ flickrPage.preSizes = function(){
 
     ds.appendChild( document.createTextNode('') );
     d.appendChild( ds );
-	document.querySelector("div.Widget").appendChild( d );
+	//document.querySelector("div.Widget").appendChild( d );
+    document.getElementById('photo-story-attribution').appendChild( d );
 }
 
 flickrPage.preSizes2 = function(){
-
+console.log("preSizes2");
     var d = document.createElement('div');
     d.id = 'patr-sizes';
 
@@ -379,9 +393,11 @@ flickrPage.preSizes2 = function(){
         linkSizesList.appendChild( aList );
 	}
 
+    console.log('Added keys from flickrPage.sizes');
     ds.appendChild( document.createTextNode('') );
     d.appendChild( ds );
-    document.querySelector("div.Widget").appendChild( d );
+    document.getElementById('photo-story-attribution').appendChild( d );
+    //document.querySelector("div.Widget").appendChild( d );
 
     if( flickrPage.showASL ){
         var viewonblack = document.createElement('a');
@@ -432,11 +448,16 @@ flickrPage.preSizes2 = function(){
         lo.insertAdjacentHTML('beforeEnd', "<span id='extraName'></span>");
         lo.insertAdjacentHTML('beforeEnd', "<br/>");
         lo.appendChild( linkExtra );
+        lo.style.marginTop = '-1px';
 
-        document.querySelector("div.Widget").appendChild( lo );
-        //document.querySelector("div.Widget").setAttribute('onmouseout', "if(evt.relatedTarget.id == 'photoswftd' || evt.relatedTarget.className == 'RHS' || evt.relatedTarget.id == 'Main'){ document.getElementById('linkOpts').style.opacity=0; document.getElementById('linkOpts').style.visibility='hidden';}");
-        document.querySelector("div.Widget").addEventListener('mouseout', flickrPage.hideLinkOpts);
-        document.querySelector("div.Widget").style.paddingBottom = '5px';
+        //document.getElementById('photo-story-attribution').appendChild( lo );
+        d.appendChild( lo );
+        //document.querySelector("div.Widget").appendChild( lo );
+        ////document.querySelector("div.Widget").setAttribute('onmouseout', "if(evt.relatedTarget.id == 'photoswftd' || evt.relatedTarget.className == 'RHS' || evt.relatedTarget.id == 'Main'){ document.getElementById('linkOpts').style.opacity=0; document.getElementById('linkOpts').style.visibility='hidden';}");
+        //document.querySelector("div.Widget").addEventListener('mouseout', flickrPage.hideLinkOpts);
+        document.getElementById('photo-story-attribution').addEventListener('mouseout', flickrPage.hideLinkOpts);
+        console.log('added eventlistener to photo-story-attribution');
+        //document.querySelector("div.Widget").style.paddingBottom = '5px';
         linkOpts.addEventListener('mouseout', flickrPage.hideLinkOpts);
         
         if( flickrPage.ASLdefault != 'false' ){
@@ -495,7 +516,8 @@ flickrPage.extraChange = function( evt ){
 
 flickrPage.showLinkOpts = function( evt ){
     var title = document.querySelector("meta[name='title']").getAttribute('content');
-    var user = document.querySelector("b[property='foaf:name']").innerText;
+    //var user = document.querySelector("b[property='foaf:name']").innerText;
+    var user = document.querySelector('div#photo-story-attribution .username > a').innerText;
     var link = "<a href='"+ document.querySelector("link[rel='canonical']").href +"' ";
     link += "title='"+ title +" by "+ user +", on Flickr, via Patr' ";
     link += "alt='"+ title +"' ";
@@ -509,8 +531,13 @@ flickrPage.showLinkOpts = function( evt ){
 
 flickrPage.hideLinkOpts = function( evt ){
     var rel = evt.relatedTarget;
-    console.log( rel.className );
-    if( rel.className && rel.className == 'Widget' ) return;
+    console.log('rel.className: ' + rel.className );
+    //if( rel.className && rel.className == 'clearfix' ){ return; }
+    if( rel.className == 'clearfix' ){
+        flickrPage.linkOpts.style.opacity = 0;
+        //setTimeout("flickrPage.linkOpts.style.zIndex = -1", 250);
+        return;
+    }
     if( evt.target.nodeName != 'DIV') return;
     while( rel != evt.target && rel.nodeName != 'BODY' ){
         rel = rel.parentNode
@@ -699,8 +726,6 @@ flickrPage.moveInfo = function(){
         newAI.style.display = 'none';
         sb.insertBefore( newAI, sb.firstChild );
     }
-
-
 }
 
 
@@ -838,7 +863,6 @@ flickrPage.scroller = function(){
                 });
     }
 }
-
 
 flickrPage.addBlackUploads = function(){
         var allLike = document.createElement('a');
