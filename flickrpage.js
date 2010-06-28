@@ -368,6 +368,13 @@ console.log("preSizes2");
     flickrPage.linkText = document.createElement('textarea');
     flickrPage.linkText.id = 'patrLinkText';
 
+    var bb = document.createElement('a');
+    bb.id = 'patr-sizes-bbcode';
+    bb.addEventListener('click', flickrPage.doBBCode, false);
+    bb.style.float = 'right';
+    bb.innerText = '[bb]';
+    bb.setAttribute('class', '');
+
 	for( var key in flickrPage.sizes ){
 		var a = document.createElement('a');
 		a.setAttribute('href', flickrPage.sizes[ key ].source );
@@ -442,7 +449,9 @@ console.log("preSizes2");
 
         lo.insertAdjacentHTML('afterBegin', "<span class='ASLinfo'>Copy & Paste code below:</span><span id='linkSizeName'>Test</span>");
         lo.appendChild( flickrPage.linkText );
-        lo.insertAdjacentHTML('beforeEnd', "<br/><span class='ASLinfo'>Add a link:</span><br/>");
+        lo.insertAdjacentHTML('beforeEnd', "<br/><span class='ASLinfo'>Add a link:</span>");
+        lo.insertAdjacentElement('beforeEnd', bb);
+        lo.insertAdjacentHTML('beforeEnd', "<br/>");
         lo.appendChild( linkSizesList );
         lo.insertAdjacentHTML('beforeEnd', "<span id='extraName'></span>");
         lo.insertAdjacentHTML('beforeEnd', "<br/>");
@@ -547,6 +556,19 @@ flickrPage.hideLinkOpts = function( evt ){
     }
     flickrPage.linkOpts.style.height = 0;
     flickrPage.linkOpts.style.borderColor = 'transparent';
+}
+
+flickrPage.doBBCode = function(){
+    var txt = document.getElementById('patrLinkText').innerHTML;
+    var bb = '';
+    bb = txt.replace(/&lt;a href='/,'[url=');
+    bb = bb.replace(/' title.*?&gt;/,']');
+    bb = bb.replace(/&lt;img src='/,'[img]');
+    bb = bb.replace(/' alt.*/,'[/img][/url]');
+    bb = bb.replace(/&lt;a href='/,'[url=');
+    bb = bb.replace(/'&gt;/,']');
+    bb = bb.replace(/&lt;\/a&gt;/,'[/url]');
+    document.getElementById('patrLinkText').innerHTML = bb;
 }
 
 function preFlic(){
