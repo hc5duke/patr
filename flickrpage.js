@@ -71,9 +71,9 @@ flickrPage.isArchives = ( location.href.search(/\/photos\/.*\/archives\/$/) == -
 var _startPage = setInterval( function(){
         if( /loaded|complete/.test(document.readyState) ){
             clearInterval( _startPage );
-            // replacing badges & images
-			var pro = document.querySelectorAll('img[src$="badge_pro.gif.v2"]');
-            for(i = 0; i < pro.length; i++){ pro[i].src = chrome.extension.getURL('images/badge_pro.gif.v2'); }
+            // REPLACING PRO BADGES AND IMAGES
+			//var pro = document.querySelectorAll('img[src$="badge_pro.gif.v2"]');
+            //for(i = 0; i < pro.length; i++){ pro[i].src = chrome.extension.getURL('images/badge_pro.gif.v2'); }
 
             flickrPage.isPhotoPage = document.querySelector("link[rel='canonical']") ? true : false ;
             chrome.extension.sendRequest( {type:"localStorage", 
@@ -112,7 +112,6 @@ var _startPage = setInterval( function(){
                     doDiscuss();
                     */
                     if( response.moveInfo == 'true' && flickrPage.isPhotoPage ){ flickrPage.moveInfo(); }
-                    if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
                     if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
                     if( response.showASL == 'true' ){ flickrPage.showASL = true; }
                     if( response.showAS == 'true' ){ flickrPage.showAS = true; }
@@ -184,7 +183,7 @@ console.log(" doFlickrPage()");
         // Below breaks the new UI context menu and lightbox
         //if( flickrPage.dragproxy ) flickrPage.dragproxy.style.visibility = 'hidden';
 
-        // Getting EXIF data
+        // DEAL WITH EXIF DATA
         if( flickrPage.showEXIF ){
             console.log("flickrPage.showEXIF");
             chrome.extension.sendRequest( { type: 'cAPI', 
@@ -236,7 +235,7 @@ console.log(" doFlickrPage()");
                             var camLink = document.querySelector("a[data-ywa-name^='Camera,']");
                             var pss = document.getElementById('photo-story-story');
 
-                            camLink.insertAdjacentHTML('afterEnd', "<a href='#' onclick=\"var d = document.getElementById('patrEXIF'); if( d.style.height=='0px' ){ d.style.height = d.getAttribute('oh'); }else{ d.style.height = '0px';}\"><sup style='font-size: 0.7em; vertical-align: super;'>[EXIF]</sup></a>");
+                            camLink.insertAdjacentHTML('afterEnd', "&nbsp;<a href='#' onclick=\"var d = document.getElementById('patrEXIF'); if( d.style.height=='0px' ){ d.style.height = d.getAttribute('oh'); }else{ d.style.height = '0px';}\"><sup style='font-size: 0.7em; vertical-align: super;'>[EXIF]</sup></a>");
 
                             exifBox.appendChild( newul );
                             exifBox.style.webkitTransition = 'height 0.5s ease-in-out';
@@ -448,10 +447,12 @@ console.log("preSizes2");
         lo.insertAdjacentHTML('beforeEnd', "<span id='extraName'></span>");
         lo.insertAdjacentHTML('beforeEnd', "<br/>");
         lo.appendChild( linkExtra );
-        lo.style.marginTop = '-1px';
 
+        document.getElementById('photo-story-attribution').insertAdjacentElement('afterEnd', lo );
+        lo.setAttribute('oh', lo.offsetHeight +'px');
+        lo.style.height = '0px';
+        //d.appendChild( lo );
         //document.getElementById('photo-story-attribution').appendChild( lo );
-        d.appendChild( lo );
         //document.querySelector("div.Widget").appendChild( lo );
         ////document.querySelector("div.Widget").setAttribute('onmouseout', "if(evt.relatedTarget.id == 'photoswftd' || evt.relatedTarget.className == 'RHS' || evt.relatedTarget.id == 'Main'){ document.getElementById('linkOpts').style.opacity=0; document.getElementById('linkOpts').style.visibility='hidden';}");
         //document.querySelector("div.Widget").addEventListener('mouseout', flickrPage.hideLinkOpts);
@@ -525,8 +526,8 @@ flickrPage.showLinkOpts = function( evt ){
     link += "<img src='"+ evt.target.href +"' alt='"+ title +"'/></a>\r";
     flickrPage.linkText.childNodes[0].nodeValue = link;
     document.getElementById('linkSizeName').innerText = evt.target.getAttribute('size');
-    flickrPage.linkOpts.style.zIndex = '5000';
-    flickrPage.linkOpts.style.opacity = '1'; 
+    flickrPage.linkOpts.style.border = 'solid 1px #CCC';
+    flickrPage.linkOpts.style.height = flickrPage.linkOpts.getAttribute('oh');
 }
 
 flickrPage.hideLinkOpts = function( evt ){
@@ -534,8 +535,9 @@ flickrPage.hideLinkOpts = function( evt ){
     console.log('rel.className: ' + rel.className );
     //if( rel.className && rel.className == 'clearfix' ){ return; }
     if( rel.className == 'clearfix' ){
-        flickrPage.linkOpts.style.opacity = 0;
-        //setTimeout("flickrPage.linkOpts.style.zIndex = -1", 250);
+        flickrPage.linkOpts.style.height = '0px';
+        //flickrPage.linkOpts.style.border = 'solid 1px #FFF';
+        flickrPage.linkOpts.style.borderColor = 'transparent';
         return;
     }
     if( evt.target.nodeName != 'DIV') return;
@@ -543,8 +545,8 @@ flickrPage.hideLinkOpts = function( evt ){
         rel = rel.parentNode
         if( rel == evt.target ) return;
     }
-    flickrPage.linkOpts.style.opacity = 0;
-    setTimeout("flickrPage.linkOpts.style.zIndex = -1", 250);
+    flickrPage.linkOpts.style.height = 0;
+    flickrPage.linkOpts.style.borderColor = 'transparent';
 }
 
 function preFlic(){
@@ -727,7 +729,6 @@ flickrPage.moveInfo = function(){
         sb.insertBefore( newAI, sb.firstChild );
     }
 }
-
 
 flickrPage.niceStats = function(){
     //Let's put some fancy stats on the stats pages...
