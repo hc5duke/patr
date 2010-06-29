@@ -90,8 +90,8 @@ var _startPage = setInterval( function(){
                                                   'ASLdefaultText' ] },
                 function( response ){
                 /* OLD CALLS THAT HAVE TO BE FIXED FOR NEW PAGES!
-                    if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage || flickrPage.isPhotosOf) ){ doBigPool(); }
-                    if( response.moveInfo == 'true' && flickrPage.isPhotoPage ){ flickrPage.moveInfo(); }
+                    //if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage || flickrPage.isPhotosOf) ){ doBigPool(); }
+                    //if( response.moveInfo == 'true' && flickrPage.isPhotoPage ){ flickrPage.moveInfo(); }
                     if( response.nLogo == 'true'){
                         var logo = document.getElementById('FlickrLogo');
                         logo.src = chrome.extension.getURL('images/flickr-yahoo-logo.png.v2');
@@ -102,11 +102,11 @@ var _startPage = setInterval( function(){
                     if( response.addRef == 'true' && flickrPage.isPhotoPage ){ 
                         flickrPage.doReferrer();
                     }
-                    if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
-                    if( response.showASL == 'true' ){ flickrPage.showASL = true; }
-                    if( response.showAS == 'true' ){ flickrPage.showAS = true; }
-                    flickrPage.ASLdefault = response.ASLdefault; 
-                    flickrPage.ASLdefaultText = response.ASLdefaultText; 
+                    //if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
+                    //if( response.showASL == 'true' ){ flickrPage.showASL = true; }
+                    //if( response.showAS == 'true' ){ flickrPage.showAS = true; }
+                    //flickrPage.ASLdefault = response.ASLdefault; 
+                    //flickrPage.ASLdefaultText = response.ASLdefaultText; 
 
                     doFlickrPage();
                     doDiscuss();
@@ -120,6 +120,7 @@ var _startPage = setInterval( function(){
                     flickrPage.ASLdefaultText = response.ASLdefaultText; 
 
                     doFlickrPage();
+                    doDiscuss();
                 } );
         }
 }, 10 );
