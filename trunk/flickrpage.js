@@ -111,6 +111,7 @@ var _startPage = setInterval( function(){
                     doFlickrPage();
                     doDiscuss();
                     */
+                    if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage || flickrPage.isPhotosOf) ){ doBigPool(); }
                     if( response.moveInfo == 'true' && flickrPage.isPhotoPage ){ flickrPage.moveInfo(); }
                     if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
                     if( response.showASL == 'true' ){ flickrPage.showASL = true; }
