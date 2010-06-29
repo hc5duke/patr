@@ -40,7 +40,7 @@ function doDiscuss(){
                 addReplies( type , response.iconSmallSize);
             });
         
-        /*
+        /* OLD STUFF - PROBABLY DELETE THIS LATER
         var qDiv = document.createElement('div');
         qDiv.style.visibility = 'hidden';
         qDiv.style.padding = '5px';
@@ -198,7 +198,7 @@ function doDiscuss(){
                     rNameB.onmousedown = pasteLink;
 					rBoth.onmousedown = pasteLink;
 
-                    /*
+                    /* MORE OLD STUFF
                     function pasteLink(){
                         var start = txt.selectionStart;
                         var end = txt.selectionEnd;
