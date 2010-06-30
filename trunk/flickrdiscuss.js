@@ -23,7 +23,7 @@
 // flickrDiscuss contains functions for dealing with discussion page parameters
 
 function doDiscuss(){
-
+    console.log('doDiscuss()');
     var discuss = (document.getElementsByName('message').length > 0 ); 
     var txt = document.querySelector("textarea[name='message']");
     if( !discuss ){ 

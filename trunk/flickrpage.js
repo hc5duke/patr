@@ -340,6 +340,7 @@ console.log(" doFlickrPage()");
         }
 
         // MOVE COMMENT INPUT TO TOP OF COMMENT LIST
+            cb = document.getElementsByClassName('comment-block add-comment-form adding-comment')[0];
             if( cb ){
                 cb.style.marginBottom = '10px';
 
