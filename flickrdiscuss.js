@@ -106,6 +106,7 @@ function doDiscuss(){
 
             var peeps = document.querySelectorAll("td.Said > h4 > a[href^='/photos/']");
             peeps = peeps.length != 0 ? peeps : document.querySelectorAll('h4[data-ywa-name^="Commenter"] > a[href^="/photos/"]');
+            console.log( peeps );
 
             for( var key in peeps ){
                 if( parseInt(key+1) ){

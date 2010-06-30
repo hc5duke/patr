@@ -49,6 +49,9 @@
                 }else if( key == 'showEXIF' ){
                     console.log("loading, showEXIF: " + localStorage[key] +" "+ key);
                     document.getElementById( key ).checked = localStorage[key] == 'true' ? true: false;
+                }else if( key == 'getEXIF' ){
+                    console.log("loading, getEXIF: " + localStorage[key] +" "+ key);
+                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true: false;
                 }else if( key == 'showAS' ){
                     console.log("loading, showAS: "+ localStorage[key] +" "+ key);
                     document.getElementById( key ).checked = localStorage[key] == 'true' ? true: false;
@@ -63,6 +66,9 @@
                 }else if( key == 'ASLdefaultText' ){
                     console.log("loading, ASLdefaultText: "+ localStorage[key] +" "+ key);
                     document.getElementById( key ).value = localStorage[key];
+                }else if( key == 'moveComment' ){
+                    console.log("loading, moveComment: " + localStorage[key] +" "+ key);
+                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true: false;
                 }
 			}
         }
@@ -319,19 +325,36 @@
     <br />
 	<div style='font-size: 1.4em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>EXIF Data</div>
     	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
+	<input onclick="this.checked = !this.checked;" type='checkbox' name='getEXIF' id='getEXIF' value='getEXIF' />
+	Get EXIF Data</div>
+	<div style='width: 100%; font-size: 0.75em; margin-top: 0.5em;'>
+        Turn on/off the retrieval of EXIF data on the photo page.
+	</div>
+    <div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
 	<input onclick="this.checked = !this.checked;" type='checkbox' name='showEXIF' id='showEXIF' value='showEXIF' />
-	Show EXIF Data</div>
+	Show EXIF Data By Default</div>
 	<div style='width: 100%; font-size: 0.75em; margin-top: 0.5em;'>
         Turn on/off the showing of EXIF data on the photo page
-        under "Additional Information".
+        by default.
+	</div>
+
+    
+
+    <!-- ### Move Comment Box Option -->
+    <br />
+	<div style='font-size: 1.4em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Move Comment Box</div>
+    	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
+	<input onclick="this.checked = !this.checked;" type='checkbox' name='moveComment' id='moveComment' value='moveComment' />
+	Move Comment Box Up</div>
+	<div style='width: 100%; font-size: 0.75em; margin-top: 0.5em;'>
+        Move comment boxes on photo pages to the top of the comments.
 	</div>
 
     <br />
-
+    
     <div style='margin-bottom: 100px;'>&nbsp;</div>
     </span>
     <div id='preview' style='visibility: hidden;'></div>
-
 
 </body>
 </html>

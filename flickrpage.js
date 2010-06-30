@@ -84,10 +84,12 @@ var _startPage = setInterval( function(){
                                                   'nLogo', 
                                                   'addRef', 
                                                   'showEXIF',
+                                                  'getEXIF',
                                                   'showAS',
                                                   'showASL',
                                                   'ASLdefault',
-                                                  'ASLdefaultText' ] },
+                                                  'ASLdefaultText',
+                                                  'moveComment' ] },
                 function( response ){
                 /* OLD CALLS THAT HAVE TO BE FIXED FOR NEW PAGES!
                     //if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage || flickrPage.isPhotosOf) ){ doBigPool(); }
@@ -114,8 +116,11 @@ var _startPage = setInterval( function(){
                     if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage || flickrPage.isPhotosOf) ){ doBigPool(); }
                     if( response.moveInfo == 'true' && flickrPage.isPhotoPage ){ flickrPage.moveInfo(); }
                     if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
+                    if( response.getEXIF == 'true' ){ flickrPage.getEXIF = true; }
                     if( response.showASL == 'true' ){ flickrPage.showASL = true; }
                     if( response.showAS == 'true' ){ flickrPage.showAS = true; }
+                    if( response.moveComment == 'true'){ flickrPage.moveCommentBox = true; }
+
                     flickrPage.ASLdefault = response.ASLdefault; 
                     flickrPage.ASLdefaultText = response.ASLdefaultText; 
 
@@ -186,8 +191,8 @@ console.log(" doFlickrPage()");
         //if( flickrPage.dragproxy ) flickrPage.dragproxy.style.visibility = 'hidden';
 
         // DEAL WITH EXIF DATA
-        if( flickrPage.showEXIF ){
-            console.log("flickrPage.showEXIF");
+        if( flickrPage.getEXIF ){
+            console.log("flickrPage.getEXIF");
             chrome.extension.sendRequest( { type: 'cAPI', 
                                             fn: 'photos.getExif', 
                                             params: { 
@@ -240,11 +245,15 @@ console.log(" doFlickrPage()");
                             camLink.insertAdjacentHTML('afterEnd', "&nbsp;<a href='#' onclick=\"var d = document.getElementById('patrEXIF'); if( d.style.height=='0px' ){ d.style.height = d.getAttribute('oh'); }else{ d.style.height = '0px';}\"><sup style='font-size: 0.7em; vertical-align: super;'>[EXIF]</sup></a>");
 
                             exifBox.appendChild( newul );
-                            exifBox.style.webkitTransition = 'height 0.5s ease-in-out';
+                            exifBox.style.webkitTransition = 'height 300ms ease-in-out';
                             exifBox.style.overflow = 'hidden';
                             pss.insertAdjacentElement('afterEnd', exifBox);
                             exifBox.setAttribute('oh', exifBox.offsetHeight +'px');
-                            exifBox.style.height = '0px';
+                            if( flickrPage.showEXIF == true ){
+                                exifBox.style.height = exifBox.offsetHeight + 'px';
+                            }else{
+                                exifBox.style.height = '0px';
+                            }
 
                         }else{
                             console.log("Cannot get EXIF data...");
@@ -310,6 +319,13 @@ console.log(" doFlickrPage()");
                 document.querySelector('#DiscussPhoto > h3:first-of-type').insertAdjacentHTML('beforeEnd', " <img src='"+ chrome.extension.getURL('images/icon_comment.gif') +"'/>" );
                 return;
             }
+        }
+
+        if( flickrPage.moveCommentBox == true ){
+            var cb = document.getElementsByClassName('comment-block add-comment-form adding-comment')[0];
+            cb.style.marginBottom = '10px';
+            var commentsAndFaves = document.querySelector('div#comments > h3');
+            commentsAndFaves.insertAdjacentElement('afterEnd', cb.parentNode.removeChild( cb ) );
         }
 // ##### END OF isPhotoPage SECTION ####
 
