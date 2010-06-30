@@ -76,6 +76,7 @@ var _startPage = setInterval( function(){
             //for(i = 0; i < pro.length; i++){ pro[i].src = chrome.extension.getURL('images/badge_pro.gif.v2'); }
 
             flickrPage.isPhotoPage = document.querySelector("link[rel='canonical']") ? true : false ;
+            console.log('flickrPage.isPhotoPage =='+ flickrPage.isPhotoPage);
             chrome.extension.sendRequest( {type:"localStorage", 
                                            param:['ecShadow',
                                                   'ecRound', 
@@ -148,21 +149,38 @@ console.log(" doFlickrPage()");
         */
         console.log("retrieveing auth keys and hash to make api calls");
         var ftxt = document.querySelector("body > script:last-of-type").innerText;
-        console.log("Got ftxt!");
-        ftxt.match(/api_key: '([A-Za-z0-9]+)'/);
-        flickrPage.api_key = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
-        ftxt.match(/auth_hash: '([A-Za-z0-9]+)'/);
-        flickrPage.auth_hash = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
-        ftxt.match(/nsid: '(.*)'/g);
-        flickrPage.user_id = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
-        ftxt.match(/photos_url: '(.*)'/g);
-        flickrPage.photos_url = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
-        console.log("api_key: " + flickrPage.api_key + "\nauth_hash: " + flickrPage.auth_hash );
-        console.log("photos_url: " + flickrPage.photos_url + "\nnsid: " + flickrPage.user_id );
+        if( ftxt.match(/function/) !== null ){
+            console.log("Got ftxt!");
+            ftxt.match(/api_key: '([A-Za-z0-9]+)'/);
+            flickrPage.api_key = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
+            ftxt.match(/auth_hash: '([A-Za-z0-9]+)'/);
+            flickrPage.auth_hash = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
+            ftxt.match(/nsid: '(.*)'/g);
+            flickrPage.user_id = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
+            ftxt.match(/photos_url: '(.*)'/g);
+            flickrPage.photos_url = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
+            console.log("api_key: " + flickrPage.api_key + "\nauth_hash: " + flickrPage.auth_hash );
+            console.log("photos_url: " + flickrPage.photos_url + "\nnsid: " + flickrPage.user_id );
+        }else{
+            console.log("getting ftxt (the old way)");
+            var ftxt = document.head.querySelector("script[type='text/javascript']").innerHTML; 
+            console.log('Got ftxt!');
+            ftxt.match(/global_magisterLudi = '([A-Za-z0-9]+)'/);
+            flickrPage.api_key = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
+            ftxt.match(/auth_hash = '([A-Za-z0-9]+)'/);
+            flickrPage.auth_hash = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
+            ftxt.match(/global_nsid = '([A-Za-z0-9@]+)'/);
+            flickrPage.user_id = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
+            ftxt.match(/photos_url = '([A-Za-z0-9\/]+)'/);
+            flickrPage.photos_url = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
+            console.log("api_key: " + flickrPage.api_key + "\nauth_hash: " + flickrPage.auth_hash );
+            console.log("photos_url: " + flickrPage.photos_url + "\nnsid: " + flickrPage.user_id );
+        }
         var cookie = document.cookie;
 
+        console.log('flickrPage.isArchives:'+ flickrPage.isArchives +'\nlocation.href='+location.href+'\nflickrPage.photos_url='+flickrPage.photos_url);
     if( flickrPage.isPhotoPage ){
-    console.log("flickrPage.isPhotoPage");
+    console.log("=== flickrPage.isPhotoPage ===");
 
         // FILL OUT SOME DATA FROM THE PAGE IF WE HAVE IT (URL/SPACEBALL/FLIC/ICBM/PHOTOID/ETC)
         flickrPage.photoID = document.location.href.split("/")[5] ;
@@ -321,12 +339,16 @@ console.log(" doFlickrPage()");
             }
         }
 
-        if( flickrPage.moveCommentBox == true ){
-            var cb = document.getElementsByClassName('comment-block add-comment-form adding-comment')[0];
-            cb.style.marginBottom = '10px';
-            var commentsAndFaves = document.querySelector('div#comments > h3');
-            commentsAndFaves.insertAdjacentElement('afterEnd', cb.parentNode.removeChild( cb ) );
-        }
+        // MOVE COMMENT INPUT TO TOP OF COMMENT LIST
+            if( cb ){
+                cb.style.marginBottom = '10px';
+
+                var commentsAndFaves = document.querySelector('div#comments > h3');
+                commentsAndFaves.insertAdjacentElement('afterEnd', cb.parentNode.removeChild( cb ) );
+            }else{
+                console.log('ERROR getting comment-block to move!');
+            }
+
 // ##### END OF isPhotoPage SECTION ####
 
     }else if( flickrPage.isStatsPage ){
@@ -1044,6 +1066,7 @@ flickrPage.allLikeThis = function( e ){
 }
 
 flickrPage.doArchives = function(){
+    console.log('flickrPage.doArchives');
     var aList = new Array();
     flickrPage.doArchives.txt = '';
     flickrPage.doArchives.csv = '';
