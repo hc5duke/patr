@@ -106,7 +106,10 @@ function doDiscuss(){
 
             var peeps = document.querySelectorAll("td.Said > h4 > a[href^='/photos/']");
             peeps = peeps.length != 0 ? peeps : document.querySelectorAll('h4[data-ywa-name^="Commenter"] > a[href^="/photos/"]');
-            console.log( peeps );
+            if( peeps.length == 0 ){
+                peeps = document.querySelectorAll("span.comment-owner > a[href^='/photos/']");
+            }
+            //console.log( peeps );
 
             for( var key in peeps ){
                 if( parseInt(key+1) ){
@@ -125,9 +128,14 @@ function doDiscuss(){
                     rNameB.innerHTML = '<small> [b]</small>';
 					rBoth.innerHTML = '<small>both</small>';
                     rImage.link = '['+ peeps[key].href +']'; 
-                    rImageSmall.link = "<img src='"
-                            + peeps[key].parentNode.parentNode.previousElementSibling.querySelector("img").src
-                            + "' width='" + sSize + "' height='" + sSize + "'>";
+                    rImageSmall.link = "<img src='";
+                    if( flickrPage.isPhotoPage ){
+                        rImageSmall.link += peeps[key].parentNode.parentNode.parentNode.previousElementSibling.querySelector('img').src;
+                    }else{
+                        rImageSmall.link += peeps[key].parentNode.parentNode.previousElementSibling.querySelector("img").src;
+                    }
+                     rImageSmall.link +=  "' width='" + sSize + "' height='" + sSize + "'>";
+                     //console.log( rImageSmall.link );
                     rName.link = peeps[key].innerHTML;
                     rNameB.link = "<b>"+ rName.link +"</b>";
 					rBoth.link = '['+ peeps[key].href +'] <b>'+ peeps[key].innerHTML +'</b> ';
@@ -143,7 +151,7 @@ function doDiscuss(){
                     p.setAttribute('icon_src', peeps[key].parentNode.parentNode.previousElementSibling.querySelector('img').src );
                     */
 
-                    if( type == 'under' ){
+                    if( type == 'under' && !flickrPage.isPhotoPage ){
 
                         respond.appendChild( r );
                         respond.appendChild( rName );
@@ -163,7 +171,7 @@ function doDiscuss(){
                         peeps[key].parentNode.onmouseover = function () { this.querySelector("div").style.webkitTransform = 'scaleY(1)'; }
                         peeps[key].parentNode.onmouseout = function () { this.querySelector("div").style.webkitTransform = 'scaleY(0)'; }
 
-                    }else if( type == 'foot' ){
+                    }else if( type == 'foot' && !flickrPage.isPhotoPage ){
                         
                         var p = peeps[key].parentNode.parentNode.querySelector("small");
 
@@ -191,6 +199,8 @@ function doDiscuss(){
 						res.appendChild( rBoth );
 
                         p.insertBefore( res, last );
+
+                    }else if( flickrPage.isPhotoPage ){ // Put buddy reply options in new location for photo pages
                     }
 
                     rImage.onmousedown = pasteLink;
@@ -210,14 +220,30 @@ function doDiscuss(){
                     }
                     */
 
-                    var said = peeps[key].parentNode.parentNode;
-                    said.addEventListener('mouseup', doQuote);
-                    said.setAttribute('icon_src', peeps[key].parentNode.parentNode.previousElementSibling.querySelector('img').src );
-                    said.setAttribute('user_link', peeps[key].href );
-                    said.setAttribute('who', peeps[key].innerHTML );
-                    var ca = peeps[key].parentNode.parentNode.previousElementSibling.querySelector('a[name^="comment"]');
-                    var commentLink = (ca) ? ca.name : null;
-                    said.setAttribute('commentLink', commentLink);
+                    if( flickrPage.isPhotoPage ){
+                        var said = peeps[key].parentNode.parentNode.parentNode;
+                        //console.log( 'said: '+said );
+                        said.addEventListener('mouseup', doQuote);
+                        said.setAttribute('icon_src', peeps[key].parentNode.parentNode.parentNode.previousElementSibling.querySelector('img').src );
+                        said.setAttribute('user_link', peeps[key].href );
+                        said.setAttribute('who', peeps[key].innerHTML );
+                        var ca = peeps[key].parentNode.parentNode.parentNode.previousElementSibling.querySelector('a[name^="comment"]');
+                        var commentLink = (ca) ? ca.name : null;
+                        //console.log('commentLink: '+ commentLink );
+                        said.setAttribute('commentLink', commentLink);
+                        qDiv.style.marginTop = '10px';
+                    }else{
+                        var said = peeps[key].parentNode.parentNode;
+                        //console.log( 'said: '+said);
+                        said.addEventListener('mouseup', doQuote);
+                        said.setAttribute('icon_src', peeps[key].parentNode.parentNode.previousElementSibling.querySelector('img').src );
+                        said.setAttribute('user_link', peeps[key].href );
+                        said.setAttribute('who', peeps[key].innerHTML );
+                        var ca = peeps[key].parentNode.parentNode.previousElementSibling.querySelector('a[name^="comment"]');
+                        var commentLink = (ca) ? ca.name : null;
+                        //console.log('commentLink: '+ commentLink );
+                        said.setAttribute('commentLink', commentLink);
+                    }
                     
                 }
             }
