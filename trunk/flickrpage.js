@@ -1012,7 +1012,7 @@ flickrPage.showUpOpts = function( e ){
     }
 }
 
-function doZ( e ){ 
+function doZ( e ){
     e.currentTarget.style.zIndex = e.currentTarget.style.top == '-90px' ? -1 : 0;
 }   
 
