@@ -633,14 +633,18 @@ function preFlic(){
         flink.appendChild( document.createTextNode( shortURL ) );
 
         ul.insertBefore( li, document.querySelector("ul > li[style*='margin-bottom']") );
-        */
+        //
+
         p = document.querySelector("p#make-short-url");
+        console.log('PreFlic -- Removeing Child...');
         p.parentNode.removeChild( p );
+        console.log('PreFlic -- Removed!'); 
         var t = document.createElement('input');
         t.setAttribute('type', 'text');
         t.setAttribute('value', shortURL );
         t.setAttribute('style', 'display: block; border: 1px solid #d7d7d7; padding: 4px; margin-top: 2px;');
         document.getElementById('pre-gp-link').appendChild( t );
+        */
 }
 
 function flic_kr(photoID){
