@@ -81,30 +81,6 @@ multiGroup.start = function(){
 
 multiGroup.doList = function(){
     // This was the old way, non-sorted by column, but it works fine
-    /*
-    for( var key in multiGroup.groups ){
-        console.log( key +': '+multiGroup.groups[key].name );
-        if( (1 - key%2) ){
-            var tr = document.createElement('tr');
-        }
-        var td = document.createElement('td');
-        td.innerText = multiGroup.groups[key].name;
-        td.id = multiGroup.groups[key].id;
-        if( multiGroup.groups[key].id in multiGroup.inGroup ){ // IF already in group
-            td.addEventListener('click', multiGroup.Remove, false);
-            td.className = 'mg-ingroup';
-        }else{
-            td.addEventListener('click', multiGroup.Add, false);
-            td.style.cursor = 'pointer';
-            td.className = 'mg-group';
-        }
-        td.innerHTML += '<br><small id="msg-'+ multiGroup.groups[key].id +'" style="display: none;" class="mg-msg"></small>';
-        tr.appendChild( td );
-        if( !(1 - key%2) ){
-            multiGroup.mgTable.appendChild( tr );
-        }
-    }
-    */
     var mgg = multiGroup.groups;
     var half = Math.ceil( mgg.length/2 );
     for( var i = 0; i < half; i++ ){
@@ -247,12 +223,6 @@ multiGroup.Remove = function( el ) {
                         
                         theseBalls.style.display = 'none';
                         msg.innerHTML = 'Removed!';
-                        /*
-                        msg.style.opacity = '100';
-                        msg.style.webkitTransition = 'opacity 1.5s';
-                        msg.style.opacity = '0';
-                        setTimeout( noDisplay, 1500, msg);
-                        */
                         el.target.className = 'mg-group';
                         
                         el.target.addEventListener('click', multiGroup.Add, false);

@@ -31,7 +31,6 @@ function doDiscuss(){
         txt = document.querySelector("textarea[name='body']");
     }
 
-
     if( discuss && txt ){
         
         chrome.extension.sendRequest( {type:"localStorage", param:['briFooter', 'briUnder', 'iconSmallSize'] },
@@ -40,35 +39,7 @@ function doDiscuss(){
                 addReplies( type , response.iconSmallSize);
             });
         
-        /* OLD STUFF - PROBABLY DELETE THIS LATER
-        var qDiv = document.createElement('div');
-        qDiv.style.visibility = 'hidden';
-        qDiv.style.padding = '5px';
-        qDiv.style.backgroundColor = '#888';
-        qDiv.id = 'qDiv';
-        var an = document.createElement('span');
-        var ani = document.createElement('a');
-        var quote = document.createElement('span');
-        var or = document.createElement('span');
-        or.setAttribute('name', 'qDivEl');
-        or.innerText = ' OR ';
-        var said = document.createElement('span');
-        said.setAttribute('name', 'qDivEl');
-        said.innerHTML = '<b> said:</b>';
-        an.className = ani.className = 'Plain';
-        an.id = 'qName';
-        ani.id = 'qBoth';
-        an.href = ani.href = 'javascript:;';
-        an.innerHTML = '<span id="qNameText">LV426</span> <b>said:</b>';
-        ani.innerHTML = 'LV426';
-        qDiv.name = an.name = ani.name = 'qDivEl';
-        qDiv.appendChild( an );
-        qDiv.appendChild( or );
-        qDiv.appendChild( ani );
-        qDiv.appendChild( said );
-        qDiv.appendChild( document.createElement('br') );
-        qDiv.appendChild( quote );
-        */
+
         var qDiv = document.createElement('div');
         qDiv.id = 'qDiv';
 
@@ -102,15 +73,16 @@ function doDiscuss(){
         qDiv.insertAdjacentHTML('beforeEnd', '<br/>');
         qDiv.appendChild( quote );
 
+
         function addReplies( type , sSize ){
 
             var peeps = document.querySelectorAll("td.Said > h4 > a[href^='/photos/']");
-            console.log('peeps.length = ' + peeps.length);
+            //console.log('peeps.length = ' + peeps.length);
             peeps = peeps.length != 0 ? peeps : document.querySelectorAll('h4[data-ywa-name^="Commenter"] > a[href^="/photos/"]');
             if( peeps.length == 0 ){
                 peeps = document.querySelectorAll("span.comment-owner a[href^='/photos/']");
             }
-            console.log("===PEEPS===\n"+peeps );
+            //console.log("===PEEPS===\n"+peeps );
 
             for( var key in peeps ){
                 if( parseInt(key+1) ){
@@ -146,11 +118,6 @@ function doDiscuss(){
                     rNameB.href = 'javascript:;';
 					rBoth.href = 'javascript:;';
 
-                    // Trying something for Quotr
-                    /*
-                    var p = peeps[key].parentNode.parentNode.getElementsByTagName('p')[0];
-                    p.setAttribute('icon_src', peeps[key].parentNode.parentNode.previousElementSibling.querySelector('img').src );
-                    */
 
                     if( type == 'under' && !flickrPage.isPhotoPage ){
 
@@ -201,6 +168,7 @@ function doDiscuss(){
 
                         p.insertBefore( res, last );
 
+
                     }else if( flickrPage.isPhotoPage ){ // Put buddy reply options in new location for photo pages
                     }
 
@@ -210,16 +178,6 @@ function doDiscuss(){
                     rNameB.onmousedown = pasteLink;
 					rBoth.onmousedown = pasteLink;
 
-                    /* MORE OLD STUFF
-                    function pasteLink(){
-                        var start = txt.selectionStart;
-                        var end = txt.selectionEnd;
-                        txt.value = txt.value.substring(0, start)
-                            + this.link
-                            + txt.value.substring(end, txt.value.length);
-                        return false;
-                    }
-                    */
 
                     if( flickrPage.isPhotoPage ){
                         var said = peeps[key].parentNode.parentNode.parentNode.parentNode;
@@ -298,5 +256,7 @@ function doDiscuss(){
                 }
                 
             }
+
     }
+
 }

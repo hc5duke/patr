@@ -1,4 +1,6 @@
 // Handle keypress events
+/*
+
 function handleKey(e){
 	// charCode 108 = l
 	// charCode  76 = L
@@ -10,4 +12,6 @@ function handleKey(e){
 	}
 }
 
-document.addEventListener('keypress', handleKey, false);
+//document.addEventListener('keypress', handleKey, false);
+
+*/
