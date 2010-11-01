@@ -719,7 +719,9 @@ function doBigPool(){
 		img.width = img.height = null;
 		img.style.width = img.style.height = 'auto';
 		var p = img.parentNode.parentNode.parentNode;
-		p.style.width = p.style.height = 240;
+		//p.style.width = p.style.height = 240;
+		p.style.width = '240px';
+		p.style.height = '240px';
         p.style.marginBottom = '2em';
 	}
 }
