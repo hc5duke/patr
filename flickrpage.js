@@ -118,9 +118,9 @@ console.log(" doFlickrPage()");
 
         //var ftxt = document.querySelector("body > script:last-of-type").innerText;
         var newScript = document.querySelectorAll("body > script");
-        console.log( newScript[newScript.length - 1] );
+        //console.log( newScript[newScript.length - 1] );
         var ftxt = newScript[newScript.length - 1].innerText;
-        console.log( ftxt );
+        //console.log( ftxt );
         if( ftxt.match(/function/) !== null ){
             console.log("Got ftxt! (The New Way)");
             ftxt.match(/api_key: '([A-Za-z0-9]+)'/);
@@ -720,9 +720,12 @@ function doBigPool(){
 		img.style.width = img.style.height = 'auto';
 		var p = img.parentNode.parentNode.parentNode;
 		//p.style.width = p.style.height = 240;
+		if( p.parentNode.className == 'upload' ){
+			p = p.parentNode;
+		}
 		p.style.width = '240px';
 		p.style.height = '240px';
-        p.style.marginBottom = '2em';
+        	p.style.marginBottom = '2em';
 	}
 }
 
