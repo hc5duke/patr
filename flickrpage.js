@@ -712,9 +712,11 @@ function doOrig( url ){
 }
 
 function doBigPool(){
+	console.log('doBigPool()...');
 	var imgs = document.querySelectorAll("img.pc_img");
 	for( var key = 0; key < imgs.length; key++ ){
 		var img = imgs[key];
+		/*
 		img.src = img.src.replace('_t','_m');
 		img.width = img.height = null;
 		img.style.width = img.style.height = 'auto';
@@ -726,6 +728,51 @@ function doBigPool(){
 		p.style.width = '240px';
 		p.style.height = '240px';
         	p.style.marginBottom = '2em';
+		*/
+		// NEW STUFF
+		img.src = img.src.replace('_t','');
+		img.parentNode.name = img.parentNode.title;
+		var p = img.parentNode.parentNode.parentNode;
+		p.style.width = '250px';
+		p.style.height = '250px';
+		p.style.marginRight = '5px';
+		p.style.marginBottom = '5px';
+		p.style.overflow = 'hidden';
+		//p.onmouseover = function() { this.style.overflow = 'visible'; };
+		//p.onmouseout = function() { this.style.overflow = 'hidden'; };
+		if( img.width >= img.height ){
+			var ratio = img.height * 5 / 250;
+			img.ratio = ratio;
+			console.log( img.ratio );
+			console.log(img.width +' '+ img.height +' '+ img.height * 5 / 250);
+			img.height = 250;
+			img.width = img.width * 5 / ratio;
+			img.style.marginLeft = -(img.width - 250) / 2 + 'px';
+		}else{
+			var ratio = img.width * 5 / 250;
+			img.ratio = ratio;
+			img.width = 250;
+			img.height = img.height * 5 / ratio;
+			img.style.marginTop = -(img.height - 250) / 2 + 'px';
+		}
+
+		img.onmouseover = function() { this.parentNode.parentNode.parentNode.style.overflow = 'visible'; this.style.zIndex = 2; this.style.position = 'relative'; this.parentNode.title = ''; this.style.boxShadow = '0 0 35px 35px rgba(0,0,0,1)'; this.style.border = 'solid 1px gray;' };
+		img.onmouseout = function() { this.parentNode.parentNode.parentNode.style.overflow = 'hidden'; this.style.zIndex = 0; this.style.position = 'none'; this.parentNode.title = this.parentNode.name; };
+
+		var dsc = document.createElement('div');
+		dsc.innerHTML = "<span style='font-weight: bold; font-size: 1.2em;color:white;'>" + img.alt.split(' by',1)[0] + '</span><br/>';
+		dsc.appendChild( p.children[ p.childElementCount - 1 ] );
+		dsc.style.position = 'absolute';
+		dsc.style.top = '200px';
+		dsc.style.height = '45px';
+		dsc.style.left = '0px';
+		dsc.style.width = '240px';
+		dsc.style.textAlign = 'left';
+		dsc.style.paddingTop = '5px';
+		dsc.style.paddingLeft = '10px';
+		dsc.style.background = 'rgba(128,128,128,0.75)';
+		dsc.style.lineHeight = 'normal';
+		img.parentNode.parentNode.appendChild( dsc );
 	}
 }
 
