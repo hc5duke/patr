@@ -714,6 +714,10 @@ function doOrig( url ){
 function doBigPool(){
 	console.log('doBigPool()...');
 	var imgs = document.querySelectorAll("img.pc_img");
+
+	// *** Size of the group pool squares ***
+	var squareSize = 250;
+
 	for( var key = 0; key < imgs.length; key++ ){
 		var img = imgs[key];
 		/*
@@ -733,27 +737,27 @@ function doBigPool(){
 		img.src = img.src.replace('_t','');
 		img.parentNode.name = img.parentNode.title;
 		var p = img.parentNode.parentNode.parentNode;
-		p.style.width = '250px';
-		p.style.height = '250px';
+		p.style.width = squareSize + 'px';
+		p.style.height = squareSize + 'px';
 		p.style.marginRight = '5px';
 		p.style.marginBottom = '5px';
 		p.style.overflow = 'hidden';
 		//p.onmouseover = function() { this.style.overflow = 'visible'; };
 		//p.onmouseout = function() { this.style.overflow = 'hidden'; };
 		if( img.width >= img.height ){
-			var ratio = img.height * 5 / 250;
+			var ratio = img.height * 5 / squareSize;
 			img.ratio = ratio;
 			console.log( img.ratio );
-			console.log(img.width +' '+ img.height +' '+ img.height * 5 / 250);
-			img.height = 250;
+			console.log(img.width +' '+ img.height +' '+ img.height * 5 / squareSize);
+			img.height = squareSize;
 			img.width = img.width * 5 / ratio;
-			img.style.marginLeft = -(img.width - 250) / 2 + 'px';
+			img.style.marginLeft = -(img.width - squareSize) / 2 + 'px';
 		}else{
-			var ratio = img.width * 5 / 250;
+			var ratio = img.width * 5 / squareSize;
 			img.ratio = ratio;
-			img.width = 250;
+			img.width = squareSize;
 			img.height = img.height * 5 / ratio;
-			img.style.marginTop = -(img.height - 250) / 2 + 'px';
+			img.style.marginTop = -(img.height - squareSize) / 2 + 'px';
 		}
 
 		img.onmouseover = function() { this.parentNode.parentNode.parentNode.style.overflow = 'visible'; this.style.zIndex = 2; this.style.position = 'relative'; this.parentNode.title = ''; this.style.boxShadow = '0 0 35px 15px rgba(0,0,0,.85)'; this.style.border = 'solid 1px gray;' };
