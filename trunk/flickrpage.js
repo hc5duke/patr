@@ -747,8 +747,6 @@ function doBigPool(){
 		if( img.width >= img.height ){
 			var ratio = img.height * 5 / squareSize;
 			img.ratio = ratio;
-			console.log( img.ratio );
-			console.log(img.width +' '+ img.height +' '+ img.height * 5 / squareSize);
 			img.height = squareSize;
 			img.width = img.width * 5 / ratio;
 			img.style.marginLeft = -(img.width - squareSize) / 2 + 'px';
