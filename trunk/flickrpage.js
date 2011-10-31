@@ -756,7 +756,7 @@ function doBigPool(){
 			img.style.marginTop = -(img.height - 250) / 2 + 'px';
 		}
 
-		img.onmouseover = function() { this.parentNode.parentNode.parentNode.style.overflow = 'visible'; this.style.zIndex = 2; this.style.position = 'relative'; this.parentNode.title = ''; this.style.boxShadow = '0 0 35px 35px rgba(0,0,0,1)'; this.style.border = 'solid 1px gray;' };
+		img.onmouseover = function() { this.parentNode.parentNode.parentNode.style.overflow = 'visible'; this.style.zIndex = 2; this.style.position = 'relative'; this.parentNode.title = ''; this.style.boxShadow = '0 0 35px 15px rgba(0,0,0,.85)'; this.style.border = 'solid 1px gray;' };
 		img.onmouseout = function() { this.parentNode.parentNode.parentNode.style.overflow = 'hidden'; this.style.zIndex = 0; this.style.position = 'none'; this.parentNode.title = this.parentNode.name; };
 
 		var dsc = document.createElement('div');
