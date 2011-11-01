@@ -190,6 +190,8 @@ console.log(" doFlickrPage()");
                             var values = {'Lens':{label:'Lens'}, 
                                             'ExposureTime':{label:'Exposure'}, 
                                             'Aperture':{label:'Aperture'}, 
+                                            'ApertureValue':{label:'Aperture'}, 
+                                            'FNumber':{label:'Aperture'}, 
                                             'ISO':{label:'ISO Speed'}, 
                                             'FocalLength':{label:'Focal Length'}, 
                                             'ExposureCompensation':{label:'Exposure Bias'}, 
