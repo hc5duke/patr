@@ -22,15 +22,19 @@
 
             document.getElementById('preview').style.top = document.getElementById('ecShow').offsetTop - document.getElementById('preview').offsetTop;
 
-			for( var key in localStorage ){
-				if( key.indexOf('ec') != -1 ){
-					document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
-					if( key == 'ecRound' ){ apply( 'fgCorners', document.getElementById( key ).checked ); }
-					if( key == 'ecShadow' ){ apply( 'fgShadow', document.getElementById( key ).checked ); }
+		for( var key in localStorage ){
+			if( key.indexOf('ec') != -1 ){
+				document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
+				if( key == 'ecRound' ){ apply( 'fgCorners', document.getElementById( key ).checked ); }
+				if( key == 'ecShadow' ){ apply( 'fgShadow', document.getElementById( key ).checked ); }
 				}else if( key.indexOf('bri') != -1 ){
 					console.log("loading, indexOf('bri'): "+ key +" value: "+ localStorage[key]);
 					document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
 				}else if( key == 'bigPool' ){
+					console.log("loading, bigPool: "+ localStorage[key] +" "+ key);
+					document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
+				}else if( key == 'bigPoolNew' ){
+					console.log("loading, bigPoolNew: "+ localStorage[key] +" "+ key);
 					document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
 				}else if( key == 'iconSmallSize' ){
 					document.getElementById( key ).value = localStorage[key];
@@ -266,6 +270,13 @@
 	<div style='width: 100%; font-size: 0.75em; margin-top: 0.5em;'>
 		Remember, bigger preview image sizes will take a little longer to download!
 		I've left the original sizes as placeholders in case it takes a moment.
+	</div>
+	<br/>
+    	<div class='ecOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
+	<input onclick="this.checked = !this.checked;" type='checkbox' name='bigPoolNew' id='bigPoolNew' value='bigPoolNew' />
+	New style previews</div>
+	<div style='width: 100%; font-size: 0.75em; margin-top: 0.5em;'>
+		Use the new style larger square previews w/ info overlays.
 	</div>
 
 	<br />
