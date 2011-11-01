@@ -127,9 +127,9 @@ console.log(" doFlickrPage()");
             flickrPage.api_key = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
             ftxt.match(/auth_hash":"([A-Za-z0-9]+)"/);
             flickrPage.auth_hash = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
-            ftxt.match(/nsid":"(.*)"/g);
+            ftxt.match(/nsid":"(.*?)"/g);
             flickrPage.user_id = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
-            ftxt.match(/photos_url":"(.*)"/g);
+            ftxt.match(/photos_url":"(.*?)"/g);
             flickrPage.photos_url = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
             console.log("api_key: " + flickrPage.api_key + "\nauth_hash: " + flickrPage.auth_hash );
             console.log("photos_url: " + flickrPage.photos_url + "\nnsid: " + flickrPage.user_id );
@@ -361,6 +361,7 @@ flickrPage.preSizes2 = function(){
 console.log("preSizes2");
     var d = document.createElement('div');
     d.id = 'patr-sizes';
+	d.style.marginTop = '5px';
 
     var linkSizesList = document.createElement('span');
     linkSizesList.id = 'linkSizesList';
