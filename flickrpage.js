@@ -1109,7 +1109,8 @@ flickrPage.doArchives = function(){
     aButton.innerHTML = 'Get Archive List';
     aButton.id = 'aButton';
     aButton.addEventListener('click', flickrPage.doArchives.getList );
-    document.querySelector("td.Intro").insertAdjacentElement('beforeEnd', aButton);
+    //document.querySelector("td.Intro").insertAdjacentElement('beforeEnd', aButton);
+    document.querySelector("td.extras").insertAdjacentElement('beforeEnd', aButton);
     
 }
 
@@ -1214,7 +1215,9 @@ flickrPage.doArchives.showList = function(){
     aTable.innerHTML += flickrPage.doArchives.txt;
     aTable.innerHTML += "</tbody></table>";
 
-    dMain.querySelector('form').insertAdjacentElement('afterEnd', aTable);
+    //dMain.querySelector('form').insertAdjacentElement('afterEnd', aTable);
+    //dMain.insertAdjacentElement('afterEnd', aTable);
+	document.querySelector('div#Main > #SubNav').insertAdjacentElement('afterEnd', aTable);
 
     //document.querySelector("td.Intro").insertAdjacentHTML('beforeEnd', "<a href='data:text/plain;null,Title,Date%20Taken,Date%20Uploaded%0A"+ flickrPage.doArchives.csv +"'>Download</a>");
     document.getElementById('aButton').innerHTML = "<a style='color: white; text-decoration: none;' href='data:text/plain;null,Title,Date%20Taken,Date%20Uploaded,Views%0A"+ flickrPage.doArchives.csv +"'>Download List <span style='font-weight: normal; font-size: 11px;'>(Right click, 'Save link as...', filename.CSV, Save as type: All Files)</span></a>";
