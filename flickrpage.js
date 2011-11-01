@@ -123,13 +123,13 @@ console.log(" doFlickrPage()");
         //console.log( ftxt );
         if( ftxt.match(/function/) !== null ){
             console.log("Got ftxt! (The New Way)");
-            ftxt.match(/api_key: '([A-Za-z0-9]+)'/);
+            ftxt.match(/api_key":"([A-Za-z0-9]+)"/);
             flickrPage.api_key = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
-            ftxt.match(/auth_hash: '([A-Za-z0-9]+)'/);
+            ftxt.match(/auth_hash":"([A-Za-z0-9]+)"/);
             flickrPage.auth_hash = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
-            ftxt.match(/nsid: '(.*)'/g);
+            ftxt.match(/nsid":"(.*)"/g);
             flickrPage.user_id = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
-            ftxt.match(/photos_url: '(.*)'/g);
+            ftxt.match(/photos_url":"(.*)"/g);
             flickrPage.photos_url = (typeof( RegExp.$1 ) != 'undefined' && RegExp.$1 != '') ? RegExp.$1 : false;
             console.log("api_key: " + flickrPage.api_key + "\nauth_hash: " + flickrPage.auth_hash );
             console.log("photos_url: " + flickrPage.photos_url + "\nnsid: " + flickrPage.user_id );
