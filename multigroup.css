@@ -143,3 +143,18 @@ table.patr-aTable td { font-size: 11px; margin-left: 10px; text-align: right; }
 table.patr-aTable td a { text-decoration: none; }
 table.patr-aTable td:first-child { margin-left: 0px; text-align: left; }
 table.patr-aTable tr:nth-child(2n+0) { background-color: #EEE; }
+
+/* New Big Group Preview Stuff */
+.patr-sqPreviewRibbon { position: absolute;
+			top: 200px;
+			height: 45px;
+			left: 0px;
+			width: 240px;
+			text-align: left;
+			padding-top: 5px;
+			padding-left: 10px;
+			background-color: rgba(128,128,128,0.75);
+			line-height: normal;
+			}
+.patr-sqPreview { font-weight: bold; font-size: 1.2em; color: white; text-shadow: black 0 0 8px; }
+.patr-sqPreviewRibbon > a { text-shadow: white 0 0 10px; }
