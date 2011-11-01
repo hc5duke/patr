@@ -372,6 +372,7 @@ console.log("preSizes2");
     flickrPage.linkOpts = document.createElement('div');
     var lo = flickrPage.linkOpts;
     lo.id = 'linkOpts';
+	// linkOpts is styled in multigroup.css
 
     var linkExtra = document.createElement('input');
     linkExtra.id = 'linkExtra';
