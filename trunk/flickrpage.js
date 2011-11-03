@@ -745,6 +745,7 @@ function doBigPool(){
 
 			// NEW STUFF -- FOR SQUARE BIG PREVIEWS
 			img.src = img.src.replace('_t','');
+
 			img.parentNode.name = img.parentNode.title;
 			var p = img.parentNode.parentNode.parentNode;
 			p.style.width = squareSize + 'px';
@@ -752,8 +753,7 @@ function doBigPool(){
 			p.style.marginRight = '5px';
 			p.style.marginBottom = '5px';
 			p.style.overflow = 'hidden';
-			//p.onmouseover = function() { this.style.overflow = 'visible'; };
-			//p.onmouseout = function() { this.style.overflow = 'hidden'; };
+
 			if( img.width >= img.height ){
 				var ratio = img.height * 5 / squareSize;
 				img.ratio = ratio;
@@ -767,9 +767,25 @@ function doBigPool(){
 				img.height = img.height * 5 / ratio;
 				img.style.marginTop = -(img.height - squareSize) / 2 + 'px';
 			}
+			img.setAttribute('patrHeight', img.height);
+			img.setAttribute('patrWidth', img.width);
+			img.setAttribute('patrmarginleft', img.style.marginLeft);
 
-			img.onmouseover = function() { this.parentNode.parentNode.parentNode.style.overflow = 'visible'; this.style.zIndex = 2; this.style.position = 'relative'; this.parentNode.title = ''; this.style.boxShadow = '0 0 35px 15px rgba(0,0,0,.85)'; this.style.border = 'solid 1px gray;' };
-			img.onmouseout = function() { this.parentNode.parentNode.parentNode.style.overflow = 'hidden'; this.style.zIndex = 0; this.style.position = 'none'; this.parentNode.title = this.parentNode.name; };
+			img.onmouseover = function() { this.parentNode.parentNode.parentNode.style.overflow = 'visible'; this.style.zIndex = 2; this.style.position = 'relative'; this.parentNode.title = ''; this.style.boxShadow = '0 0 35px 15px rgba(0,0,0,.85)'; this.style.border = 'solid 1px gray;'; this.height = this.naturalHeight; this.width = this.naturalWidth; };
+			img.onmouseout = function() { this.parentNode.parentNode.parentNode.style.overflow = 'hidden'; this.style.zIndex = 0; this.style.position = 'none'; this.parentNode.title = this.parentNode.name; this.height = this.getAttribute('patrHeight'); this.width = this.getAttribute('patrWidth'); };
+
+			if( key % 3 == 0 ){ // Only the first/left column...
+
+				img.onmouseover = function() { this.parentNode.parentNode.parentNode.style.overflow = 'visible'; this.style.zIndex = 2; this.style.position = 'relative'; this.parentNode.title = ''; this.style.boxShadow = '0 0 35px 15px rgba(0,0,0,.85)'; this.style.border = 'solid 1px gray;'; this.height = this.naturalHeight; this.width = this.naturalWidth; this.style.marginLeft = 0; };
+				img.onmouseout = function() { this.parentNode.parentNode.parentNode.style.overflow = 'hidden'; this.style.zIndex = 0; this.style.position = 'none'; this.parentNode.title = this.parentNode.name; this.height = this.getAttribute('patrHeight'); this.width = this.getAttribute('patrWidth'); this.style.marginLeft = this.getAttribute('patrmarginleft'); };
+
+			}else
+			if( (key + 1) % 3 == 0 ){  // Only the right column of images...
+
+				img.onmouseover = function() { this.parentNode.parentNode.parentNode.style.overflow = 'visible'; this.style.zIndex = 2; this.style.position = 'relative'; this.parentNode.title = ''; this.style.boxShadow = '0 0 35px 15px rgba(0,0,0,.85)'; this.style.border = 'solid 1px gray;'; this.height = this.naturalHeight; this.width = this.naturalWidth; this.style.marginLeft = 250 - this.naturalWidth +'px'; };
+				img.onmouseout = function() { this.parentNode.parentNode.parentNode.style.overflow = 'hidden'; this.style.zIndex = 0; this.style.position = 'none'; this.parentNode.title = this.parentNode.name; this.height = this.getAttribute('patrHeight'); this.width = this.getAttribute('patrWidth'); this.style.marginLeft = this.getAttribute('patrmarginleft'); };
+
+			}
 
 			var dsc = document.createElement('div');
 			dsc.className = 'patr-sqPreviewRibbon';
