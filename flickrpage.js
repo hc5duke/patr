@@ -770,6 +770,7 @@ function doBigPool(){
 			img.setAttribute('patrHeight', img.height);
 			img.setAttribute('patrWidth', img.width);
 			img.setAttribute('patrmarginleft', img.style.marginLeft);
+			img.style.webkitTransition = 'all 0.2s ease-in-out';
 
 			img.onmouseover = function() { this.parentNode.parentNode.parentNode.style.overflow = 'visible'; this.style.zIndex = 2; this.style.position = 'relative'; this.parentNode.title = ''; this.style.boxShadow = '0 0 35px 15px rgba(0,0,0,.85)'; this.style.border = 'solid 1px gray;'; this.height = this.naturalHeight; this.width = this.naturalWidth; };
 			img.onmouseout = function() { this.parentNode.parentNode.parentNode.style.overflow = 'hidden'; this.style.zIndex = 0; this.style.position = 'none'; this.parentNode.title = this.parentNode.name; this.height = this.getAttribute('patrHeight'); this.width = this.getAttribute('patrWidth'); };
