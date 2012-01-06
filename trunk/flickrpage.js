@@ -121,7 +121,14 @@ console.log(" doFlickrPage()");
         //var ftxt = document.querySelector("body > script:last-of-type").innerText;
         var newScript = document.querySelectorAll("body > script");
         //console.log( newScript[newScript.length - 1] );
-        var ftxt = newScript[newScript.length - 1].innerText;
+
+		// Fix for change to Flickr Archive pages
+		if( flickrPage.isArchives == true ){
+				var ftxt = newScript[ 2 ].innerText;
+		}else{
+        	var ftxt = newScript[newScript.length - 1].innerText;
+		}
+
         //console.log( ftxt );
         if( ftxt.match(/function/) !== null ){
             console.log("Got ftxt! (The New Way)");
