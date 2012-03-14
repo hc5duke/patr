@@ -94,7 +94,8 @@ var _startPage = setInterval( function(){
                                                   'moveComment' ] },
                 function( response ){
 		    if( response.bigPoolNew == 'true' ){ flickrPage.bigPoolNew = true; }
-                    if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage || flickrPage.isPhotosOf) ){ doBigPool(); }
+                    //if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isFriendPage || flickrPage.isPhotosOf) ){ doBigPool(); }
+                    if( response.bigPool == 'true' && ( flickrPage.isPoolPage || flickrPage.isPhotosOf) ){ doBigPool(); }
                     if( response.moveInfo == 'true' && flickrPage.isPhotoPage ){ flickrPage.moveInfo(); }
                     if( response.showEXIF == 'true' ){ flickrPage.showEXIF = true; }
                     if( response.getEXIF == 'true' ){ flickrPage.getEXIF = true; }
