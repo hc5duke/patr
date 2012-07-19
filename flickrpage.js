@@ -26,6 +26,7 @@ var flickrPage = {};
 var multiGroup = {};
 
 // Pre-set CSS styles before page loads
+/*
 var black = document.createElement("style");
 black.innerText = "html { background-color: black !important; } body { background-color: black !important; } #flickrLogo{ opacity: 0; -webkit-transition: opacity 150ms; }";
 if( /darkr=1/.test( document.cookie ) ){ document.documentElement.insertBefore( black );  }
@@ -46,7 +47,10 @@ st2.innerText = "div.sharing_options_header_open { background-image: url("+ chro
                 + "[id^='photo_gne_button'] { background-image: url("+ chrome.extension.getURL('images/photo-button-bar-sprite5.png') +") !important; }"
                 + "a#SlideShowButton, a[data-ywa-name='Share'] { background-image: url('" + chrome.extension.getURL('images/sharing_sprite.png') +"') !important; }";
 
-chrome.extension.sendRequest( { type: "localStorage", param:['darkr'] },
+*/
+
+//chrome.extension.sendRequest( { type: "localStorage", param:['darkr'] },
+chrome.extension.sendMessage( {type: "localStorage", param:['darkr'] },
         function(response){
             if( response.darkr == 'true' ){
                 document.documentElement.insertBefore( st2 );
@@ -77,7 +81,8 @@ var _startPage = setInterval( function(){
 
             flickrPage.isPhotoPage = document.querySelector("link[rel='canonical']") ? true : false ;
             console.log('flickrPage.isPhotoPage == '+ flickrPage.isPhotoPage);
-            chrome.extension.sendRequest( {type:"localStorage", 
+            //chrome.extension.sendRequest( {type:"localStorage", 
+            chrome.extension.sendMessage( {type:"localStorage", 
                                            param:['ecShadow',
                                                   'ecRound', 
                                                   'bigPool', 
@@ -186,7 +191,8 @@ console.log(" doFlickrPage()");
         // DEAL WITH EXIF DATA
         if( flickrPage.getEXIF ){
             console.log("flickrPage.getEXIF");
-            chrome.extension.sendRequest( { type: 'cAPI', 
+            //chrome.extension.sendRequest( { type: 'cAPI', 
+            chrome.extension.sendMessage( { type: 'cAPI', 
                                             fn: 'photos.getExif', 
                                             params: { 
                                                 photo_id: flickrPage.photoID, 
@@ -257,7 +263,8 @@ console.log(" doFlickrPage()");
         }
 
         // Getting all size data
-        chrome.extension.sendRequest( { type: 'cAPI', 
+        //chrome.extension.sendRequest( { type: 'cAPI', 
+        chrome.extension.sendMessage( { type: 'cAPI', 
                                         fn: 'photos.getSizes', 
                                         params: { 
                                             photo_id: flickrPage.photoID, 
@@ -947,7 +954,8 @@ flickrPage.scroller = function(){
 
     if( window.scrollY > flickrPage.scroller.triggerHeight && flickrPage.scroller.test ){
         flickrPage.scroller.test = false;
-        chrome.extension.sendRequest( { type: 'cAPI',
+        //chrome.extension.sendRequest( { type: 'cAPI',
+        chrome.extension.sendMessage( { type: 'cAPI',
                                         fn: 'groups.pools.getPhotos',
                                         params: {
                                             group_id: g_id,
@@ -1150,7 +1158,8 @@ flickrPage.doArchives.getList = function( page_num ){
         //aMeter.style.display = 'inline';
     }
 
-    chrome.extension.sendRequest( { type: 'cAPI',
+    //chrome.extension.sendRequest( { type: 'cAPI',
+    chrome.extension.sendMessage( { type: 'cAPI',
                                     fn: 'people.getPhotos',
                                     params: {
                                         user_id: flickrPage.user_id,

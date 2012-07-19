@@ -33,7 +33,8 @@ function doDiscuss(){
 
     if( discuss && txt ){
         
-        chrome.extension.sendRequest( {type:"localStorage", param:['briFooter', 'briUnder', 'iconSmallSize'] },
+        //chrome.extension.sendRequest( {type:"localStorage", param:['briFooter', 'briUnder', 'iconSmallSize'] },
+        chrome.extension.sendMessage( {type:"localStorage", param:['briFooter', 'briUnder', 'iconSmallSize'] },
             function( response ){
                 var type = (response.briFooter == 'true') ? 'foot' : 'under';
                 addReplies( type , response.iconSmallSize);
