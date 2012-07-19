@@ -17,7 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
+<html>
 <script>
 const API_KEY = "ea1d492fa9803aa760d8039ccb5f73ee";
 
@@ -36,7 +36,8 @@ if( localStorage['showASL'] == undefined ){ localStorage['showASL'] = true; }
 if( localStorage['ASLdefault'] == undefined ){ localStorage['ASLdefault'] = false; }
 if( localStorage['ASLdefaultText'] == undefined ){ localStorage['ASLdefaultText'] = ''; }
 
-chrome.extension.onRequest.addListener(
+//chrome.extension.onRequest.addListener(
+chrome.extension.onMessage.addListener(
 	function( request, sender, sendResponse) {
 	if( request.type == "getSizes"){
 		sendResponse( getSizes( request.photo_id ) );
@@ -60,6 +61,7 @@ chrome.extension.onRequest.addListener(
         }
         sendResponse( value );
     }
+	return true;
 });
 
 // Generic Request function
@@ -162,3 +164,4 @@ function sendDirtyX( type, params ){
 
 
 </script>
+</html>

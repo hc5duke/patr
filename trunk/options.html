@@ -2,160 +2,12 @@
     <head>
         <title>Patr Options Page</title>
         <link rel=StyleSheet href="options.css" type='text/css'>
-    <script type="text/javascript">
-
-        function load_options(){
-            var pre_bg = new Image();
-            var pre_fg = new Image();
-            pre_fg.id = 'pre_fg';
-            pre_bg.src = chrome.extension.getURL("images/ecBG.png");
-            pre_fg.src = chrome.extension.getURL("images/ecFG.png");
-
-            pre_fg.className = ' fgShadow';
-            pre_fg.className += ' fgCorners';
-
-            document.getElementById('preview').appendChild( pre_bg );
-            document.getElementById('preview').appendChild( pre_fg );
-
-            pre_fg.className = pre_fg.className.replace(' fgShadow','');
-            pre_fg.className = pre_fg.className.replace(' fgCorners','');
-
-            document.getElementById('preview').style.top = document.getElementById('ecShow').offsetTop - document.getElementById('preview').offsetTop;
-
-		for( var key in localStorage ){
-			if( key.indexOf('ec') != -1 ){
-				document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
-				if( key == 'ecRound' ){ apply( 'fgCorners', document.getElementById( key ).checked ); }
-				if( key == 'ecShadow' ){ apply( 'fgShadow', document.getElementById( key ).checked ); }
-				}else if( key.indexOf('bri') != -1 ){
-					console.log("loading, indexOf('bri'): "+ key +" value: "+ localStorage[key]);
-					document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
-				}else if( key == 'bigPool' ){
-					console.log("loading, bigPool: "+ localStorage[key] +" "+ key);
-					document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
-				}else if( key == 'bigPoolNew' ){
-					console.log("loading, bigPoolNew: "+ localStorage[key] +" "+ key);
-					document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
-				}else if( key == 'iconSmallSize' ){
-					document.getElementById( key ).value = localStorage[key];
-                }else if( key == 'moveInfo' ){
-                    console.log("loading, moveInfo: "+ localStorage[key] +" "+ key);
-                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
-                }else if( key == 'darkr' ){
-                    console.log("loading, darkr: " + localStorage[key] +" "+ key);
-                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
-                }else if( key == 'nLogo' ){
-                    console.log("loading, nLogo: " + localStorage[key] +" "+ key);
-                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
-                }else if( key == 'addRef' ){
-                    console.log("loading, addRef: " + localStorage[key] +" "+ key);
-                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true : false;
-                }else if( key == 'showEXIF' ){
-                    console.log("loading, showEXIF: " + localStorage[key] +" "+ key);
-                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true: false;
-                }else if( key == 'getEXIF' ){
-                    console.log("loading, getEXIF: " + localStorage[key] +" "+ key);
-                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true: false;
-                }else if( key == 'showAS' ){
-                    console.log("loading, showAS: "+ localStorage[key] +" "+ key);
-                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true: false;
-                }else if( key == 'showASL' ){
-                    console.log("loading, showASL: " + localStorage[key] +" "+ key);
-                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true: false;
-                }else if( key == 'ASLdefault' ){
-                    console.log("loading, ASLdefault: "+ localStorage[key] +" "+ key);
-                    if( localStorage[key] != 'false' ){
-                        document.querySelector("input[value='"+ localStorage[key] +"']").checked = true;
-                    }
-                }else if( key == 'ASLdefaultText' ){
-                    console.log("loading, ASLdefaultText: "+ localStorage[key] +" "+ key);
-                    document.getElementById( key ).value = localStorage[key];
-                }else if( key == 'moveComment' ){
-                    console.log("loading, moveComment: " + localStorage[key] +" "+ key);
-                    document.getElementById( key ).checked = localStorage[key] == 'true' ? true: false;
-                }
-			}
-        }
-
-        function doAllEC( clicked ){
-            var inputs = document.querySelectorAll("input[name^='ec']");
-            var alreadyChecked = document.querySelector("input[name='ecAll']").checked;
-            if( clicked == 'input' ){ alreadyChecked = !alreadyChecked; }
-            console.log( alreadyChecked );
-            for( key in inputs ){
-                if( parseInt(key+1) ){
-                    inputs[key].checked = alreadyChecked ? false : true;
-                    localStorage[ inputs[key].value ] = inputs[key].checked;
-                }
-            }
-            if( alreadyChecked ){
-                var img = document.getElementById('pre_fg');
-                img.className = '';
-            }else{
-                var img = document.getElementById('pre_fg');
-                img.className = ' fgShadow fgCorners';
-            }
-        }
-
-        function doMe( el ){
-            console.log( el );
-			if( el.type == 'checkbox' ){
-                console.log('doMe - checkbox - el.value: '+ el.value +' el.id: '+ el.id );
-				console.log('doMe - checkbox: '+ el.value +' el.checked:'+ el.checked );
-				localStorage[ el.value ] = el.checked;
-				console.log('localStorage[ el.value ] = '+ localStorage[el.value] );
-				if( el.checked == false && el.value.indexOf('ec') != -1 ){ 
-					localStorage['ecAll'] = false;
-					document.getElementById('ecAll').checked = false;
-				}
-				if( el.value == 'ecRound' ){ 
-					apply( 'fgCorners', el.checked );
-				}else if( el.value == 'ecShadow' ){
-					apply( 'fgShadow', el.checked );
-				}else if( el.value == 'briUnder' ){
-				}
-			}else if( el.type == 'radio' ){
-				if( el.value == 'briUnder' ){ 
-				    localStorage[ el.value ] = el.checked;
-					localStorage['briFooter'] = !el.checked; 
-				}else if( el.value == 'briFooter' ){
-				    localStorage[ el.value ] = el.checked;
-					localStorage['briUnder'] = !el.checked;
-                }else if( el.name == 'ASLdefault' ){
-                    localStorage['ASLdefault'] = el.value;
-                }
-			}else if( el.type == 'text' ){
-                if( el.id == 'iconSmallSize' ){
-                    localStorage['iconSmallSize'] = el.value;
-                }else if( el.id == 'ASLdefaultText' ){
-                    localStorage['ASLdefaultText'] = el.value;
-                }
-
-                el.style.backgroundColor = '#c1ffc1';
-			}
-				
-        }
-		
-		function apply( cname, applyit){
-			var img = document.getElementById('pre_fg');
-			img.className = applyit ?
-				img.className += ' '+cname : img.className = img.className.replace(' '+cname, '');
-		}
-
-        function showPreview(){
-            document.getElementById('preview').style.opacity = 1;
-            document.getElementById('preview').style.visibility = 'visible';
-        }
-        function hidePreview(){
-            document.getElementById('preview').style.opacity = 0;
-            document.getElementById('preview').style.visibility = 'hidden';
-        }
-    </script>
+    <script src="options.js"></script>
 
     </head>
 
 
-<body onload="load_options()"
+	<body>
     <h1><img src="logo48.png"/> <span style="font-size: 3em; font-weight: bold;">Patr Options</span></h1>
     <div id='top-notice' style='float: right;'>
         <p>
@@ -192,17 +44,28 @@ Finally, everyone has been fantastic about the feedback and requests, and I real
 
     <span style='float: left; width: 50%;' >
 	<div style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>All Photo Sizes</div>
-    	<span class='moveOpt' style='display: inline-block;' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
+	<!--
+    <span class='moveOpt' style='display: inline-block;' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
 	<input onclick="this.checked = !this.checked;" type='checkbox' name='showAS' id='showAS' value='showAS' />
 	Show All Sizes</span>
+	-->
+	<span class='moveOpt' style='display: inline-block;'>
+			<input type='checkbox' name='showAS' id='showAS' value='showAS' />
+		Show All Sizes</span>
 	<div style='width: 100%; font-size: 0.75em; margin-top: 0.5em;'>
         Show the links for all the available image sizes.
 	</div>
 
+    <!-- <span class='moveOpt' style='margin-top: 5px; display: inline-block;' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
     <span class='moveOpt' style='margin-top: 5px; display: inline-block;' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
         <input onclick="this.checked = !this.checked;" type='checkbox' name='showASL' id='showASL' value='showASL' />
         Show All Sizes Links Window
     </span>
+	-->
+	<span class='moveOpt' style='margin-top: 5px; display: inline-block;' >
+			<input type='checkbox' name='showASL' id='showASL' value='showASL' />
+        Show All Sizes Links Window
+	</span>
 	<div style='width: 100%; font-size: 0.75em; margin-top: 0.3em;'>
         Show the new links window to all the photo sizes.
 	</div>
@@ -212,46 +75,56 @@ Finally, everyone has been fantastic about the feedback and requests, and I real
         (Patr will fall back to largest size available up to, or including, this choice.)
 	</div>
 
-    <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
-        <input onclick="this.checked = !this.checked;" type='radio' name='ASLdefault' id='ASLme' value='Medium' />
+	<!-- <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" > -->
+    <span class='briOpt' style='font-size: 0.9em;'>
+        <input type='radio' name='ASLdefault' id='ASLme' value='Medium' />
         Medium
     </span><br/>
 
-    <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
-        <input onclick="this.checked = !this.checked;" type='radio' name='ASLdefault' id='ASLla' value='Large' />
+	<!-- <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" > -->
+	<span class='briOpt' style='font-size: 0.9em;'  > 
+        <input type='radio' name='ASLdefault' id='ASLla' value='Large' />
         Large
     </span><br/>
 
-    <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
-        <input onclick="this.checked = !this.checked;" type='radio' name='ASLdefault' id='ASLor' value='Original' />
+	<!-- <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" > -->
+    <span class='briOpt' style='font-size: 0.9em;'  >
+        <input type='radio' name='ASLdefault' id='ASLor' value='Original' />
         Original
     </span><br/>
 
-    <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
-        <input onclick="this.checked = !this.checked;" type='radio' name='ASLdefault' id='ASLFluidr' value='Fluidr' />
+	<!-- <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" > -->
+    <span class='briOpt' style='font-size: 0.9em;' >
+        <input type='radio' name='ASLdefault' id='ASLFluidr' value='Fluidr' />
         Fluidr
     </span><br/>
 
-    <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
-        <input onclick="this.checked = !this.checked;" type='radio' name='ASLdefault' id='ASLBHL' value='BHL On Black' />
+	<!-- <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" > -->
+    <span class='briOpt' style='font-size: 0.9em;' >
+        <input type='radio' name='ASLdefault' id='ASLBHL' value='BHL On Black' />
         Big Huge Labs - On Black
     </span><br/>
 
-    <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
-        <input onclick="this.checked = !this.checked;" type='radio' name='ASLdefault' id='ASLdarckr' value='Darckr' />
+	<!-- <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" > -->
+    <span class='briOpt' style='font-size: 0.9em;' >
+        <input type='radio' name='ASLdefault' id='ASLdarckr' value='Darckr' />
         Darckr
     </span><br/>
 
-    <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
-        <input onclick="this.checked = !this.checked;" type='radio' name='ASLdefault' id='ASLviewonblack' value='viewonblack.com' />
+	<!-- <span class='briOpt' style='font-size: 0.9em;' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" > -->
+    <span class='briOpt' style='font-size: 0.9em;' >
+        <input type='radio' name='ASLdefault' id='ASLviewonblack' value='viewonblack.com' />
         viewonblack.com
     </span><br/>
 
     <div style='font-size: 0.9em; margin-top: 5px;'>
-        Default Link Text:<br/><input onBlur=' doMe(this);' type='text' name='ASLdefaultText' id='ASLdefaultText' style='width: 50%; font-size: 1.2em; font-weight: bold; color: #333;' onFocus='this.style.backgroundColor = "#FFc1c1"' />
+			Default Link Text:<br/>
+			<!-- <input onBlur=' doMe(this);' type='text' name='ASLdefaultText' id='ASLdefaultText' style='width: 50%; font-size: 1.2em; font-weight: bold; color: #333;' onFocus='this.style.backgroundColor = "#FFc1c1"' /> -->
+			<input type='text' name='ASLdefaultText' id='ASLdefaultText' style='width: 50%; font-size: 1.2em; font-weight: bold; color: #333;' />
     </div>
     <br/>
 
+	<!-- 
 	<div onmouseout="hidePreview()" onmouseover="showPreview()" id='ecShow'>
         <div style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Eye Candy</div>
 
@@ -266,20 +139,25 @@ Finally, everyone has been fantastic about the feedback and requests, and I real
         <input onclick="this.checked = !this.checked;" type="checkbox" name="ecShadow" id="ecShadow" value="ecShadow" />
         Drop Shadows</div>
 	</div>
+	-->
 
-	<br/>
 		<div style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Buddy Reply Icons</div>
-		<div class='briOpt' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
-			<input onclick="this.checked = !this.checked;" type='radio' name='briLoc' id='briUnder' value='briUnder' />
+		<!-- <div class='briOpt' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" > -->
+		<div class='briOpt' >
+			<input type='radio' name='briLoc' id='briUnder' value='briUnder' />
             Buddy reply under name</div><br/>
 
-		<div class='briOpt' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" >
-			<input onclick="this.checkbox = !this.checked;" type='radio' name='briLoc' id='briFooter' value='briFooter' />
+		<!-- <div class='briOpt' onclick="this.firstElementChild.checked=this.firstElementChild.checked ? true : true;doMe(this.firstElementChild);" > -->
+		<div class='briOpt' >
+			<input type='radio' name='briLoc' id='briFooter' value='briFooter' />
             Buddy reply in post footer</div><br/>
 
 		<div class='briOpt' style='margin-bottom: 10px;'>
-			Small icon size: <input onBlur=' doMe(this);' type='text' name='iconSmallSize' id='iconSmallSize' style='width: 40; font-size: 1em; font-weight: bold;' onFocus='this.style.backgroundColor = "#FFc1c1"' /> px. square</div>
+				Small icon size: 
+				<!-- <input onBlur=' doMe(this);' type='text' name='iconSmallSize' id='iconSmallSize' style='width: 40; font-size: 1em; font-weight: bold;' onFocus='this.style.backgroundColor = "#FFc1c1"' /> px. square</div> -->
+				<input type='text' name='iconSmallSize' id='iconSmallSize' style='width: 40; font-size: 1em; font-weight: bold;' /> px. square</div>
 
+		<!-- 
 	<br />
 	<div style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Bigger Pool Preview</div>
     	<div class='ecOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
@@ -296,17 +174,19 @@ Finally, everyone has been fantastic about the feedback and requests, and I real
 	<div style='width: 100%; font-size: 0.75em; margin-top: 0.5em;'>
 		Use the new style larger square previews w/ info overlays.
 	</div>
+	-->
 
 	<br />
 	<div style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Move Additional Info</div>
-    	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
-	<input onclick="this.checked = !this.checked;" type='checkbox' name='moveInfo' id='moveInfo' value='moveInfo' />
+	<!-- <div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);"> -->
+			<div class='moveOpt' >
+	<input type='checkbox' name='moveInfo' id='moveInfo' value='moveInfo' />
 	Move Additional Information</div>
 	<div style='width: 100%; font-size: 0.75em; margin-top: 0.5em;'>
         This will move the "Additional Information" for the image
         above the "This photo also belongs to:" section on the right sidebar.
 	</div>
-
+<!--
 	<br />
 	<div class='linear' style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em; color: white; background-color: black;'>Darkr Flickr</div>
     	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
@@ -322,7 +202,9 @@ Finally, everyone has been fantastic about the feedback and requests, and I real
         them more compatible with a dark theme!
         </p>
 	</div>
+-->
 
+<!-- 
     <br />
     <div style='font-size: 1.5em; border-bottom: solid 1px gray; margin-bottom: 0.2em; color: white;'>
         <img src="images/flickr-yahoo-logo.png.v2" /></div>
@@ -336,7 +218,9 @@ Finally, everyone has been fantastic about the feedback and requests, and I real
         Flickr logo, then uncheck this option!
         <p/>
 	</div>
+-->
 
+<!--
 	<br />
 	<div style='font-size: 1.4em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Add Referrer in Comments</div>
     	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
@@ -350,17 +234,20 @@ Finally, everyone has been fantastic about the feedback and requests, and I real
 <i><a href="http://www.flickr.com/groups/flickrhacks/" style='color: #1057AE;' title="Seen on...">Seen in the group <b>"Flickr Hacks"</b></a></i> <em>(<a href="https://chrome.google.com/extensions/detail/iplbmjolljikncjboeofgmjoaacheemi" style='color: #1057AE;'>?</a>)</em>
         
 	</div>
+	-->
 
     <br />
 	<div style='font-size: 1.4em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>EXIF Data</div>
-    	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
-	<input onclick="this.checked = !this.checked;" type='checkbox' name='getEXIF' id='getEXIF' value='getEXIF' />
+		<!-- <div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);"> -->
+		<div class='moveOpt'> 
+	<input type='checkbox' name='getEXIF' id='getEXIF' value='getEXIF' />
 	Get EXIF Data</div>
 	<div style='width: 100%; font-size: 0.75em; margin-top: 0.5em;'>
         Turn on/off the retrieval of EXIF data on the photo page.
 	</div>
-    <div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
-	<input onclick="this.checked = !this.checked;" type='checkbox' name='showEXIF' id='showEXIF' value='showEXIF' />
+	<!-- <div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);"> -->
+    <div class='moveOpt' >
+	<input type='checkbox' name='showEXIF' id='showEXIF' value='showEXIF' />
 	Show EXIF Data By Default</div>
 	<div style='width: 100%; font-size: 0.75em; margin-top: 0.5em;'>
         Turn on/off the showing of EXIF data on the photo page
@@ -372,8 +259,9 @@ Finally, everyone has been fantastic about the feedback and requests, and I real
     <!-- ### Move Comment Box Option -->
     <br />
 	<div style='font-size: 1.4em; border-bottom: solid 1px gray; margin-bottom: 0.2em;'>Move Comment Box</div>
-    	<div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);">
-	<input onclick="this.checked = !this.checked;" type='checkbox' name='moveComment' id='moveComment' value='moveComment' />
+		<!-- <div class='moveOpt' onclick="this.firstElementChild.checked=!this.firstElementChild.checked;doMe(this.firstElementChild);"> -->
+				<div class='moveOpt' >
+	<input type='checkbox' name='moveComment' id='moveComment' value='moveComment' />
 	Move Comment Box Up</div>
 	<div style='width: 100%; font-size: 0.75em; margin-top: 0.5em;'>
         Move comment boxes on photo pages to the top of the comments.
