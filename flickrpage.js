@@ -86,7 +86,7 @@ var _startPage = setInterval( function(){
                                            param:['ecShadow',
                                                   'ecRound', 
                                                   'bigPool', 
-						  'bigPoolNew',
+						                          'bigPoolNew',
                                                   'moveInfo', 
                                                   'nLogo', 
                                                   'addRef', 
