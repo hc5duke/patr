@@ -25,6 +25,13 @@
 var flickrPage = {};
 var multiGroup = {};
 
+// Remove the shitty new Yahoo! navigation bar from the top of the page...
+
+//document.getElementById("eyebrow").style.display = 'none';
+var noNav = document.createElement("style");
+noNav.innerText = "#eyebrow { display: none; } #global-nav { top: 0px !important; }";
+document.documentElement.insertBefore( noNav );
+
 // Pre-set CSS styles before page loads
 /*
 var black = document.createElement("style");
@@ -126,13 +133,13 @@ console.log(" doFlickrPage()");
 
         //var ftxt = document.querySelector("body > script:last-of-type").innerText;
         var newScript = document.querySelectorAll("body > script");
-        //console.log( newScript[newScript.length - 1] );
+        console.log( newScript[newScript.length - 1] );
 
 		// Fix for change to Flickr Archive pages
 		if( flickrPage.isArchives == true ){
 				var ftxt = newScript[ 2 ].innerText;
 		}else{
-        	var ftxt = newScript[newScript.length - 1].innerText;
+        	var ftxt = newScript[newScript.length - 2].innerText;
 		}
 
         //console.log( ftxt );
@@ -187,7 +194,7 @@ console.log(" doFlickrPage()");
         if( flickrPage.spaceball ) flickrPage.spaceball.offsetParent.removeChild( flickrPage.spaceball );
         // Below breaks the new UI context menu and lightbox
         //if( flickrPage.dragproxy ) flickrPage.dragproxy.style.visibility = 'hidden';
-
+        
         // DEAL WITH EXIF DATA
         if( flickrPage.getEXIF ){
             console.log("flickrPage.getEXIF");
