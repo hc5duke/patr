@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Patr - Pats Flickr App",
-	"version": "0.2.510",
+	"version": "0.2.511",
 	"description": "Pats Flickr App - making Flickr Funr with: Lightbox, All Sizes, Flic.kr links, buddy icon reply, and more!",
 	"icons": { "48": "logo48.png",
 			"128": "logo128.png" },
