@@ -78,12 +78,12 @@ function doDiscuss(){
         function addReplies( type , sSize ){
 
             var peeps = document.querySelectorAll("td.Said > h4 > a[href^='/photos/']");
-            //console.log('peeps.length = ' + peeps.length);
+            console.log('peeps.length = ' + peeps.length);
             peeps = peeps.length != 0 ? peeps : document.querySelectorAll('h4[data-ywa-name^="Commenter"] > a[href^="/photos/"]');
             if( peeps.length == 0 ){
                 peeps = document.querySelectorAll("span.comment-owner a[href^='/photos/']");
             }
-            //console.log("===PEEPS===\n"+peeps );
+            console.log("===PEEPS===\n"+peeps );
 
             for( var key in peeps ){
                 if( parseInt(key+1) ){
@@ -142,10 +142,17 @@ function doDiscuss(){
 
                     }else if( type == 'foot' && !flickrPage.isPhotoPage ){
                         
+                        console.log('addReplies:: type == foot, !isPhotoPage');
                         var p = peeps[key].parentNode.parentNode.querySelector("small");
 
+                        console.log('got p=peeps[key]:\n'+p);
+
                         var a = p.querySelectorAll("a");
+                        console.log('got a=p.querySA("a"):\n'+a);
                         var last = a[a.length-1].nextSibling;
+                        last = p.querySelector('span');
+                        console.log('TESTING changing last to last span...');
+                        console.log('got last=a[a.length-1].nextSibling:\n'+last);
                         rBoth.className = rImage.className = rNameB.className = rName.className = rImageSmall.className = 'Plain';
                         rImage.innerHTML = "icon";
                         rImageSmall.innerHTML = " [&#0392;]";
@@ -167,7 +174,8 @@ function doDiscuss(){
 						res.appendChild( document.createTextNode(' | ') );
 						res.appendChild( rBoth );
 
-                        p.insertBefore( res, last );
+                        //p.insertBefore( res, last );
+                        last.insertBefore( res, last.lastChild );
 
 
                     }else if( flickrPage.isPhotoPage ){ // Put buddy reply options in new location for photo pages
@@ -205,6 +213,8 @@ function doDiscuss(){
                         said.setAttribute('commentLink', commentLink);
                     }
                     
+                }else{
+                        console.log('Issue with parseInt[key]+1');
                 }
             }
 
